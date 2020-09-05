@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "457180030471",
+    "firebase_url": "https://off-campus-556ba.firebaseio.com",
+    "project_id": "off-campus-556ba",
+    "storage_bucket": "off-campus-556ba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:457180030471:android:c6deb1fb1d7523ace66ca2",
+        "android_client_info": {
+          "package_name": "com.example.offcampus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "457180030471-7i57e3blgibp0dfckbc5ndnc3593jkg8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.offcampus",
+            "certificate_hash": "6c23431c8f4683f91f6f57385e22962aff3b32d4"
+          }
+        },
+        {
+          "client_id": "457180030471-brrccdff3c044js5u9pq0je4im533ke8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8BZ9sfW7hl73PalbpwZz6G4_mgy6sWKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "457180030471-brrccdff3c044js5u9pq0je4im533ke8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "457180030471-34agr7gl7smjro952sj93lkf0cghc3n5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.offcampus"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
