@@ -34,9 +34,9 @@ class AuthRepo {
   /// Creates a new user with the provided [email] and [password].
   Future<void> register(String email, String password, String university,
       String faculty, String degree) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
+    final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
-    await _usersRef.add(<String, dynamic>{
+    await _usersRef.doc(credential.user.uid).set(<String, dynamic>{
       'university': university,
       'faculty': faculty,
       'degree': degree,
