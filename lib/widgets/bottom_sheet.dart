@@ -7,19 +7,18 @@ typedef CallbackFunc = void Function(String string);
 class MyBottomSheet {
   static void show({
     @required BuildContext context,
-    @required String selected,
     @required List<String> options,
     @required CallbackFunc callback,
+    String selected,
   }) {
     assert(context != null);
-    assert(selected != null);
     assert(options != null);
     assert(callback != null);
 
     showCustomModalBottomSheet(
       context: context,
       builder: (context, scrollController) => _ModalFit(
-        selectedOption: selected,
+        selected: selected,
         options: options,
         callback: callback,
       ),
@@ -31,17 +30,16 @@ class MyBottomSheet {
 }
 
 class _ModalFit extends StatelessWidget {
-  final String selectedOption;
+  final String selected;
   final List<String> options;
   final CallbackFunc callback;
 
   const _ModalFit({
     Key key,
-    @required this.selectedOption,
     @required this.options,
     @required this.callback,
-  })  : assert(selectedOption != null),
-        assert(options != null),
+    this.selected,
+  })  : assert(options != null),
         assert(callback != null),
         super(key: key);
 
@@ -54,7 +52,7 @@ class _ModalFit extends StatelessWidget {
         child: ListView(
             shrinkWrap: true,
             children: options.map<Widget>((String option) {
-              final isSelected = option == selectedOption;
+              final isSelected = option == selected;
 
               return _OptionTile(
                 option: option,
@@ -77,7 +75,9 @@ class _OptionTile extends StatelessWidget {
     @required this.option,
     @required this.isSelected,
     @required this.callback,
-  })  : assert(option != null && isSelected != null && callback != null),
+  })  : assert(option != null),
+        assert(isSelected != null),
+        assert(callback != null),
         super(key: key);
 
   @override

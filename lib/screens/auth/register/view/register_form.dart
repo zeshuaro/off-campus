@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/uni/uni.dart';
+import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
 import 'package:offcampus/widgets/bottom_sheet.dart';
@@ -23,7 +24,7 @@ class RegisterForm extends StatelessWidget {
             children: [
               _EmailInput(),
               _PasswordInput(),
-              _SelectUni(),
+              _SelectUniFaculty(),
               const SizedBox(height: 8.0),
               _RegisterButton(),
             ],
@@ -83,13 +84,16 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _SelectUni extends StatefulWidget {
+class _SelectUniFaculty extends StatefulWidget {
   @override
-  _SelectUniState createState() => _SelectUniState();
+  _SelectUniFacultyState createState() => _SelectUniFacultyState();
 }
 
-class _SelectUniState extends State<_SelectUni> {
-  String _uniName = '';
+class _SelectUniFacultyState extends State<_SelectUniFaculty> {
+  List<Uni> _unis = <Uni>[];
+  Uni _uni;
+  String _uniName;
+  String _faculty;
 
   @override
   Widget build(BuildContext context) {
@@ -97,42 +101,91 @@ class _SelectUniState extends State<_SelectUni> {
       builder: (context, state) {
         List<String> uniNames;
         if (state is UniSuccess) {
-          uniNames = state.unis.map((uni) => uni.name).toList();
+          _unis = state.unis;
+          uniNames = _unis.map((uni) => uni.name).toList();
         }
 
-        return InkWell(
-          onTap: uniNames != null
-              ? () => MyBottomSheet.show(
-                    context: context,
-                    selected: _uniName,
-                    options: uniNames,
-                    callback: _setUni,
-                  )
-              : null,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('University'),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    _uniName.isNotEmpty ? _uniName : 'Select',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  Icon(Icons.arrow_drop_down, color: Colors.grey)
-                ],
-              )
-            ],
-          ),
+        return Column(
+          children: [
+            InkWell(
+              onTap: uniNames != null
+                  ? () => MyBottomSheet.show(
+                        context: context,
+                        selected: _uniName,
+                        options: uniNames,
+                        callback: _setUni,
+                      )
+                  : null,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('University'),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          _uniName ?? 'Select',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Icon(Icons.arrow_drop_down, color: Colors.grey)
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            InkWell(
+              onTap: _uni != null
+                  ? () => MyBottomSheet.show(
+                        context: context,
+                        selected: _faculty,
+                        options: _uni.faculties,
+                        callback: _setFaculty,
+                      )
+                  : () => Scaffold.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(
+                        SnackBar(content: Text('Select a university first'))),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Faculty'),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          _faculty ?? 'Select',
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Icon(Icons.arrow_drop_down, color: Colors.grey)
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
   }
 
   void _setUni(String uniName) {
-    setState(() => _uniName = uniName);
+    setState(() {
+      _uni = _unis.firstWhere((element) => element.name == uniName);
+      _uniName = uniName;
+      _faculty = null;
+    });
     context.bloc<RegisterCubit>().uniNameChanged(uniName);
+  }
+
+  void _setFaculty(String faculty) {
+    setState(() => _faculty = faculty);
+    context.bloc<RegisterCubit>().facultyChanged(faculty);
   }
 }
 
