@@ -116,7 +116,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
                         callback: _setUni,
                       )
                   : null,
-              child: _SelectField(label: _uniName),
+              child: _SelectField(label: 'University', selected: _uniName),
             ),
             InkWell(
               onTap: _uni != null
@@ -130,7 +130,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
                         SnackBar(content: Text('Select a university first'))),
-              child: _SelectField(label: _faculty),
+              child: _SelectField(label: 'Faculty', selected: _faculty),
             ),
           ],
         );
@@ -155,8 +155,10 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
 
 class _SelectField extends StatelessWidget {
   final String label;
+  final String selected;
 
-  const _SelectField({Key key, this.label}) : super(key: key);
+  const _SelectField({Key key, @required this.label, this.selected})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -165,11 +167,11 @@ class _SelectField extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Faculty'),
+          Text(label),
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(label ?? 'Select', style: TextStyle(color: Colors.grey)),
+              Text(selected ?? 'Select', style: TextStyle(color: Colors.grey)),
               Icon(Icons.arrow_drop_down, color: Colors.grey)
             ],
           )
