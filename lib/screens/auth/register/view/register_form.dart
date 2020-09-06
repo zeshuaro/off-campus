@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:offcampus/blocs/uni/uni.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
@@ -25,6 +26,7 @@ class RegisterForm extends StatelessWidget {
               _EmailInput(),
               _PasswordInput(),
               _SelectUniFaculty(),
+              _DegreeInput(),
               const SizedBox(height: 8.0),
               _RegisterButton(),
             ],
@@ -74,7 +76,7 @@ class _PasswordInput extends StatelessWidget {
             labelText: 'Password',
             helperText: '',
             errorText: state.password.invalid
-                ? 'Password must be at least 8 characters with at least one letter and one digit'
+                ? 'Password must be contain least 8 characters with at least one letter and one digit'
                 : null,
             errorMaxLines: 2,
           ),
@@ -177,6 +179,30 @@ class _SelectField extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _DegreeInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+      buildWhen: (previous, current) => previous.degree != current.degree,
+      builder: (context, state) {
+        return TextField(
+          onChanged: (degree) =>
+              context.bloc<RegisterCubit>().degreeChanged(degree),
+          decoration: InputDecoration(
+            icon: FaIcon(FontAwesomeIcons.graduationCap),
+            labelText: 'Degree',
+            helperText: 'E.g. Bachelor of Software Engineering 3rd Year',
+            errorText: state.degree.invalid
+                ? 'Degree must contain at least 3 characters'
+                : null,
+            errorMaxLines: 2,
+          ),
+        );
+      },
     );
   }
 }

@@ -25,6 +25,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         state.password,
         state.uniName,
         state.faculty,
+        state.degree,
       ]),
     ));
   }
@@ -38,6 +39,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         password,
         state.uniName,
         state.faculty,
+        state.degree,
       ]),
     ));
   }
@@ -64,6 +66,21 @@ class RegisterCubit extends Cubit<RegisterState> {
         state.password,
         state.uniName,
         faculty,
+        state.degree,
+      ]),
+    ));
+  }
+
+  void degreeChanged(String value) {
+    final degree = Degree.dirty(value);
+    emit(state.copyWith(
+      degree: degree,
+      status: Formz.validate([
+        state.email,
+        state.password,
+        state.uniName,
+        state.faculty,
+        degree,
       ]),
     ));
   }
