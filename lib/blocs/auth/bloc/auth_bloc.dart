@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:pedantic/pedantic.dart';
@@ -21,12 +22,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   final AuthRepo _authRepo;
-  StreamSubscription<MyUser> _userSubscription;
+  StreamSubscription<User> _userSubscription;
 
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is AuthUserChanged) {
-      yield _mapAuthUserChangedToState(event);
+      yield* _mapAuthUserChangedToState(event);
     } else if (event is AuthSignOutRequested) {
       unawaited(_authRepo.signOut());
     }
@@ -38,9 +39,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     return super.close();
   }
 
-  AuthState _mapAuthUserChangedToState(AuthUserChanged event) {
-    return event.user != MyUser.empty
-        ? AuthState.authenticated(event.user)
-        : const AuthState.unauthenticated();
+  Stream<AuthState> _mapAuthUserChangedToState(AuthUserChanged event) async* {
+    MyUser user;
+    if (event.user != null) {
+      user = await _authRepo.fetchMyUser(event.user.uid);
+    }
+
+    if (user != null) {
+      yield AuthState.authenticated(user);
+    } else {
+      yield const AuthState.unauthenticated();
+    }
   }
 }

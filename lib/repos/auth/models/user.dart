@@ -1,36 +1,21 @@
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-/// {@template user}
-/// User model
-///
-/// [MyUser.empty] represents an unauthenticated user.
-/// {@endtemplate}
+part 'user.g.dart';
+
+@JsonSerializable()
 class MyUser extends Equatable {
-  /// {@macro user}
-  const MyUser({
-    @required this.email,
-    @required this.id,
-    @required this.name,
-    @required this.photo,
-  })  : assert(email != null),
-        assert(id != null);
-
-  /// The current user's email address.
-  final String email;
-
-  /// The current user's id.
   final String id;
-
-  /// The current user's name (display name).
   final String name;
+  final String university;
+  final String faculty;
+  final String degree;
 
-  /// Url for the current user's photo.
-  final String photo;
+  MyUser(this.id, this.name, this.university, this.faculty, this.degree);
 
-  /// Empty user which represents an unauthenticated user.
-  static const empty = MyUser(email: '', id: '', name: null, photo: null);
+  factory MyUser.fromJson(Map<String, dynamic> json) => _$MyUserFromJson(json);
+  Map<String, dynamic> toJson() => _$MyUserToJson(this);
 
   @override
-  List<Object> get props => [email, id, name, photo];
+  List<Object> get props => [id, name, university, faculty, degree];
 }
