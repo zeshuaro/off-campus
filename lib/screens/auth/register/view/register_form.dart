@@ -116,25 +116,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
                         callback: _setUni,
                       )
                   : null,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('University'),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          _uniName ?? 'Select',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Icon(Icons.arrow_drop_down, color: Colors.grey)
-                      ],
-                    )
-                  ],
-                ),
-              ),
+              child: _SelectField(label: _uniName),
             ),
             InkWell(
               onTap: _uni != null
@@ -148,25 +130,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
                         SnackBar(content: Text('Select a university first'))),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Faculty'),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          _faculty ?? 'Select',
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                        Icon(Icons.arrow_drop_down, color: Colors.grey)
-                      ],
-                    )
-                  ],
-                ),
-              ),
+              child: _SelectField(label: _faculty),
             ),
           ],
         );
@@ -186,6 +150,32 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
   void _setFaculty(String faculty) {
     setState(() => _faculty = faculty);
     context.bloc<RegisterCubit>().facultyChanged(faculty);
+  }
+}
+
+class _SelectField extends StatelessWidget {
+  final String label;
+
+  const _SelectField({Key key, this.label}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text('Faculty'),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(label ?? 'Select', style: TextStyle(color: Colors.grey)),
+              Icon(Icons.arrow_drop_down, color: Colors.grey)
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
