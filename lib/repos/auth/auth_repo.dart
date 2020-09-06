@@ -25,10 +25,19 @@ class AuthRepo {
   /// the authentication state changes.
   ///
   /// Emits [User.empty] if the user is not authenticated.
-  Stream<MyUser> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      return firebaseUser == null ? MyUser.empty : firebaseUser.toUser;
-    });
+  Stream<User> get user => _firebaseAuth.authStateChanges();
+
+  Future<MyUser> fetchMyUser(String userId) async {
+    MyUser user;
+    final docRef = await _usersRef.doc(userId).get();
+
+    if (docRef.exists) {
+      final data = docRef.data();
+      data['id'] = userId;
+      user = MyUser.fromJson(data);
+    }
+
+    return user;
   }
 
   /// Creates a new user with the provided [email] and [password].
@@ -59,11 +68,5 @@ class AuthRepo {
     } on Exception {
       throw SignOutFailure();
     }
-  }
-}
-
-extension on User {
-  MyUser get toUser {
-    return MyUser(id: uid, email: email, name: displayName, photo: photoURL);
   }
 }

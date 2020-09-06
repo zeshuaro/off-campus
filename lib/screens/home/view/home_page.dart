@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
-import 'package:offcampus/screens/home/home.dart';
 
 class HomePage extends StatelessWidget {
   static Route route() {
@@ -12,6 +11,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final user = context.bloc<AuthBloc>().state.user;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home'),
@@ -28,11 +28,11 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Avatar(photo: user.photo),
-            const SizedBox(height: 4.0),
-            Text(user.email, style: textTheme.headline6),
-            const SizedBox(height: 4.0),
-            Text(user.name ?? '', style: textTheme.headline5),
+            // Avatar(photo: user.photo),
+            // const SizedBox(height: 4.0),
+            Text(user.university, style: textTheme.headline6),
+            // const SizedBox(height: 4.0),
+            // Text(user.name ?? '', style: textTheme.headline5),
           ],
         ),
       ),
