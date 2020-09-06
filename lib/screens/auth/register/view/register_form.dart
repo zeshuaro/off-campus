@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:offcampus/blocs/uni/uni.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
+import 'package:offcampus/widgets/bottom_sheet.dart';
 
 class RegisterForm extends StatelessWidget {
   @override
@@ -21,6 +23,7 @@ class RegisterForm extends StatelessWidget {
             children: [
               _EmailInput(),
               _PasswordInput(),
+              _SelectUni(),
               const SizedBox(height: 8.0),
               _RegisterButton(),
             ],
@@ -77,6 +80,59 @@ class _PasswordInput extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _SelectUni extends StatefulWidget {
+  @override
+  _SelectUniState createState() => _SelectUniState();
+}
+
+class _SelectUniState extends State<_SelectUni> {
+  String _uniName = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UniBloc, UniState>(
+      builder: (context, state) {
+        List<String> uniNames;
+        if (state is UniSuccess) {
+          uniNames = state.unis.map((uni) => uni.name).toList();
+        }
+
+        return InkWell(
+          onTap: uniNames != null
+              ? () => MyBottomSheet.show(
+                    context: context,
+                    selected: _uniName,
+                    options: uniNames,
+                    callback: _setUni,
+                  )
+              : null,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('University'),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    _uniName.isNotEmpty ? _uniName : 'Select',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  Icon(Icons.arrow_drop_down, color: Colors.grey)
+                ],
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _setUni(String uniName) {
+    setState(() => _uniName = uniName);
+    context.bloc<RegisterCubit>().uniNameChanged(uniName);
   }
 }
 
