@@ -90,7 +90,8 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(state.copyWith(
         status: FormzStatus.submissionInProgress, errorMessage: ''));
     try {
-      await _authRepo.register(state.email.value, state.password.value);
+      await _authRepo.register(state.email.value, state.password.value,
+          state.uniName.value, state.faculty.value, state.degree.value);
       emit(state.copyWith(
           status: FormzStatus.submissionSuccess, errorMessage: ''));
     } on FirebaseAuthException catch (e) {

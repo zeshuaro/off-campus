@@ -1,16 +1,11 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'models/models.dart';
 
 export 'models/models.dart';
-
-/// Thrown if during the sign up process if a failure occurs.
-class RegisterFailure implements Exception {}
-
-/// Thrown during the sign in process if a failure occurs.
-class SignInFailure implements Exception {}
 
 /// Thrown during the logout process if a failure occurs.
 class SignOutFailure implements Exception {}
@@ -19,11 +14,12 @@ class SignOutFailure implements Exception {}
 /// Repository which manages user authentication.
 /// {@endtemplate}
 class AuthRepo {
+  final FirebaseAuth _firebaseAuth;
+  final _usersRef = FirebaseFirestore.instance.collection('users');
+
   /// {@macro authentication_repository}
   AuthRepo({FirebaseAuth firebaseAuth})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
-
-  final FirebaseAuth _firebaseAuth;
 
   /// Stream of [User] which will emit the current user when
   /// the authentication state changes.
@@ -36,16 +32,18 @@ class AuthRepo {
   }
 
   /// Creates a new user with the provided [email] and [password].
-  ///
-  /// Throws a [RegisterFailure] if an exception occurs.
-  Future<void> register(String email, String password) async {
+  Future<void> register(String email, String password, String university,
+      String faculty, String degree) async {
     await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
+    await _usersRef.add(<String, dynamic>{
+      'university': university,
+      'faculty': faculty,
+      'degree': degree,
+    });
   }
 
   /// Signs in with the provided [email] and [password].
-  ///
-  /// Throws a [SignInFailure] if an exception occurs.
   Future<void> signInWithEmailAndPassword(String email, String password) async {
     await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
