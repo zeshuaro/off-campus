@@ -1,5 +1,6 @@
 part of 'register_cubit.dart';
 
+@CopyWith()
 class RegisterState extends Equatable {
   final Email email;
   final Password password;
@@ -17,20 +18,4 @@ class RegisterState extends Equatable {
 
   @override
   List<Object> get props => [email, password, uniName, status, errorMessage];
-
-  RegisterState copyWith({
-    Email email,
-    Password password,
-    UniName uniName,
-    FormzStatus status,
-    String errorMessage,
-  }) {
-    return RegisterState(
-      email: email ?? this.email,
-      password: password ?? this.password,
-      uniName: uniName ?? this.uniName,
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
 }
