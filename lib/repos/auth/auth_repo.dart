@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 import 'models/models.dart';
 
@@ -41,11 +42,21 @@ class AuthRepo {
   }
 
   /// Creates a new user with the provided [email] and [password].
-  Future<void> register(String email, String password, String university,
-      String faculty, String degree) async {
+  Future<void> register({
+    @required String email,
+    @required String password,
+    String name,
+    String university,
+    String faculty,
+    String degree,
+  }) async {
+    assert(email != null);
+    assert(password != null);
+
     final credential = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password);
     await _usersRef.doc(credential.user.uid).set(<String, dynamic>{
+      'name': name,
       'university': university,
       'faculty': faculty,
       'degree': degree,

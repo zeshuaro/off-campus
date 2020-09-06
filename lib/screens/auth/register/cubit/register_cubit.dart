@@ -23,6 +23,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       status: Formz.validate([
         email,
         state.password,
+        state.name,
         state.uniName,
         state.faculty,
         state.degree,
@@ -37,6 +38,22 @@ class RegisterCubit extends Cubit<RegisterState> {
       status: Formz.validate([
         state.email,
         password,
+        state.name,
+        state.uniName,
+        state.faculty,
+        state.degree,
+      ]),
+    ));
+  }
+
+  void nameChanged(String value) {
+    final name = Name.dirty(value);
+    emit(state.copyWith(
+      name: name,
+      status: Formz.validate([
+        state.email,
+        state.password,
+        name,
         state.uniName,
         state.faculty,
         state.degree,
@@ -51,8 +68,10 @@ class RegisterCubit extends Cubit<RegisterState> {
       status: Formz.validate([
         state.email,
         state.password,
+        state.name,
         uniName,
         state.faculty,
+        state.degree,
       ]),
     ));
   }
@@ -64,6 +83,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       status: Formz.validate([
         state.email,
         state.password,
+        state.name,
         state.uniName,
         faculty,
         state.degree,
@@ -78,6 +98,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       status: Formz.validate([
         state.email,
         state.password,
+        state.name,
         state.uniName,
         state.faculty,
         degree,
@@ -90,8 +111,14 @@ class RegisterCubit extends Cubit<RegisterState> {
     emit(state.copyWith(
         status: FormzStatus.submissionInProgress, errorMessage: ''));
     try {
-      await _authRepo.register(state.email.value, state.password.value,
-          state.uniName.value, state.faculty.value, state.degree.value);
+      await _authRepo.register(
+        email: state.email.value,
+        password: state.password.value,
+        name: state.name.value,
+        university: state.uniName.value,
+        faculty: state.faculty.value,
+        degree: state.degree.value,
+      );
       emit(state.copyWith(
           status: FormzStatus.submissionSuccess, errorMessage: ''));
     } on FirebaseAuthException catch (e) {

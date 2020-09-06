@@ -25,6 +25,7 @@ class RegisterForm extends StatelessWidget {
             children: [
               _EmailInput(),
               _PasswordInput(),
+              _NameInput(),
               _SelectUniFaculty(),
               _DegreeInput(),
               const SizedBox(height: 8.0),
@@ -76,7 +77,30 @@ class _PasswordInput extends StatelessWidget {
             labelText: 'Password',
             helperText: '',
             errorText: state.password.invalid
-                ? 'Password must be contain least 8 characters with at least one letter and one digit'
+                ? 'Password must contain least 8 characters with at least one letter and one digit'
+                : null,
+            errorMaxLines: 2,
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _NameInput extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterCubit, RegisterState>(
+      buildWhen: (previous, current) => previous.name != current.name,
+      builder: (context, state) {
+        return TextField(
+          onChanged: (name) => context.bloc<RegisterCubit>().nameChanged(name),
+          decoration: InputDecoration(
+            icon: Icon(Icons.person),
+            labelText: 'Name',
+            helperText: '',
+            errorText: state.name.invalid
+                ? 'Name must contain least 3 characters'
                 : null,
             errorMaxLines: 2,
           ),

@@ -4,6 +4,7 @@ part of 'register_cubit.dart';
 class RegisterState extends Equatable {
   final Email email;
   final Password password;
+  final Name name;
   final UniName uniName;
   final Faculty faculty;
   final Degree degree;
@@ -13,6 +14,7 @@ class RegisterState extends Equatable {
   const RegisterState({
     this.email = const Email.pure(),
     this.password = const Password.pure(),
+    this.name = const Name.pure(),
     this.uniName = const UniName.pure(),
     this.faculty = const Faculty.pure(),
     this.degree = const Degree.pure(),
@@ -22,6 +24,15 @@ class RegisterState extends Equatable {
 
   @override
   List<Object> get props {
-    return [email, password, uniName, faculty, degree, status, errorMessage];
+    return [
+      email,
+      password,
+      name,
+      uniName,
+      faculty,
+      degree,
+      status,
+      errorMessage,
+    ];
   }
 }
