@@ -68,6 +68,8 @@ PODS:
     - nanopb/encode (= 1.30906.0)
   - nanopb/decode (1.30906.0)
   - nanopb/encode (1.30906.0)
+  - path_provider (0.0.1):
+    - Flutter
   - PromisesObjC (1.2.10)
 
 DEPENDENCIES:
@@ -76,6 +78,7 @@ DEPENDENCIES:
   - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - FirebaseFirestore (from `https://github.com/invertase/firestore-ios-sdk-frameworks.git`, tag `6.26.0`)
   - Flutter (from `Flutter`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
 
 SPEC REPOS:
   trunk:
@@ -105,6 +108,8 @@ EXTERNAL SOURCES:
     :tag: 6.26.0
   Flutter:
     :path: Flutter
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
@@ -129,6 +134,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 6f5c8abbab8a9bce4bb3f057e317728ec6182b10
   leveldb-library: 55d93ee664b4007aac644a782d11da33fba316f7
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
 
 PODFILE CHECKSUM: 1d8c6a92bd101286fefca7efce33b2f60159457a
