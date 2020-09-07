@@ -132,36 +132,33 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
 
         return Column(
           children: [
-            InkWell(
-              onTap: uniNames != null
-                  ? () => MyBottomSheet.show(
-                        context: context,
-                        selected: _uniName,
-                        options: uniNames,
-                        callback: _setUni,
-                      )
-                  : null,
-              child: _SelectField(label: 'University', selected: _uniName),
+            _SelectField(
+              label: 'University',
+              selected: _uniName,
+              onTap: () => _onUniTap(uniNames),
             ),
-            InkWell(
-              onTap: _uni != null
-                  ? () => MyBottomSheet.show(
-                        context: context,
-                        selected: _faculty,
-                        options: _uni.faculties,
-                        callback: _setFaculty,
-                      )
-                  : () => Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                      content: Text('Please select a university first'),
-                    )),
-              child: _SelectField(label: 'Faculty', selected: _faculty),
+            WidgetPadding(),
+            _SelectField(
+              label: 'Faculty',
+              selected: _faculty,
+              onTap: _onFacultyTap,
             ),
+            WidgetPadding(),
           ],
         );
       },
     );
+  }
+
+  void _onUniTap(List<String> uniNames) {
+    if (uniNames != null) {
+      MyBottomSheet.show(
+        context: context,
+        selected: _uniName,
+        options: uniNames,
+        callback: _setUni,
+      );
+    }
   }
 
   void _setUni(String uniName) {
@@ -173,6 +170,23 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
     context.bloc<RegisterCubit>().uniNameChanged(uniName);
   }
 
+  void _onFacultyTap() {
+    if (_uni != null) {
+      MyBottomSheet.show(
+        context: context,
+        selected: _faculty,
+        options: _uni.faculties,
+        callback: _setFaculty,
+      );
+    } else {
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text('Please select a university first'),
+        ));
+    }
+  }
+
   void _setFaculty(String faculty) {
     setState(() => _faculty = faculty);
     context.bloc<RegisterCubit>().facultyChanged(faculty);
@@ -182,26 +196,47 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
 class _SelectField extends StatelessWidget {
   final String label;
   final String selected;
+  final Function onTap;
 
-  const _SelectField({Key key, @required this.label, this.selected})
+  const _SelectField({Key key, @required this.label, this.selected, this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(selected ?? 'Select', style: TextStyle(color: Colors.grey)),
-              Icon(Icons.arrow_drop_down, color: Colors.grey)
-            ],
-          )
-        ],
+    final borderRadius = BorderRadius.circular(30.0);
+
+    return Material(
+      child: Ink(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: borderRadius,
+        ),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: borderRadius,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 12.0,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(label),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      selected ?? 'Select',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Icon(Icons.arrow_drop_down, color: Colors.grey)
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
