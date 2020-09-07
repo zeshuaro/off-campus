@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/complete_profile/view/complete_profile_form.dart';
+import 'package:offcampus/screens/home/home.dart';
 
 class CompleteProfilePage extends StatelessWidget {
   static Route route() => MaterialPageRoute(
@@ -18,7 +19,10 @@ class CompleteProfilePage extends StatelessWidget {
         elevation: 0.0,
         actions: [
           FlatButton(
-            onPressed: () {},
+            onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+              HomePage.route(),
+              (route) => false,
+            ),
             child: Text('Skip'),
           ),
         ],
