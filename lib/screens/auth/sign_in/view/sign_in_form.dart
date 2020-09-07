@@ -18,37 +18,34 @@ class SignInForm extends StatelessWidget {
             ..showSnackBar(SnackBar(content: Text(state.errorMessage)));
         }
       },
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Off Campus', style: Theme.of(context).textTheme.headline3),
-            WidgetPadding(),
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              child: Padding(
-                padding: kLayoutPadding,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      WidgetPaddingSm(),
-                      _EmailInput(),
-                      WidgetPaddingSm(),
-                      _PasswordInput(),
-                      WidgetPaddingSm(),
-                      _SignInButton(),
-                      WidgetPaddingSm(),
-                      _RegisterButton(),
-                    ],
-                  ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('Off Campus', style: Theme.of(context).textTheme.headline3),
+          WidgetPadding(),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Padding(
+              padding: kLayoutPadding,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    WidgetPaddingSm(),
+                    _EmailInput(),
+                    WidgetPaddingSm(),
+                    _PasswordInput(),
+                    WidgetPaddingSm(),
+                    _SignInButton(),
+                    WidgetPaddingSm(),
+                    _RegisterButton(),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
