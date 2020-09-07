@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/widgets/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CompleteProfileForm extends StatefulWidget {
   @override
@@ -11,9 +13,10 @@ class CompleteProfileForm extends StatefulWidget {
 }
 
 class _CompleteProfileFormState extends State<CompleteProfileForm> {
-  File _image;
   final _imagePicker = ImagePicker();
   final _textController = TextEditingController();
+  File _image;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -34,26 +37,13 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 WidgetPadding(),
                 _buildSelectImage(),
                 WidgetPadding(),
-                TextField(
-                  controller: _textController,
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'Summary',
-                    helperText:
-                        'Add a summary about yourself so that others can learn more about you',
-                    helperMaxLines: 2,
-                  ),
-                ),
+                _buildTextField(),
                 WidgetPadding(),
-                RaisedButton(
-                  onPressed: _image != null || _textController.text.isNotEmpty
-                      ? () {}
-                      : null,
-                  color: Theme.of(context).primaryColor,
-                  shape: StadiumBorder(),
-                  child: Text('Save', style: TextStyle(color: Colors.white)),
-                )
+                SizedBox(
+                    height: 36.0,
+                    child: _isLoading
+                        ? CircularProgressIndicator()
+                        : _buildButton()),
               ],
             ),
           ),
@@ -83,6 +73,38 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
                 ),
               ),
       ),
+    );
+  }
+
+  Widget _buildTextField() {
+    return TextField(
+      controller: _textController,
+      maxLines: 4,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Summary',
+        helperText:
+            'Add a summary about yourself so that others can learn more about you',
+        helperMaxLines: 2,
+      ),
+    );
+  }
+
+  Widget _buildButton() {
+    final user = context.bloc<AuthBloc>().state.user;
+
+    return RaisedButton(
+      onPressed: _image != null || _textController.text.isNotEmpty
+          ? () {
+              setState(() => _isLoading = true);
+              context
+                  .bloc<AuthBloc>()
+                  .add(UpdateProfile(user.id, _image, _textController.text));
+            }
+          : null,
+      color: Theme.of(context).primaryColor,
+      shape: StadiumBorder(),
+      child: Text('Save', style: TextStyle(color: Colors.white)),
     );
   }
 
