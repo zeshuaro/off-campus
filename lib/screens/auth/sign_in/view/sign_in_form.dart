@@ -40,6 +40,7 @@ class SignInForm extends StatelessWidget {
                       _PasswordInput(),
                       WidgetPaddingSm(),
                       _SignInButton(),
+                      WidgetPaddingSm(),
                       _RegisterButton(),
                     ],
                   ),
@@ -102,7 +103,7 @@ class _SignInButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : SizedBox(
-                width: double.infinity,
+                height: 36.0,
                 child: RaisedButton(
                   child: const Text(
                     'Sign In',
@@ -124,13 +125,10 @@ class _SignInButton extends StatelessWidget {
 class _RegisterButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: OutlineButton(
-        shape: StadiumBorder(),
-        child: Text('Register'),
-        onPressed: () => Navigator.of(context).push<void>(RegisterPage.route()),
-      ),
+    return OutlineButton(
+      shape: StadiumBorder(),
+      child: Text('Register'),
+      onPressed: () => Navigator.of(context).push<void>(RegisterPage.route()),
     );
   }
 }
