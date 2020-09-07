@@ -4,6 +4,7 @@ import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/auth/sign_in/sign_in.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
+import 'package:offcampus/widgets/sized_box.dart';
 import 'package:offcampus/widgets/text_field.dart';
 
 class SignInForm extends StatelessWidget {
@@ -22,7 +23,7 @@ class SignInForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Off Campus', style: Theme.of(context).textTheme.headline3),
-            kWidgetPadding,
+            WidgetSpace(),
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
@@ -33,12 +34,12 @@ class SignInForm extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      SizedBox(height: 8.0),
+                      WidgetSpaceSm(),
                       _EmailInput(),
+                      WidgetSpaceSm(),
                       _PasswordInput(),
-                      const SizedBox(height: 8.0),
+                      WidgetSpaceSm(),
                       _SignInButton(),
-                      const SizedBox(height: 4.0),
                       _RegisterButton(),
                     ],
                   ),
