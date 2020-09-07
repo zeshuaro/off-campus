@@ -6,10 +6,7 @@ import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
-import 'package:offcampus/widgets/bottom_sheet.dart';
-import 'package:offcampus/widgets/card.dart';
-import 'package:offcampus/widgets/sized_box.dart';
-import 'package:offcampus/widgets/text_field.dart';
+import 'package:offcampus/widgets/widgets.dart';
 
 class RegisterForm extends StatelessWidget {
   @override

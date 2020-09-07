@@ -4,9 +4,7 @@ import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/auth/sign_in/sign_in.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
-import 'package:offcampus/widgets/card.dart';
-import 'package:offcampus/widgets/sized_box.dart';
-import 'package:offcampus/widgets/text_field.dart';
+import 'package:offcampus/widgets/widgets.dart';
 
 class SignInForm extends StatelessWidget {
   @override
