@@ -222,15 +222,20 @@ class _SelectField extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(label),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    selected ?? 'Select',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  Icon(Icons.arrow_drop_down, color: Colors.grey)
-                ],
+              Expanded(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        selected ?? 'Select',
+                        style: TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.end,
+                      ),
+                    ),
+                    Icon(Icons.arrow_drop_down, color: Colors.grey)
+                  ],
+                ),
               )
             ],
           ),
