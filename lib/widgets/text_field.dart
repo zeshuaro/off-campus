@@ -59,6 +59,7 @@ class _MyTextFieldState extends State<MyTextField> {
         labelText: widget.labelText,
         helperText: '',
         errorText: widget.errorText,
+        errorMaxLines: 2,
       ),
     );
   }

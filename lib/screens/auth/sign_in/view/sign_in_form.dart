@@ -23,7 +23,7 @@ class SignInForm extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text('Off Campus', style: Theme.of(context).textTheme.headline3),
-            WidgetSpace(),
+            WidgetPadding(),
             Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
@@ -34,11 +34,11 @@ class SignInForm extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      WidgetSpaceSm(),
+                      WidgetPaddingSm(),
                       _EmailInput(),
-                      WidgetSpaceSm(),
+                      WidgetPaddingSm(),
                       _PasswordInput(),
-                      WidgetSpaceSm(),
+                      WidgetPaddingSm(),
                       _SignInButton(),
                       _RegisterButton(),
                     ],
