@@ -41,5 +41,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>OffCampus needs to access your photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>OffCampus needs to access your camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>OffCampus needs to access your microphone</string>
 </dict>
 </plist>

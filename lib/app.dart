@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/uni/uni.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
-import 'package:offcampus/screens/home/home.dart';
 import 'package:offcampus/screens/auth/sign_in/sign_in.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
+import 'package:offcampus/screens/root_page.dart';
 import 'package:offcampus/screens/splash_page.dart';
 import 'package:offcampus/theme.dart';
 
@@ -63,7 +63,7 @@ class _AppViewState extends State<AppView> {
             switch (state.status) {
               case AuthStatus.authenticated:
                 _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
+                  RootPage.route(),
                   (route) => false,
                 );
                 break;

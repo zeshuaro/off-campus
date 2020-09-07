@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -30,6 +31,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       yield* _mapAuthUserChangedToState(event);
     } else if (event is AuthSignOutRequested) {
       unawaited(_authRepo.signOut());
+    } else if (event is UpdateProfile) {
+      yield* _mapUpdateProfileToState(event);
     }
   }
 
@@ -45,6 +48,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       user = await _authRepo.fetchMyUser(event.user.uid);
     }
 
+    if (user != null) {
+      yield AuthState.authenticated(user);
+    } else {
+      yield const AuthState.unauthenticated();
+    }
+  }
+
+  Stream<AuthState> _mapUpdateProfileToState(UpdateProfile event) async* {
+    final user = await _authRepo.updateProfile(event.userId,
+        image: event.image, summary: event.summary);
     if (user != null) {
       yield AuthState.authenticated(user);
     } else {

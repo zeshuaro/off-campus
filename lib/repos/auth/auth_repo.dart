@@ -1,8 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:mime/mime.dart';
+import 'package:uuid/uuid.dart';
+import 'package:path/path.dart' as p;
 
 import 'models/models.dart';
 
@@ -17,6 +22,8 @@ class SignOutFailure implements Exception {}
 class AuthRepo {
   final FirebaseAuth _firebaseAuth;
   final _usersRef = FirebaseFirestore.instance.collection('users');
+  final _storageRef = FirebaseStorage.instance.ref();
+  final _uuid = Uuid();
 
   /// {@macro authentication_repository}
   AuthRepo({FirebaseAuth firebaseAuth})
@@ -79,5 +86,28 @@ class AuthRepo {
     } on Exception {
       throw SignOutFailure();
     }
+  }
+
+  Future<MyUser> updateProfile(String userId,
+      {File image, String summary}) async {
+    if (image != null) {
+      final imageData = await image.readAsBytes();
+      final refPath = 'users/${_uuid.v4()}${p.extension(image.path)}';
+      final ref = _storageRef.child(refPath);
+      final metadata = StorageMetadata(contentType: lookupMimeType(refPath));
+
+      final uploadTask = ref.putData(imageData, metadata);
+      await uploadTask.onComplete;
+
+      await _usersRef.doc(userId).update(<String, dynamic>{'image': refPath});
+    }
+
+    final summaryText = summary ?? '';
+    await _usersRef
+        .doc(userId)
+        .update(<String, dynamic>{'summary': summaryText});
+    final user = await fetchMyUser(userId);
+
+    return user;
   }
 }
