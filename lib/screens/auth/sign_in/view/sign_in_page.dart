@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/auth/sign_in/sign_in.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 
@@ -11,6 +12,7 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kYellow,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Padding(
