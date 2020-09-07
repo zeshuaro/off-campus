@@ -5,8 +5,9 @@ class MyTextField extends StatefulWidget {
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final bool obscureText;
-  final IconData iconData;
+  final Widget icon;
   final String labelText;
+  final String helperText;
   final String errorText;
 
   const MyTextField({
@@ -15,8 +16,9 @@ class MyTextField extends StatefulWidget {
     this.textInputAction,
     this.keyboardType,
     this.obscureText = false,
-    this.iconData,
+    this.icon,
     this.labelText,
+    this.helperText = '',
     this.errorText,
   }) : super(key: key);
 
@@ -55,9 +57,9 @@ class _MyTextFieldState extends State<MyTextField> {
           borderRadius: BorderRadius.circular(30.0),
         ),
         contentPadding: EdgeInsets.zero,
-        prefixIcon: widget.iconData != null ? Icon(widget.iconData) : null,
+        prefixIcon: widget.icon,
         labelText: widget.labelText,
-        helperText: '',
+        helperText: widget.helperText,
         errorText: widget.errorText,
         errorMaxLines: 2,
       ),

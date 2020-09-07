@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:offcampus/blocs/uni/uni.dart';
+import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
-import 'package:offcampus/widgets/bottom_sheet.dart';
+import 'package:offcampus/widgets/widgets.dart';
 
 class RegisterForm extends StatelessWidget {
   @override
@@ -20,17 +21,25 @@ class RegisterForm extends StatelessWidget {
       },
       child: Center(
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              _EmailInput(),
-              _PasswordInput(),
-              _NameInput(),
-              _SelectUniFaculty(),
-              _DegreeInput(),
-              const SizedBox(height: 8.0),
-              _RegisterButton(),
-            ],
+          child: MyCard(
+            child: Padding(
+              padding: kLayoutPadding,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  WidgetPaddingSm(),
+                  _EmailInput(),
+                  WidgetPaddingSm(),
+                  _PasswordInput(),
+                  WidgetPaddingSm(),
+                  _NameInput(),
+                  _SelectUniFaculty(),
+                  _DegreeInput(),
+                  WidgetPadding(),
+                  _RegisterButton(),
+                ],
+              ),
+            ),
           ),
         ),
       ),
@@ -44,18 +53,15 @@ class _EmailInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.email != current.email,
       builder: (context, state) {
-        return TextField(
-          onChanged: (email) =>
-              context.bloc<RegisterCubit>().emailChanged(email),
-          onSubmitted: (value) => FocusScope.of(context).nextFocus(),
+        return MyTextField(
+          onChanged: (email) {
+            context.bloc<RegisterCubit>().emailChanged(email);
+          },
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          decoration: InputDecoration(
-            icon: Icon(Icons.email),
-            labelText: 'Email',
-            helperText: '',
-            errorText: state.email.invalid ? 'Invalid email' : null,
-          ),
+          icon: Icon(Icons.email),
+          labelText: 'Email',
+          errorText: state.email.invalid ? 'Invalid email' : null,
         );
       },
     );
@@ -68,19 +74,16 @@ class _PasswordInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.password != current.password,
       builder: (context, state) {
-        return TextField(
+        return MyTextField(
           onChanged: (password) =>
               context.bloc<RegisterCubit>().passwordChanged(password),
           obscureText: true,
-          decoration: InputDecoration(
-            icon: Icon(Icons.lock),
-            labelText: 'Password',
-            helperText: '',
-            errorText: state.password.invalid
-                ? 'Password must contain least 8 characters with at least one letter and one digit'
-                : null,
-            errorMaxLines: 2,
-          ),
+          textInputAction: TextInputAction.next,
+          icon: Icon(Icons.lock),
+          labelText: 'Password',
+          errorText: state.password.invalid
+              ? 'Password must contain least 8 characters with at least one letter and one digit'
+              : null,
         );
       },
     );
@@ -93,17 +96,13 @@ class _NameInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.name != current.name,
       builder: (context, state) {
-        return TextField(
+        return MyTextField(
           onChanged: (name) => context.bloc<RegisterCubit>().nameChanged(name),
-          decoration: InputDecoration(
-            icon: Icon(Icons.person),
-            labelText: 'Name',
-            helperText: '',
-            errorText: state.name.invalid
-                ? 'Name must contain least 3 characters'
-                : null,
-            errorMaxLines: 2,
-          ),
+          icon: Icon(Icons.person),
+          labelText: 'Name',
+          errorText: state.name.invalid
+              ? 'Name must contain least 3 characters'
+              : null,
         );
       },
     );
@@ -133,35 +132,33 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
 
         return Column(
           children: [
-            InkWell(
-              onTap: uniNames != null
-                  ? () => MyBottomSheet.show(
-                        context: context,
-                        selected: _uniName,
-                        options: uniNames,
-                        callback: _setUni,
-                      )
-                  : null,
-              child: _SelectField(label: 'University', selected: _uniName),
+            SelectField(
+              label: 'University',
+              selected: _uniName,
+              onTap: () => _onUniTap(uniNames),
             ),
-            InkWell(
-              onTap: _uni != null
-                  ? () => MyBottomSheet.show(
-                        context: context,
-                        selected: _faculty,
-                        options: _uni.faculties,
-                        callback: _setFaculty,
-                      )
-                  : () => Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                        SnackBar(content: Text('Select a university first'))),
-              child: _SelectField(label: 'Faculty', selected: _faculty),
+            WidgetPadding(),
+            SelectField(
+              label: 'Faculty',
+              selected: _faculty,
+              onTap: _onFacultyTap,
             ),
+            WidgetPadding(),
           ],
         );
       },
     );
+  }
+
+  void _onUniTap(List<String> uniNames) {
+    if (uniNames != null) {
+      MyBottomSheet.show(
+        context: context,
+        selected: _uniName,
+        options: uniNames,
+        callback: _setUni,
+      );
+    }
   }
 
   void _setUni(String uniName) {
@@ -173,37 +170,26 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
     context.bloc<RegisterCubit>().uniNameChanged(uniName);
   }
 
+  void _onFacultyTap() {
+    if (_uni != null) {
+      MyBottomSheet.show(
+        context: context,
+        selected: _faculty,
+        options: _uni.faculties,
+        callback: _setFaculty,
+      );
+    } else {
+      Scaffold.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text('Please select a university first'),
+        ));
+    }
+  }
+
   void _setFaculty(String faculty) {
     setState(() => _faculty = faculty);
     context.bloc<RegisterCubit>().facultyChanged(faculty);
-  }
-}
-
-class _SelectField extends StatelessWidget {
-  final String label;
-  final String selected;
-
-  const _SelectField({Key key, @required this.label, this.selected})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(selected ?? 'Select', style: TextStyle(color: Colors.grey)),
-              Icon(Icons.arrow_drop_down, color: Colors.grey)
-            ],
-          )
-        ],
-      ),
-    );
   }
 }
 
@@ -213,18 +199,19 @@ class _DegreeInput extends StatelessWidget {
     return BlocBuilder<RegisterCubit, RegisterState>(
       buildWhen: (previous, current) => previous.degree != current.degree,
       builder: (context, state) {
-        return TextField(
+        return MyTextField(
           onChanged: (degree) =>
               context.bloc<RegisterCubit>().degreeChanged(degree),
-          decoration: InputDecoration(
-            icon: FaIcon(FontAwesomeIcons.graduationCap),
-            labelText: 'Degree',
-            helperText: 'E.g. Bachelor of Software Engineering 3rd Year',
-            errorText: state.degree.invalid
-                ? 'Degree must contain at least 3 characters'
-                : null,
-            errorMaxLines: 2,
+          icon: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [FaIcon(FontAwesomeIcons.graduationCap, size: 20.0)],
           ),
+          labelText: 'Degree',
+          helperText: 'E.g. Bachelor of Software Engineering 3rd Year',
+          errorText: state.degree.invalid
+              ? 'Degree must contain at least 3 characters'
+              : null,
         );
       },
     );
@@ -240,7 +227,7 @@ class _RegisterButton extends StatelessWidget {
         return state.status.isSubmissionInProgress
             ? const CircularProgressIndicator()
             : SizedBox(
-                width: double.infinity,
+                height: 36.0,
                 child: RaisedButton(
                   child: const Text(
                     'Register',

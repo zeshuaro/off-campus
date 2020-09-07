@@ -4,8 +4,7 @@ import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/auth/sign_in/sign_in.dart';
 import 'package:offcampus/screens/auth/register/register.dart';
 import 'package:formz/formz.dart';
-import 'package:offcampus/widgets/sized_box.dart';
-import 'package:offcampus/widgets/text_field.dart';
+import 'package:offcampus/widgets/widgets.dart';
 
 class SignInForm extends StatelessWidget {
   @override
@@ -23,10 +22,7 @@ class SignInForm extends StatelessWidget {
         children: [
           Text('Off Campus', style: Theme.of(context).textTheme.headline3),
           WidgetPadding(),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            ),
+          MyCard(
             child: Padding(
               padding: kLayoutPadding,
               child: SingleChildScrollView(
@@ -61,7 +57,7 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) => context.bloc<SignInCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          iconData: Icons.email,
+          icon: Icon(Icons.email),
           labelText: 'Email',
           errorText: state.email.invalid ? 'Invalid email' : null,
         );
@@ -80,7 +76,7 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.bloc<SignInCubit>().passwordChanged(password),
           obscureText: true,
-          iconData: Icons.lock,
+          icon: Icon(Icons.lock),
           labelText: 'Password',
           errorText: state.password.invalid
               ? 'Password must be at least 8 characters with at least one letter and one digit'
