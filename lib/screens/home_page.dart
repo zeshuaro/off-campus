@@ -3,19 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager_firebase/flutter_cache_manager_firebase.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
+import 'package:offcampus/blocs/user/bloc/user_bloc.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   static Route route() {
     return MaterialPageRoute<void>(builder: (_) => HomePage());
   }
 
   @override
-  Widget build(BuildContext context) {
-    final user = context.bloc<AuthBloc>().state.user;
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    final user = context.bloc<AuthBloc>().state.user;
+    context.bloc<UserBloc>()..add(FetchUsers(user.id));
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: kYellow,
         appBar: AppBar(
@@ -43,11 +54,22 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: kLayoutPadding,
-              child: Column(
-                children: [_UserCard(user: user)],
-              ),
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                if (state is UserFailure) {
+                  return LoadingErrorWidget();
+                } else if (state is UserSuccess) {
+                  return ListView.builder(
+                    padding: kLayoutPadding,
+                    itemCount: state.users.length,
+                    itemBuilder: (context, index) {
+                      return _UserCard(user: state.users[index]);
+                    },
+                  );
+                }
+
+                return LoadingWidget();
+              },
             )
           ],
         ));
