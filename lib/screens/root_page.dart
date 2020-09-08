@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/screens/complete_profile/complete_profile.dart';
-import 'package:offcampus/screens/home/home.dart';
+import 'package:offcampus/screens/home_page.dart';
 
 class RootPage extends StatelessWidget {
   static Route route() {
