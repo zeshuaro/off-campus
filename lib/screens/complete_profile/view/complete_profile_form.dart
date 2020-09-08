@@ -94,7 +94,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
     final user = context.bloc<AuthBloc>().state.user;
 
     return RaisedButton(
-      onPressed: _image != null || _textController.text.isNotEmpty
+      onPressed: _image != null && _textController.text.isNotEmpty
           ? () {
               setState(() => _isLoading = true);
               context
