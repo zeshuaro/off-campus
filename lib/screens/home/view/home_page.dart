@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager_firebase/flutter_cache_manager_firebase.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/common/consts.dart';
+import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class HomePage extends StatelessWidget {
@@ -45,68 +46,77 @@ class HomePage extends StatelessWidget {
             Padding(
               padding: kLayoutPadding,
               child: Column(
-                children: [
-                  MyCard(
-                    child: Container(
-                      padding: kLayoutPadding,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      user.name,
-                                      style:
-                                          Theme.of(context).textTheme.headline5,
-                                    ),
-                                    WidgetPaddingSm(),
-                                    Text(
-                                      user.university,
-                                      style:
-                                          Theme.of(context).textTheme.subtitle1,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: 16.0,
-                              ),
-                              ClipOval(
-                                child: CachedNetworkImage(
-                                  cacheManager: FirebaseCacheManager(),
-                                  width: 100.0,
-                                  height: 100.0,
-                                  imageUrl: user.image,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                            ],
-                          ),
-                          WidgetPadding(),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(user.degree),
-                          ),
-                          WidgetPadding(),
-                          Text(
-                            'About Me',
-                            style: Theme.of(context).textTheme.subtitle1,
-                          ),
-                          Text(user.summary),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
+                children: [_UserCard(user: user)],
               ),
             )
           ],
         ));
+  }
+}
+
+class _UserCard extends StatelessWidget {
+  final MyUser user;
+
+  const _UserCard({Key key, @required this.user})
+      : assert(user != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MyCard(
+      child: Container(
+        padding: kLayoutPadding,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        user.name,
+                        style: Theme.of(context).textTheme.headline5,
+                      ),
+                      WidgetPaddingSm(),
+                      Text(
+                        user.university,
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 16.0,
+                ),
+                ClipOval(
+                  child: CachedNetworkImage(
+                    cacheManager: FirebaseCacheManager(),
+                    width: 100.0,
+                    height: 100.0,
+                    imageUrl: user.image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+            WidgetPadding(),
+            Align(
+              alignment: Alignment.center,
+              child: Text(user.degree),
+            ),
+            WidgetPadding(),
+            Text(
+              'About Me',
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            Text(user.summary),
+          ],
+        ),
+      ),
+    );
   }
 }
