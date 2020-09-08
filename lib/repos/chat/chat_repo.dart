@@ -33,4 +33,12 @@ class ChatRepo {
 
     return chats;
   }
+
+  Future<Chat> addChat(List<String> userIds) async {
+    final data = <String, dynamic>{'userIds': userIds};
+    final docRef = await _chatsRef.add(data);
+    data['id'] = docRef;
+
+    return Chat.fromJson(data);
+  }
 }
