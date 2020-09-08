@@ -27,52 +27,23 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: kYellow,
-        appBar: AppBar(
-          title: const Text('OffCampus', style: TextStyle(color: Colors.black)),
-          backgroundColor: Colors.transparent,
-          brightness: Brightness.light,
-          elevation: 0.0,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.exit_to_app, color: Colors.black),
-              onPressed: () =>
-                  context.bloc<AuthBloc>().add(AuthSignOutRequested()),
-            )
-          ],
-        ),
-        body: Stack(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 100.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.0),
-                  topRight: Radius.circular(30.0),
-                ),
-              ),
-            ),
-            BlocBuilder<UserBloc, UserState>(
-              builder: (context, state) {
-                if (state is UserFailure) {
-                  return LoadingErrorWidget();
-                } else if (state is UserSuccess) {
-                  return ListView.builder(
-                    padding: kLayoutPadding,
-                    itemCount: state.users.length,
-                    itemBuilder: (context, index) {
-                      return _UserCard(user: state.users[index]);
-                    },
-                  );
-                }
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state is UserFailure) {
+          return LoadingErrorWidget();
+        } else if (state is UserSuccess) {
+          return ListView.builder(
+            padding: kLayoutPadding,
+            itemCount: state.users.length,
+            itemBuilder: (context, index) {
+              return _UserCard(user: state.users[index]);
+            },
+          );
+        }
 
-                return LoadingWidget();
-              },
-            )
-          ],
-        ));
+        return LoadingWidget();
+      },
+    );
   }
 }
 
