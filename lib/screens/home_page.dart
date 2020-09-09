@@ -107,6 +107,19 @@ class _UserCard extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Text(user.summary),
+            WidgetPadding(),
+            Align(
+              alignment: Alignment.center,
+              child: RaisedButton(
+                onPressed: () {},
+                color: Theme.of(context).primaryColor,
+                shape: StadiumBorder(),
+                child: Text(
+                  'Send Message',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            )
           ],
         ),
       ),
