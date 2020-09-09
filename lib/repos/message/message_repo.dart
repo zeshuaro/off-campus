@@ -29,9 +29,10 @@ class MessageRepo {
     return messages;
   }
 
-  Future<Message> addMessage(String userId, String text) async {
+  Future<Message> addMessage(String userId, String chatId, String text) async {
     final data = <String, dynamic>{
       'userId': userId,
+      'chatId': chatId,
       'text': text,
       'createdAt': DateTime.now(),
     };
