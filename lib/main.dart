@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:offcampus/app.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
+import 'package:offcampus/repos/message/message_repo.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/repos/user/user_repo.dart';
 import 'package:offcampus/simple_bloc_observer.dart';
@@ -22,5 +23,6 @@ void main() async {
     uniRepo: UniRepo(),
     userRepo: UserRepo(),
     chatRepo: ChatRepo(authRepo),
+    messageRepo: MessageRepo(authRepo),
   ));
 }
