@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
+import 'package:offcampus/blocs/chat/bloc/chat_bloc.dart';
 import 'package:offcampus/blocs/uni/uni.dart';
 import 'package:offcampus/blocs/user/bloc/user_bloc.dart';
+import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/repos/user/user_repo.dart';
 import 'package:offcampus/screens/auth/sign_in/sign_in.dart';
@@ -15,15 +17,18 @@ class App extends StatelessWidget {
   final AuthRepo authRepo;
   final UniRepo uniRepo;
   final UserRepo userRepo;
+  final ChatRepo chatRepo;
 
   const App({
     Key key,
     @required this.authRepo,
     @required this.uniRepo,
     @required this.userRepo,
+    @required this.chatRepo,
   })  : assert(authRepo != null),
         assert(uniRepo != null),
         assert(userRepo != null),
+        assert(chatRepo != null),
         super(key: key);
 
   @override
@@ -35,6 +40,7 @@ class App extends StatelessWidget {
           BlocProvider(create: (_) => AuthBloc(authRepo: authRepo)),
           BlocProvider(create: (_) => UniBloc(uniRepo)),
           BlocProvider(create: (_) => UserBloc(userRepo)),
+          BlocProvider(create: (_) => ChatBloc(chatRepo)),
         ],
         child: AppView(),
       ),

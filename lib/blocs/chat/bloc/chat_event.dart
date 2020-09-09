@@ -20,7 +20,9 @@ class AddChat extends ChatEvent {
   final String fromUserId;
   final String toUserId;
 
-  AddChat(this.fromUserId, this.toUserId);
+  AddChat({@required this.fromUserId, @required this.toUserId})
+      : assert(fromUserId != null),
+        assert(toUserId != null);
 
   @override
   List<Object> get props => [fromUserId, toUserId];

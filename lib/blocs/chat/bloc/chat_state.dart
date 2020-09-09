@@ -13,9 +13,10 @@ class ChatFailure extends ChatState {}
 
 class ChatSuccess extends ChatState {
   final List<Chat> chats;
+  final Chat chat;
 
-  ChatSuccess(this.chats);
+  ChatSuccess(this.chats, [this.chat]);
 
   @override
-  List<Object> get props => [chats];
+  List<Object> get props => [chats, chat];
 }

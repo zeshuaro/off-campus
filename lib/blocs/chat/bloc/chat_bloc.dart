@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 
 part 'chat_event.dart';
@@ -47,7 +48,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           chats.insert(0, chat);
         }
 
-        yield ChatSuccess(chats);
+        yield ChatSuccess(chats, chat);
       } catch (_) {
         yield ChatFailure();
       }
