@@ -33,7 +33,7 @@ def get_courses(base_url, course_subjects):
     courses = []
     session = HTMLSession()
 
-    for course_subject in course_subjects[:1]:
+    for course_subject in course_subjects:
         url = f"{base_url}/{course_subject}_T3.html"
         r = session.get(url)
         trs = r.html.find("table")[2].find("tr")
@@ -97,11 +97,12 @@ def add_course_chats(courses):
         doc_ref.set(
             {
                 "title": f"{course_code} {course_name}",
-                "type": "group",
+                "type": "course",
                 "university": "University of New South Wales",
                 "lastMessage": "Chat created",
                 "lastMessageUser": "OffCampus",
                 "updatedAt": dt.datetime.now(),
+                "numMembers": 0,
             }
         )
 
