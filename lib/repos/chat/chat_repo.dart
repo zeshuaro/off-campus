@@ -12,21 +12,27 @@ class ChatRepo {
 
   ChatRepo(this._authRepo);
 
-  Stream<List<Chat>> chats(String userId) {
+  Stream<List<Chat>> chats(String currUserId) {
     return _chatsRef
-        .where('userIds', arrayContains: userId)
+        .where('userIds', arrayContains: currUserId)
+        .orderBy('updatedAt')
         .snapshots()
         .asyncMap((snapshot) async {
       final chats = <Chat>[];
 
       for (var doc in snapshot.docs) {
         final data = doc.data();
-        final users = <MyUser>[];
+        final users = <Map<String, dynamic>>[];
         data['id'] = doc.id;
+        data['title'] = 'Chat';
 
         for (var userId in data['userIds']) {
           final user = await _authRepo.fetchMyUser(userId);
-          users.add(user);
+          users.add(user.toJson());
+
+          if (user.id != currUserId) {
+            data['title'] = user.name;
+          }
         }
 
         data['users'] = users;
@@ -37,9 +43,19 @@ class ChatRepo {
     });
   }
 
-  Future<void> addChat(List<String> userIds) async {
-    await _chatsRef.add(<String, dynamic>{
-      'userIds': userIds,
+  Future<void> addChat(Chat chat) async {
+    await _chatsRef.doc(chat.id).set(<String, dynamic>{
+      'userIds': chat.users.map((user) => user.id).toList(),
+      'lastMessage': chat.lastMessage,
+      'lastMessageUser': chat.lastMessageUser,
+      'updatedAt': DateTime.now(),
+    });
+  }
+
+  Future<void> updateChat(Chat chat) async {
+    await _chatsRef.doc(chat.id).update(<String, dynamic>{
+      'lastMessage': chat.lastMessage,
+      'lastMessageUser': chat.lastMessageUser,
       'updatedAt': DateTime.now(),
     });
   }

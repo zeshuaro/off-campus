@@ -15,6 +15,7 @@ class MessageRepo {
   Stream<List<Message>> messages(String chatId) {
     return _messagesRef
         .where('chatId', isEqualTo: chatId)
+        .orderBy('createdAt')
         .snapshots()
         .asyncMap((snapshot) async {
       final messages = <Message>[];

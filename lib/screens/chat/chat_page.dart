@@ -11,18 +11,16 @@ import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class ChatPage extends StatefulWidget {
-  static Route route(Chat chat, String title) {
+  static Route route(Chat chat) {
     return MaterialPageRoute(
-      builder: (context) => ChatPage(chat: chat, title: title),
+      builder: (context) => ChatPage(chat: chat),
     );
   }
 
   final Chat chat;
-  final String title;
 
-  const ChatPage({Key key, @required this.chat, @required this.title})
+  const ChatPage({Key key, @required this.chat})
       : assert(chat != null),
-        assert(title != null),
         super(key: key);
 
   @override
@@ -33,6 +31,7 @@ class _ChatPageState extends State<ChatPage> {
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   MyUser _user;
   Chat _chat;
+  ChatBloc _chatBloc;
   MessageBloc _messageBloc;
 
   @override
@@ -40,6 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     _user = context.bloc<AuthBloc>().state.user;
     _chat = widget.chat;
+    _chatBloc = context.bloc<ChatBloc>();
     _messageBloc = context.bloc<MessageBloc>()..add(LoadMessages(_chat.id));
   }
 
@@ -47,7 +47,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.black)),
+        title: Text(widget.chat.title, style: TextStyle(color: Colors.black)),
         backgroundColor: kYellow,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
@@ -101,12 +101,17 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _onSend(ChatMessage message) {
+    _chat = _chat.copyWith(
+      lastMessage: message.text,
+      lastMessageUser: message.user.name,
+      isInit: false,
+    );
     if (_chat.isInit) {
-      context
-          .bloc<ChatBloc>()
-          .add(AddChat(_chat.users.map((user) => user.id).toList()));
-      _chat = _chat.copyWith(isInit: false);
+      _chatBloc.add(AddChat(_chat));
+    } else {
+      _chatBloc.add(UpdateChat(_chat));
     }
+
     _messageBloc.add(AddMessage(_user.id, _chat.id, message.text));
   }
 }
