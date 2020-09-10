@@ -101,7 +101,7 @@ def add_course_chats(courses):
                 "university": "University of New South Wales",
                 "lastMessage": "Chat created",
                 "lastMessageUser": "OffCampus",
-                "updatedAt": dt.datetime.now(),
+                "updatedAt": dt.datetime.utcnow(),
                 "numMembers": 0,
             }
         )

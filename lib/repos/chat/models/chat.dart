@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:offcampus/common/utils.dart';
 import 'package:offcampus/repos/chat/models/models.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 part 'chat.g.dart';
 
@@ -12,10 +13,13 @@ part 'chat.g.dart';
 @JsonSerializable()
 class Chat extends Equatable {
   final String id;
-  final List<String> userIds;
   final String title;
   final String lastMessage;
   final String lastMessageUser;
+  final int numMembers;
+
+  @JsonKey(defaultValue: <String>[])
+  final List<String> userIds;
 
   @JsonKey(defaultValue: false)
   final bool isInit;
@@ -35,6 +39,7 @@ class Chat extends Equatable {
     this.lastMessage,
     this.lastMessageUser,
     this.updatedAt,
+    this.numMembers,
     this.isInit = false,
   })  : assert(id != null),
         assert(userIds != null),
@@ -44,6 +49,19 @@ class Chat extends Equatable {
   Map<String, dynamic> toJson() => _$ChatToJson(this);
 
   @override
-  List<Object> get props =>
-      [id, userIds, title, lastMessage, lastMessageUser, updatedAt, isInit];
+  List<Object> get props {
+    return [
+      id,
+      type,
+      userIds,
+      title,
+      lastMessage,
+      lastMessageUser,
+      updatedAt,
+      numMembers,
+      isInit,
+    ];
+  }
+
+  String get relativeUpdatedAt => timeago.format(updatedAt);
 }

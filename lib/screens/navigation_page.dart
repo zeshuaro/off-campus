@@ -4,6 +4,7 @@ import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/chat/chat_list_page.dart';
+import 'package:offcampus/screens/course_chat/course_chat_list_page.dart';
 import 'package:offcampus/screens/home/home_page.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  final int _chatsIndex = 1;
+  final int _chatsIndex = 2;
   int _currIndex = 0;
 
   @override
@@ -38,7 +39,7 @@ class _NavigationPageState extends State<NavigationPage> {
               ? Container(
                   margin: const EdgeInsets.only(top: 100.0),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Colors.grey[100],
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30.0),
                       topRight: Radius.circular(30.0),
@@ -48,7 +49,7 @@ class _NavigationPageState extends State<NavigationPage> {
               : Container(color: Colors.grey[100]),
           IndexedStack(
             index: _currIndex,
-            children: [HomePage(), ChatListPage()],
+            children: [HomePage(), CourseChatListPage(), ChatListPage()],
           ),
         ],
       ),
@@ -60,6 +61,10 @@ class _NavigationPageState extends State<NavigationPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(FontAwesomeIcons.university),
+            title: Text('Course Chats'),
           ),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.solidComment),

@@ -53,6 +53,7 @@ dependencies:
       ref: update/firebase-storage
       path: flutter_cache_manager_firebase
   dash_chat: ^1.1.15
+  timeago: ^2.0.27
 
 dev_dependencies:
   flutter_test:

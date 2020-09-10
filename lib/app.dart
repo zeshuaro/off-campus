@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/chat/bloc/chat_bloc.dart';
+import 'package:offcampus/blocs/course_chat/course_chat.dart';
 import 'package:offcampus/blocs/message/message.dart';
 import 'package:offcampus/blocs/uni/uni.dart';
 import 'package:offcampus/blocs/user/bloc/user_bloc.dart';
@@ -47,6 +48,7 @@ class App extends StatelessWidget {
           BlocProvider(create: (_) => UserBloc(userRepo)),
           BlocProvider(create: (_) => ChatBloc(chatRepo)),
           BlocProvider(create: (_) => MessageBloc(messageRepo)),
+          BlocProvider(create: (_) => CourseChatBloc(chatRepo)),
         ],
         child: AppView(),
       ),

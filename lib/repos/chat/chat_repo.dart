@@ -68,7 +68,7 @@ class ChatRepo {
       final chats = <Chat>[];
       for (var doc in snapshot.docs) {
         final data = doc.data();
-        if (data['userIds'].contains(currUserId)) {
+        if (data['userIds']?.contains(currUserId) == true) {
           continue;
         }
 
