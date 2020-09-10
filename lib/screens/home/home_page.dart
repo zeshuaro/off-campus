@@ -9,6 +9,7 @@ import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
+import 'package:slimy_card/slimy_card.dart';
 
 class HomePage extends StatefulWidget {
   static Route route() {
@@ -64,81 +65,79 @@ class _UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyCard(
-      child: Container(
-        padding: kLayoutPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final width = MediaQuery.of(context).size.width;
+
+    return SlimyCard(
+      color: Colors.amber,
+      width: width,
+      topCardHeight: 470,
+      bottomCardHeight: 150,
+      borderRadius: 15,
+      topCardWidget: Column(
+        children: [
+          WidgetPadding(),
+          ClipOval(
+            child: CachedNetworkImage(
+              cacheManager: FirebaseCacheManager(),
+              width: 180.0,
+              height: 180.0,
+              imageUrl: user.image,
+              fit: BoxFit.cover,
+            ),
+          ),
+          WidgetPadding(),
+          Text(
+            user.name,
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .apply(color: Colors.black, fontWeightDelta: 1),
+          ),
+          WidgetPaddingSm(),
+          Text(
+            user.degree,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          WidgetPaddingSm(),
+          Text(
+            user.university,
+            style: Theme.of(context).textTheme.subtitle1,
+          ),
+          WidgetPadding(),
+          RaisedButton(
+            onPressed: () {
+              final currUser = context.bloc<AuthBloc>().state.user;
+              final chatId = currUser.id + user.id;
+              final chat = Chat(
+                id: chatId,
+                type: ChatType.private,
+                userIds: <String>[currUser.id, user.id],
+                title: user.name,
+                isInit: true,
+              );
+
+              Navigator.of(context).push(ChatPage.route(chat));
+            },
+            color: Theme.of(context).primaryColor,
+            shape: StadiumBorder(),
+            child: Text(
+              'Send Message',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+      bottomCardWidget: SizedBox(
+        width: width,
+        child: ListView(
+          padding: kLayoutPadding,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        user.name,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                      WidgetPaddingSm(),
-                      Text(
-                        user.university,
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 16.0,
-                ),
-                ClipOval(
-                  child: CachedNetworkImage(
-                    cacheManager: FirebaseCacheManager(),
-                    width: 100.0,
-                    height: 100.0,
-                    imageUrl: user.image,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
-            WidgetPadding(),
-            Align(
-              alignment: Alignment.center,
-              child: Text(user.degree),
-            ),
-            WidgetPadding(),
             Text(
               'About Me',
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Text(user.summary),
-            WidgetPadding(),
-            Align(
-              alignment: Alignment.center,
-              child: RaisedButton(
-                onPressed: () {
-                  final currUser = context.bloc<AuthBloc>().state.user;
-                  final chatId = currUser.id + user.id;
-                  final chat = Chat(
-                    id: chatId,
-                    userIds: <String>[currUser.id, user.id],
-                    title: user.name,
-                    isInit: true,
-                  );
-
-                  Navigator.of(context).push(ChatPage.route(chat));
-                },
-                color: Theme.of(context).primaryColor,
-                shape: StadiumBorder(),
-                child: Text(
-                  'Send Message',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )
           ],
         ),
       ),
