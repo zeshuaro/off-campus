@@ -1,4 +1,4 @@
-part of 'chat_bloc.dart';
+part of 'course_chat_bloc.dart';
 
 abstract class CourseChatEvent extends Equatable {
   const CourseChatEvent();

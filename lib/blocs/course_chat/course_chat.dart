@@ -1,1 +1,1 @@
-export 'bloc/chat_bloc.dart';
+export 'bloc/course_chat_bloc.dart';
