@@ -13,6 +13,7 @@ part 'chat.g.dart';
 class Chat extends Equatable {
   final String id;
   final List<MyUser> users;
+  final String title;
   final String lastMessage;
   final String lastMessageUser;
 
@@ -26,17 +27,19 @@ class Chat extends Equatable {
   Chat({
     @required this.id,
     @required this.users,
+    @required this.title,
     this.lastMessage,
     this.lastMessageUser,
     this.updatedAt,
     this.isInit = false,
   })  : assert(id != null),
-        assert(users != null);
+        assert(users != null),
+        assert(title != null);
 
   factory Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
   Map<String, dynamic> toJson() => _$ChatToJson(this);
 
   @override
   List<Object> get props =>
-      [id, users, lastMessage, lastMessageUser, updatedAt, isInit];
+      [id, users, title, lastMessage, lastMessageUser, updatedAt, isInit];
 }

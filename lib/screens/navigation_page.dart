@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/common/consts.dart';
+import 'package:offcampus/screens/chat/chat_list_page.dart';
 import 'package:offcampus/screens/home_page.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
-  final List<Widget> _widgetOptions = <Widget>[HomePage(), Text('Hello')];
+  final List<Widget> _widgetOptions = <Widget>[HomePage(), ChatListPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +34,18 @@ class _NavigationPageState extends State<NavigationPage> {
       ),
       body: Stack(
         children: [
-          Container(
-            margin: const EdgeInsets.only(top: 100.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(30.0),
-                topRight: Radius.circular(30.0),
-              ),
-            ),
-          ),
+          _selectedIndex != 1
+              ? Container(
+                  margin: const EdgeInsets.only(top: 100.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
+                    ),
+                  ),
+                )
+              : Container(color: Colors.grey[100]),
           _widgetOptions[_selectedIndex],
         ],
       ),

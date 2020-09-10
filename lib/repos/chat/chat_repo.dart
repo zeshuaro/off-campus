@@ -12,21 +12,26 @@ class ChatRepo {
 
   ChatRepo(this._authRepo);
 
-  Stream<List<Chat>> chats(String userId) {
+  Stream<List<Chat>> chats(String currUserId) {
     return _chatsRef
-        .where('userIds', arrayContains: userId)
+        .where('userIds', arrayContains: currUserId)
         .snapshots()
         .asyncMap((snapshot) async {
       final chats = <Chat>[];
 
       for (var doc in snapshot.docs) {
         final data = doc.data();
-        final users = <MyUser>[];
+        final users = <Map<String, dynamic>>[];
         data['id'] = doc.id;
+        data['title'] = 'Chat';
 
         for (var userId in data['userIds']) {
           final user = await _authRepo.fetchMyUser(userId);
-          users.add(user);
+          users.add(user.toJson());
+
+          if (user.id != currUserId) {
+            data['title'] = user.name;
+          }
         }
 
         data['users'] = users;
