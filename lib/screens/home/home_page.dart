@@ -9,6 +9,7 @@ import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
+import 'package:slimy_card/slimy_card.dart';
 
 class HomePage extends StatefulWidget {
   static Route route() {
@@ -33,12 +34,13 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is UserLoaded) {
           return state.users.isNotEmpty
-              ? ListView.builder(
+              ? ListView.separated(
                   padding: kLayoutPadding,
                   itemCount: state.users.length,
                   itemBuilder: (context, index) {
                     return _UserCard(user: state.users[index]);
                   },
+                  separatorBuilder: (context, index) => SizedBox(height: 36),
                 )
               : Center(
                   child: Text(
@@ -64,83 +66,125 @@ class _UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MyCard(
-      child: Container(
-        padding: kLayoutPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        user.name,
-                        style: Theme.of(context).textTheme.headline5,
-                      ),
-                      WidgetPaddingSm(),
-                      Text(
-                        user.university,
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 16.0,
-                ),
-                ClipOval(
-                  child: CachedNetworkImage(
-                    cacheManager: FirebaseCacheManager(),
-                    width: 100.0,
-                    height: 100.0,
-                    imageUrl: user.image,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
-            WidgetPadding(),
-            Align(
-              alignment: Alignment.center,
-              child: Text(user.degree),
-            ),
-            WidgetPadding(),
-            Text(
-              'About Me',
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-            Text(user.summary),
-            WidgetPadding(),
-            Align(
-              alignment: Alignment.center,
-              child: RaisedButton(
-                onPressed: () {
-                  final currUser = context.bloc<AuthBloc>().state.user;
-                  final chatId = currUser.id + user.id;
-                  final chat = Chat(
-                    id: chatId,
-                    userIds: <String>[currUser.id, user.id],
-                    title: user.name,
-                    isInit: true,
-                  );
+    return SlimyCard(
+      color: Colors.amber[200],
+      width: MediaQuery.of(context).size.width,
+      topCardHeight: 420,
+      bottomCardHeight: 150,
+      borderRadius: 15,
+      topCardWidget: _TopCardWidget(user: user),
+      bottomCardWidget: _BottomCardWidget(summary: user.summary),
+    );
+  }
+}
 
-                  Navigator.of(context).push(ChatPage.route(chat));
-                },
-                color: Theme.of(context).primaryColor,
-                shape: StadiumBorder(),
-                child: Text(
-                  'Send Message',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )
-          ],
+class _TopCardWidget extends StatelessWidget {
+  final MyUser user;
+
+  const _TopCardWidget({Key key, @required this.user})
+      : assert(user != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        WidgetPadding(),
+        ClipOval(
+          child: CachedNetworkImage(
+            cacheManager: FirebaseCacheManager(),
+            width: 150.0,
+            height: 150.0,
+            imageUrl: user.image,
+            fit: BoxFit.cover,
+          ),
         ),
+        WidgetPadding(),
+        Text(
+          user.name,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              .apply(color: Colors.black, fontWeightDelta: 2),
+        ),
+        WidgetPaddingSm(),
+        Text(
+          user.degree,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        WidgetPaddingSm(),
+        Text(
+          user.university,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context).textTheme.subtitle1,
+        ),
+        WidgetPaddingSm(),
+        _SendMessageButton(user: user),
+      ],
+    );
+  }
+}
+
+class _SendMessageButton extends StatelessWidget {
+  final MyUser user;
+
+  const _SendMessageButton({Key key, @required this.user})
+      : assert(user != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return RaisedButton(
+      onPressed: () {
+        final currUser = context.bloc<AuthBloc>().state.user;
+        final chatId = currUser.id + user.id;
+        final chat = Chat(
+          id: chatId,
+          type: ChatType.private,
+          userIds: <String>[currUser.id, user.id],
+          title: user.name,
+          isInit: true,
+        );
+
+        Navigator.of(context).push(ChatPage.route(chat));
+      },
+      color: Theme.of(context).primaryColor,
+      shape: StadiumBorder(),
+      child: Text(
+        'Send Message',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class _BottomCardWidget extends StatelessWidget {
+  final String summary;
+
+  const _BottomCardWidget({Key key, @required this.summary})
+      : assert(summary != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: ListView(
+        padding: kLayoutPadding,
+        children: [
+          Text(
+            'About Me',
+            style:
+                Theme.of(context).textTheme.subtitle1.apply(fontWeightDelta: 1),
+          ),
+          Text(summary),
+        ],
       ),
     );
   }
