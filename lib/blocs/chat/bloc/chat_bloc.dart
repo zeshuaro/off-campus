@@ -19,8 +19,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       yield* _mapLoadChatsToState(event);
     } else if (event is AddChat) {
       yield* _mapAddChatToState(event);
+    } else if (event is UpdateChat) {
+      yield* _mapUpdateChatToState(event);
     } else if (event is UpdateChats) {
-      yield* _mapUpdateMessageToState(event);
+      yield* _mapUpdateChatsToState(event);
     }
   }
 
@@ -35,7 +37,11 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     await _chatRepo.addChat(event.chat);
   }
 
-  Stream<ChatState> _mapUpdateMessageToState(UpdateChats event) async* {
+  Stream<ChatState> _mapUpdateChatToState(UpdateChat event) async* {
+    await _chatRepo.updateChat(event.chat);
+  }
+
+  Stream<ChatState> _mapUpdateChatsToState(UpdateChats event) async* {
     yield ChatLoaded(event.chats);
   }
 }

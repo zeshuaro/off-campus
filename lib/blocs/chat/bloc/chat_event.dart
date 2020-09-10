@@ -25,6 +25,15 @@ class AddChat extends ChatEvent {
   List<Object> get props => [chat];
 }
 
+class UpdateChat extends ChatEvent {
+  final Chat chat;
+
+  UpdateChat(this.chat);
+
+  @override
+  List<Object> get props => [chat];
+}
+
 class UpdateChats extends ChatEvent {
   final List<Chat> chats;
 

@@ -50,4 +50,12 @@ class ChatRepo {
       'updatedAt': DateTime.now(),
     });
   }
+
+  Future<void> updateChat(Chat chat) async {
+    await _chatsRef.doc(chat.id).update(<String, dynamic>{
+      'lastMessage': chat.lastMessage,
+      'lastMessageUser': chat.lastMessageUser,
+      'updatedAt': DateTime.now(),
+    });
+  }
 }

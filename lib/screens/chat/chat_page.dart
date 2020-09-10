@@ -31,6 +31,7 @@ class _ChatPageState extends State<ChatPage> {
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   MyUser _user;
   Chat _chat;
+  ChatBloc _chatBloc;
   MessageBloc _messageBloc;
 
   @override
@@ -38,6 +39,7 @@ class _ChatPageState extends State<ChatPage> {
     super.initState();
     _user = context.bloc<AuthBloc>().state.user;
     _chat = widget.chat;
+    _chatBloc = context.bloc<ChatBloc>();
     _messageBloc = context.bloc<MessageBloc>()..add(LoadMessages(_chat.id));
   }
 
@@ -99,14 +101,17 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _onSend(ChatMessage message) {
+    _chat = _chat.copyWith(
+      lastMessage: message.text,
+      lastMessageUser: message.user.name,
+      isInit: false,
+    );
     if (_chat.isInit) {
-      _chat = _chat.copyWith(
-        lastMessage: message.text,
-        lastMessageUser: message.user.name,
-        isInit: false,
-      );
-      context.bloc<ChatBloc>().add(AddChat(_chat));
+      _chatBloc.add(AddChat(_chat));
+    } else {
+      _chatBloc.add(UpdateChat(_chat));
     }
+
     _messageBloc.add(AddMessage(_user.id, _chat.id, message.text));
   }
 }
