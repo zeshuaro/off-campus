@@ -5,19 +5,24 @@ import 'package:dash_chat/dash_chat.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/chat/chat.dart';
 import 'package:offcampus/blocs/message/message.dart';
+import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/models/user.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class ChatPage extends StatefulWidget {
-  static Route route(Chat chat) {
-    return MaterialPageRoute(builder: (context) => ChatPage(chat: chat));
+  static Route route(Chat chat, String title) {
+    return MaterialPageRoute(
+      builder: (context) => ChatPage(chat: chat, title: title),
+    );
   }
 
   final Chat chat;
+  final String title;
 
-  const ChatPage({Key key, @required this.chat})
+  const ChatPage({Key key, @required this.chat, @required this.title})
       : assert(chat != null),
+        assert(title != null),
         super(key: key);
 
   @override
@@ -41,7 +46,12 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(widget.title, style: TextStyle(color: Colors.black)),
+        backgroundColor: kYellow,
+        brightness: Brightness.light,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
       body: BlocBuilder<MessageBloc, MessageState>(
         builder: (context, state) {
           if (state is MessageLoaded) {
