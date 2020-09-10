@@ -34,12 +34,13 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is UserLoaded) {
           return state.users.isNotEmpty
-              ? ListView.builder(
+              ? ListView.separated(
                   padding: kLayoutPadding,
                   itemCount: state.users.length,
                   itemBuilder: (context, index) {
                     return _UserCard(user: state.users[index]);
                   },
+                  separatorBuilder: (context, index) => SizedBox(height: 36),
                 )
               : Center(
                   child: Text(
