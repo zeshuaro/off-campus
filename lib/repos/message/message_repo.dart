@@ -12,8 +12,11 @@ class MessageRepo {
 
   MessageRepo(this._authRepo);
 
-  Stream<List<Message>> messages() {
-    return _messagesRef.snapshots().asyncMap((snapshot) async {
+  Stream<List<Message>> messages(String chatId) {
+    return _messagesRef
+        .where('chatId', isEqualTo: chatId)
+        .snapshots()
+        .asyncMap((snapshot) async {
       final messages = <Message>[];
 
       for (var doc in snapshot.docs) {

@@ -16,7 +16,7 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   @override
   Stream<MessageState> mapEventToState(MessageEvent event) async* {
     if (event is LoadMessages) {
-      yield* _mapLoadMessagesToState();
+      yield* _mapLoadMessagesToState(event);
     } else if (event is AddMessage) {
       yield* _mapAddMessageToState(event);
     } else if (event is UpdateMessages) {
@@ -24,9 +24,9 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     }
   }
 
-  Stream<MessageState> _mapLoadMessagesToState() async* {
+  Stream<MessageState> _mapLoadMessagesToState(LoadMessages event) async* {
     await _messagesSubscription?.cancel();
-    _messagesSubscription = _messageRepo.messages().listen(
+    _messagesSubscription = _messageRepo.messages(event.chatId).listen(
           (messages) => add(UpdateMessages(messages)),
         );
   }
