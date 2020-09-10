@@ -58,4 +58,25 @@ class ChatRepo {
       'updatedAt': DateTime.now(),
     });
   }
+
+  Stream<List<Chat>> courseChats(String currUserId) {
+    return _chatsRef
+        .where('type', isEqualTo: 'course')
+        .orderBy('title')
+        .snapshots()
+        .asyncMap((snapshot) async {
+      final chats = <Chat>[];
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        if (data['userIds'].contains(currUserId)) {
+          continue;
+        }
+
+        data['id'] = doc.id;
+        chats.add(Chat.fromJson(data));
+      }
+
+      return chats;
+    });
+  }
 }
