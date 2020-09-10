@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:offcampus/common/utils.dart';
+import 'package:offcampus/repos/chat/models/models.dart';
 
 part 'chat.g.dart';
 
@@ -19,12 +20,16 @@ class Chat extends Equatable {
   @JsonKey(defaultValue: false)
   final bool isInit;
 
+  @JsonKey(fromJson: stringToChatType, toJson: chatTypeToString)
+  final ChatType type;
+
   @JsonKey(
       fromJson: Utils.timestampToDatetime, toJson: Utils.datetimeToTimestamp)
   final DateTime updatedAt;
 
   Chat({
     @required this.id,
+    @required this.type,
     @required this.userIds,
     @required this.title,
     this.lastMessage,
