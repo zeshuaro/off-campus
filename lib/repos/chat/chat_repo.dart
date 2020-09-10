@@ -44,7 +44,7 @@ class ChatRepo {
 
   Future<void> addChat(Chat chat) async {
     await _chatsRef.doc(chat.id).set(<String, dynamic>{
-      'userIds': chat.users.map((user) => user.id).toList(),
+      'userIds': chat.userIds,
       'lastMessage': chat.lastMessage,
       'lastMessageUser': chat.lastMessageUser,
       'updatedAt': DateTime.now(),

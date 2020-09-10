@@ -4,7 +4,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:offcampus/common/utils.dart';
-import 'package:offcampus/repos/auth/models/user.dart';
 
 part 'chat.g.dart';
 
@@ -12,7 +11,7 @@ part 'chat.g.dart';
 @JsonSerializable()
 class Chat extends Equatable {
   final String id;
-  final List<MyUser> users;
+  final List<String> userIds;
   final String title;
   final String lastMessage;
   final String lastMessageUser;
@@ -26,14 +25,14 @@ class Chat extends Equatable {
 
   Chat({
     @required this.id,
-    @required this.users,
+    @required this.userIds,
     @required this.title,
     this.lastMessage,
     this.lastMessageUser,
     this.updatedAt,
     this.isInit = false,
   })  : assert(id != null),
-        assert(users != null),
+        assert(userIds != null),
         assert(title != null);
 
   factory Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
@@ -41,5 +40,5 @@ class Chat extends Equatable {
 
   @override
   List<Object> get props =>
-      [id, users, title, lastMessage, lastMessageUser, updatedAt, isInit];
+      [id, userIds, title, lastMessage, lastMessageUser, updatedAt, isInit];
 }
