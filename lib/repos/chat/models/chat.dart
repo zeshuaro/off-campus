@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:offcampus/common/utils.dart';
 import 'package:offcampus/repos/auth/models/user.dart';
@@ -23,13 +24,14 @@ class Chat extends Equatable {
   final DateTime updatedAt;
 
   Chat({
-    this.id,
-    this.users,
+    @required this.id,
+    @required this.users,
     this.lastMessage,
     this.lastMessageUser,
     this.updatedAt,
     this.isInit = false,
-  });
+  })  : assert(id != null),
+        assert(users != null);
 
   factory Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
   Map<String, dynamic> toJson() => _$ChatToJson(this);

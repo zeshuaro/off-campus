@@ -6,6 +6,8 @@ import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/user/bloc/user_bloc.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
+import 'package:offcampus/repos/chat/chat_repo.dart';
+import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -111,7 +113,17 @@ class _UserCard extends StatelessWidget {
             Align(
               alignment: Alignment.center,
               child: RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final currUser = context.bloc<AuthBloc>().state.user;
+                  final chatId = currUser.id + user.id;
+                  final chat = Chat(
+                    id: chatId,
+                    users: <MyUser>[currUser, user],
+                    isInit: true,
+                  );
+
+                  Navigator.of(context).push(ChatPage.route(chat));
+                },
                 color: Theme.of(context).primaryColor,
                 shape: StadiumBorder(),
                 child: Text(

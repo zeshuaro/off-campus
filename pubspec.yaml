@@ -52,6 +52,7 @@ dependencies:
       url: https://github.com/zeshuaro/flutter_cache_manager.git
       ref: update/firebase-storage
       path: flutter_cache_manager_firebase
+  dash_chat: ^1.1.15
 
 dev_dependencies:
   flutter_test:
