@@ -24,23 +24,29 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
-    context.bloc<UserBloc>()..add(FetchUsers(user.id));
+    context.bloc<UserBloc>()..add(LoadUsers(user.id));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserFailure) {
-          return LoadingErrorWidget();
-        } else if (state is UserSuccess) {
-          return ListView.builder(
-            padding: kLayoutPadding,
-            itemCount: state.users.length,
-            itemBuilder: (context, index) {
-              return _UserCard(user: state.users[index]);
-            },
-          );
+        if (state is UserLoaded) {
+          return state.users.isNotEmpty
+              ? ListView.builder(
+                  padding: kLayoutPadding,
+                  itemCount: state.users.length,
+                  itemBuilder: (context, index) {
+                    return _UserCard(user: state.users[index]);
+                  },
+                )
+              : Center(
+                  child: Text(
+                    'Looks like you\'ve started a conversation with every single member on OffCampus!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                );
         }
 
         return LoadingWidget();

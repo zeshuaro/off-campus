@@ -4,21 +4,31 @@ import 'package:offcampus/repos/auth/auth_repo.dart';
 class UserRepo {
   final CollectionReference _usersRef =
       FirebaseFirestore.instance.collection('users');
+  final CollectionReference _chatsRef =
+      FirebaseFirestore.instance.collection('chats');
 
-  Future<List<MyUser>> fetchUsers(String currUserId) async {
-    final snapshot = await _usersRef.get();
-    final users = <MyUser>[];
+  Stream<List<MyUser>> users(String currUserId) {
+    return _usersRef.snapshots().asyncMap((snapshot) async {
+      final users = <MyUser>[];
+      final chatsSnapshot =
+          await _chatsRef.where('userIds', arrayContains: currUserId).get();
+      final chatUserIds = <String>{};
 
-    for (var doc in snapshot.docs) {
-      if (doc.id == currUserId) {
-        continue;
+      for (var doc in chatsSnapshot.docs) {
+        chatUserIds.addAll(List<String>.from(doc.data()['userIds']));
       }
 
-      final data = doc.data();
-      data['id'] = doc.id;
-      users.add(MyUser.fromJson(data));
-    }
+      for (var doc in snapshot.docs) {
+        if (doc.id == currUserId || chatUserIds.contains(doc.id)) {
+          continue;
+        }
 
-    return users;
+        final data = doc.data();
+        data['id'] = doc.id;
+        users.add(MyUser.fromJson(data));
+      }
+
+      return users;
+    });
   }
 }
