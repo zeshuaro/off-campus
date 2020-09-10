@@ -32,13 +32,21 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserLoaded) {
-          return ListView.builder(
-            padding: kLayoutPadding,
-            itemCount: state.users.length,
-            itemBuilder: (context, index) {
-              return _UserCard(user: state.users[index]);
-            },
-          );
+          return state.users.isNotEmpty
+              ? ListView.builder(
+                  padding: kLayoutPadding,
+                  itemCount: state.users.length,
+                  itemBuilder: (context, index) {
+                    return _UserCard(user: state.users[index]);
+                  },
+                )
+              : Center(
+                  child: Text(
+                    'Looks like you\'ve started a conversation with every single member on OffCampus!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                );
         }
 
         return LoadingWidget();
