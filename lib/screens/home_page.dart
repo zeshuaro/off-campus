@@ -24,16 +24,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
-    context.bloc<UserBloc>()..add(FetchUsers(user.id));
+    context.bloc<UserBloc>()..add(LoadUsers(user.id));
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserFailure) {
-          return LoadingErrorWidget();
-        } else if (state is UserSuccess) {
+        if (state is UserLoaded) {
           return ListView.builder(
             padding: kLayoutPadding,
             itemCount: state.users.length,

@@ -7,11 +7,20 @@ abstract class UserEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchUsers extends UserEvent {
+class LoadUsers extends UserEvent {
   final String currUserId;
 
-  FetchUsers(this.currUserId);
+  LoadUsers(this.currUserId);
 
   @override
   List<Object> get props => [currUserId];
+}
+
+class UpdateUsers extends UserEvent {
+  final List<MyUser> users;
+
+  UpdateUsers(this.users);
+
+  @override
+  List<Object> get props => [users];
 }
