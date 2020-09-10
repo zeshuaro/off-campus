@@ -11,18 +11,16 @@ import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class ChatPage extends StatefulWidget {
-  static Route route(Chat chat, String title) {
+  static Route route(Chat chat) {
     return MaterialPageRoute(
-      builder: (context) => ChatPage(chat: chat, title: title),
+      builder: (context) => ChatPage(chat: chat),
     );
   }
 
   final Chat chat;
-  final String title;
 
-  const ChatPage({Key key, @required this.chat, @required this.title})
+  const ChatPage({Key key, @required this.chat})
       : assert(chat != null),
-        assert(title != null),
         super(key: key);
 
   @override
@@ -47,7 +45,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: TextStyle(color: Colors.black)),
+        title: Text(widget.chat.title, style: TextStyle(color: Colors.black)),
         backgroundColor: kYellow,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),

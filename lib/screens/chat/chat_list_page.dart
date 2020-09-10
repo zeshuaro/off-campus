@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/chat/chat.dart';
+import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class ChatListPage extends StatefulWidget {
@@ -24,11 +25,14 @@ class _ChatListPageState extends State<ChatListPage> {
         if (state is ChatLoaded) {
           return ListView.separated(
             itemBuilder: (context, index) {
+              final chat = state.chats[index];
+
               return Container(
                 color: Colors.white,
                 child: ListTile(
+                  onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
                   title: Text(
-                    state.chats[index].title,
+                    chat.title,
                     style: Theme.of(context).textTheme.headline6,
                   ),
                 ),

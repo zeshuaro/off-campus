@@ -119,10 +119,11 @@ class _UserCard extends StatelessWidget {
                   final chat = Chat(
                     id: chatId,
                     users: <MyUser>[currUser, user],
+                    title: user.name,
                     isInit: true,
                   );
 
-                  Navigator.of(context).push(ChatPage.route(chat, user.name));
+                  Navigator.of(context).push(ChatPage.route(chat));
                 },
                 color: Theme.of(context).primaryColor,
                 shape: StadiumBorder(),
