@@ -68,9 +68,9 @@ class _UserCard extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
 
     return SlimyCard(
-      color: Colors.amber,
+      color: Colors.amber[200],
       width: width,
-      topCardHeight: 470,
+      topCardHeight: 420,
       bottomCardHeight: 150,
       borderRadius: 15,
       topCardWidget: Column(
@@ -79,8 +79,8 @@ class _UserCard extends StatelessWidget {
           ClipOval(
             child: CachedNetworkImage(
               cacheManager: FirebaseCacheManager(),
-              width: 180.0,
-              height: 180.0,
+              width: 150.0,
+              height: 150.0,
               imageUrl: user.image,
               fit: BoxFit.cover,
             ),
@@ -88,23 +88,29 @@ class _UserCard extends StatelessWidget {
           WidgetPadding(),
           Text(
             user.name,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context)
                 .textTheme
-                .headline4
-                .apply(color: Colors.black, fontWeightDelta: 1),
+                .headline5
+                .apply(color: Colors.black, fontWeightDelta: 2),
           ),
           WidgetPaddingSm(),
           Text(
             user.degree,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline6,
           ),
           WidgetPaddingSm(),
           Text(
             user.university,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context).textTheme.subtitle1,
           ),
-          WidgetPadding(),
+          WidgetPaddingSm(),
           RaisedButton(
             onPressed: () {
               final currUser = context.bloc<AuthBloc>().state.user;
@@ -135,7 +141,10 @@ class _UserCard extends StatelessWidget {
           children: [
             Text(
               'About Me',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context)
+                  .textTheme
+                  .subtitle1
+                  .apply(fontWeightDelta: 1),
             ),
             Text(user.summary),
           ],
