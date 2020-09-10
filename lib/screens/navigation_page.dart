@@ -12,8 +12,8 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int _selectedIndex = 0;
-  final List<Widget> _widgetOptions = <Widget>[HomePage(), ChatListPage()];
+  final int _chatsIndex = 1;
+  int _currIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _NavigationPageState extends State<NavigationPage> {
       ),
       body: Stack(
         children: [
-          _selectedIndex != 1
+          _currIndex != _chatsIndex
               ? Container(
                   margin: const EdgeInsets.only(top: 100.0),
                   decoration: BoxDecoration(
@@ -46,11 +46,14 @@ class _NavigationPageState extends State<NavigationPage> {
                   ),
                 )
               : Container(color: Colors.grey[100]),
-          _widgetOptions[_selectedIndex],
+          IndexedStack(
+            index: _currIndex,
+            children: [HomePage(), ChatListPage()],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: _currIndex,
         onTap: _onItemTapped,
         showUnselectedLabels: false,
         items: const <BottomNavigationBarItem>[
@@ -67,5 +70,5 @@ class _NavigationPageState extends State<NavigationPage> {
     );
   }
 
-  void _onItemTapped(int index) => setState(() => _selectedIndex = index);
+  void _onItemTapped(int index) => setState(() => _currIndex = index);
 }

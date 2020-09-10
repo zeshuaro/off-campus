@@ -15,11 +15,10 @@ class ChatRepo {
   Stream<List<Chat>> chats(String currUserId) {
     return _chatsRef
         .where('userIds', arrayContains: currUserId)
-        .orderBy('updatedAt')
+        .orderBy('updatedAt', descending: true)
         .snapshots()
         .asyncMap((snapshot) async {
       final chats = <Chat>[];
-
       for (var doc in snapshot.docs) {
         final data = doc.data();
         final users = <Map<String, dynamic>>[];
