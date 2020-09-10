@@ -32,7 +32,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   Stream<ChatState> _mapAddChatToState(AddChat event) async* {
-    await _chatRepo.addChat(event.userIds);
+    await _chatRepo.addChat(event.chat);
   }
 
   Stream<ChatState> _mapUpdateMessageToState(UpdateChats event) async* {

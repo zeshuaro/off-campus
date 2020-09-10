@@ -17,12 +17,12 @@ class LoadChats extends ChatEvent {
 }
 
 class AddChat extends ChatEvent {
-  final List<String> userIds;
+  final Chat chat;
 
-  AddChat(this.userIds);
+  AddChat(this.chat);
 
   @override
-  List<Object> get props => [userIds];
+  List<Object> get props => [chat];
 }
 
 class UpdateChats extends ChatEvent {

@@ -42,9 +42,11 @@ class ChatRepo {
     });
   }
 
-  Future<void> addChat(List<String> userIds) async {
-    await _chatsRef.add(<String, dynamic>{
-      'userIds': userIds,
+  Future<void> addChat(Chat chat) async {
+    await _chatsRef.doc(chat.id).set(<String, dynamic>{
+      'userIds': chat.users.map((user) => user.id).toList(),
+      'lastMessage': chat.lastMessage,
+      'lastMessageUser': chat.lastMessageUser,
       'updatedAt': DateTime.now(),
     });
   }

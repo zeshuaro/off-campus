@@ -100,10 +100,12 @@ class _ChatPageState extends State<ChatPage> {
 
   void _onSend(ChatMessage message) {
     if (_chat.isInit) {
-      context
-          .bloc<ChatBloc>()
-          .add(AddChat(_chat.users.map((user) => user.id).toList()));
-      _chat = _chat.copyWith(isInit: false);
+      _chat = _chat.copyWith(
+        lastMessage: message.text,
+        lastMessageUser: message.user.name,
+        isInit: false,
+      );
+      context.bloc<ChatBloc>().add(AddChat(_chat));
     }
     _messageBloc.add(AddMessage(_user.id, _chat.id, message.text));
   }
