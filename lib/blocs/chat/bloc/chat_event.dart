@@ -7,25 +7,29 @@ abstract class ChatEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchChats extends ChatEvent {
+class LoadChats extends ChatEvent {
   final String userId;
 
-  FetchChats(this.userId);
+  LoadChats(this.userId);
 
   @override
   List<Object> get props => [userId];
 }
 
 class AddChat extends ChatEvent {
-  final String fromUserId;
-  final String toUserId;
+  final List<String> userIds;
 
-  AddChat({@required this.fromUserId, @required this.toUserId})
-      : assert(fromUserId != null),
-        assert(toUserId != null);
+  AddChat(this.userIds);
 
   @override
-  List<Object> get props => [fromUserId, toUserId];
+  List<Object> get props => [userIds];
+}
 
-  List<String> get userIds => <String>[fromUserId, toUserId];
+class UpdateChats extends ChatEvent {
+  final List<Chat> chats;
+
+  UpdateChats(this.chats);
+
+  @override
+  List<Object> get props => [chats];
 }

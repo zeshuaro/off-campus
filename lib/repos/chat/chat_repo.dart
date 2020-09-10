@@ -12,26 +12,29 @@ class ChatRepo {
 
   ChatRepo(this._authRepo);
 
-  Future<List<Chat>> fetchChats(String userId) async {
-    final snapshot =
-        await _chatsRef.where('userIds', arrayContains: userId).get();
-    final chats = <Chat>[];
+  Stream<List<Chat>> chats(String userId) {
+    return _chatsRef
+        .where('userIds', arrayContains: userId)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      final chats = <Chat>[];
 
-    for (var doc in snapshot.docs) {
-      final data = doc.data();
-      final users = <MyUser>[];
-      data['id'] = doc.id;
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final users = <MyUser>[];
+        data['id'] = doc.id;
 
-      for (var userId in data['userIds']) {
-        final user = await _authRepo.fetchMyUser(userId);
-        users.add(user);
+        for (var userId in data['userIds']) {
+          final user = await _authRepo.fetchMyUser(userId);
+          users.add(user);
+        }
+
+        data['users'] = users;
+        chats.add(Chat.fromJson(data));
       }
 
-      data['users'] = users;
-      chats.add(Chat.fromJson(data));
-    }
-
-    return chats;
+      return chats;
+    });
   }
 
   Future<Chat> addChat(List<String> userIds) async {
