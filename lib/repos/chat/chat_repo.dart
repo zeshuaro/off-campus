@@ -15,6 +15,7 @@ class ChatRepo {
   Stream<List<Chat>> chats(String currUserId) {
     return _chatsRef
         .where('userIds', arrayContains: currUserId)
+        .orderBy('updatedAt')
         .snapshots()
         .asyncMap((snapshot) async {
       final chats = <Chat>[];
