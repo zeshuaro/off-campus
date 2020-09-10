@@ -54,6 +54,7 @@ class _ChatPageState extends State<ChatPage> {
               user: ChatUser(uid: _user.id, name: _user.name),
               inputDecoration:
                   InputDecoration.collapsed(hintText: 'Add message here...'),
+              inputFooterBuilder: () => SafeArea(child: SizedBox()),
               dateFormat: DateFormat('yyyy-MMM-dd'),
               timeFormat: DateFormat('HH:mm'),
               messages: state.messages.map((message) {
