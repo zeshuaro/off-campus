@@ -12,21 +12,21 @@ class MessageRepo {
 
   MessageRepo(this._authRepo);
 
-  Future<List<Message>> fetchMessages(String chatId) async {
-    final snapshot =
-        await _messagesRef.where('chatId', isEqualTo: chatId).get();
-    final messages = <Message>[];
+  Stream<List<Message>> messages() {
+    return _messagesRef.snapshots().asyncMap((snapshot) async {
+      final messages = <Message>[];
 
-    for (var doc in snapshot.docs) {
-      final data = doc.data();
-      final user = await _authRepo.fetchMyUser(data['userId']);
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        final user = await _authRepo.fetchMyUser(data['userId']);
 
-      data['id'] = doc.id;
-      data['user'] = user;
-      messages.add(Message.fromJson(data));
-    }
+        data['id'] = doc.id;
+        data['user'] = user;
+        messages.add(Message.fromJson(data));
+      }
 
-    return messages;
+      return messages;
+    });
   }
 
   Future<Message> addMessage(String userId, String chatId, String text) async {
