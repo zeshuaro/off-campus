@@ -10,48 +10,33 @@ part 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepo _chatRepo;
+  StreamSubscription _chatsSubscription;
 
-  ChatBloc(this._chatRepo) : super(ChatInitial());
+  ChatBloc(this._chatRepo) : super(ChatLoading());
 
   @override
   Stream<ChatState> mapEventToState(ChatEvent event) async* {
-    if (event is FetchChats) {
-      yield* _mapFetchChatsToState(event);
+    if (event is LoadChats) {
+      yield* _mapLoadChatsToState(event);
     } else if (event is AddChat) {
       yield* _mapAddChatToState(event);
+    } else if (event is UpdateChats) {
+      yield* _mapUpdateMessageToState(event);
     }
   }
 
-  Stream<ChatState> _mapFetchChatsToState(FetchChats event) async* {
-    final currState = state;
-    if (currState is ChatInitial) {
-      try {
-        final chats = await _chatRepo.fetchChats(event.userId);
-        yield ChatSuccess(chats);
-      } catch (_) {
-        yield ChatFailure();
-      }
-    }
+  Stream<ChatState> _mapLoadChatsToState(LoadChats event) async* {
+    await _chatsSubscription?.cancel();
+    _chatsSubscription = _chatRepo.chats(event.userId).listen(
+          (chats) => add(UpdateChats(chats)),
+        );
   }
 
   Stream<ChatState> _mapAddChatToState(AddChat event) async* {
-    final currState = state;
-    if (currState is! ChatFailure) {
-      try {
-        final chat = await _chatRepo.addChat(event.userIds);
-        List<Chat> chats;
+    await _chatRepo.addChat(event.userIds);
+  }
 
-        if (currState is ChatInitial) {
-          chats = await _chatRepo.fetchChats(event.fromUserId);
-        } else if (currState is ChatSuccess) {
-          chats = List.from(currState.chats);
-          chats.insert(0, chat);
-        }
-
-        yield ChatSuccess(chats, chat);
-      } catch (_) {
-        yield ChatFailure();
-      }
-    }
+  Stream<ChatState> _mapUpdateMessageToState(UpdateChats event) async* {
+    yield ChatLoaded(event.chats);
   }
 }

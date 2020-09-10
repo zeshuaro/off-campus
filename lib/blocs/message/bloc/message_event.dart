@@ -7,10 +7,10 @@ abstract class MessageEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FetchMessages extends MessageEvent {
+class LoadMessages extends MessageEvent {
   final String chatId;
 
-  FetchMessages(this.chatId);
+  LoadMessages(this.chatId);
 
   @override
   List<Object> get props => [chatId];
@@ -25,4 +25,13 @@ class AddMessage extends MessageEvent {
 
   @override
   List<Object> get props => [userId, chatId, text];
+}
+
+class UpdateMessages extends MessageEvent {
+  final List<Message> messages;
+
+  UpdateMessages(this.messages);
+
+  @override
+  List<Object> get props => [messages];
 }

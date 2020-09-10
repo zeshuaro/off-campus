@@ -7,14 +7,12 @@ abstract class MessageState extends Equatable {
   List<Object> get props => [];
 }
 
-class MessageInitial extends MessageState {}
+class MessageLoading extends MessageState {}
 
-class MessageFailure extends MessageState {}
-
-class MessageSuccess extends MessageState {
+class MessageLoaded extends MessageState {
   final List<Message> messages;
 
-  MessageSuccess(
+  MessageLoaded(
     this.messages,
   );
 
