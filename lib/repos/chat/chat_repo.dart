@@ -44,7 +44,7 @@ class ChatRepo {
 
   Future<void> addChat(Chat chat) async {
     await _chatsRef.doc(chat.id).set(<String, dynamic>{
-      'userIds': chat.users.map((user) => user.id).toList(),
+      'userIds': chat.userIds,
       'lastMessage': chat.lastMessage,
       'lastMessageUser': chat.lastMessageUser,
       'updatedAt': DateTime.now(),
@@ -56,6 +56,27 @@ class ChatRepo {
       'lastMessage': chat.lastMessage,
       'lastMessageUser': chat.lastMessageUser,
       'updatedAt': DateTime.now(),
+    });
+  }
+
+  Stream<List<Chat>> courseChats(String currUserId) {
+    return _chatsRef
+        .where('type', isEqualTo: 'course')
+        .orderBy('title')
+        .snapshots()
+        .asyncMap((snapshot) async {
+      final chats = <Chat>[];
+      for (var doc in snapshot.docs) {
+        final data = doc.data();
+        if (data['userIds']?.contains(currUserId) == true) {
+          continue;
+        }
+
+        data['id'] = doc.id;
+        chats.add(Chat.fromJson(data));
+      }
+
+      return chats;
     });
   }
 }

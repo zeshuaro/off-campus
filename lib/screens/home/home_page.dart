@@ -124,7 +124,7 @@ class _UserCard extends StatelessWidget {
                   final chatId = currUser.id + user.id;
                   final chat = Chat(
                     id: chatId,
-                    users: <MyUser>[currUser, user],
+                    userIds: <String>[currUser.id, user.id],
                     title: user.name,
                     isInit: true,
                   );

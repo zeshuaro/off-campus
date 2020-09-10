@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:offcampus/common/utils.dart';
-import 'package:offcampus/repos/auth/models/user.dart';
+import 'package:offcampus/repos/chat/models/models.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 part 'chat.g.dart';
 
@@ -12,13 +13,19 @@ part 'chat.g.dart';
 @JsonSerializable()
 class Chat extends Equatable {
   final String id;
-  final List<MyUser> users;
   final String title;
   final String lastMessage;
   final String lastMessageUser;
+  final int numMembers;
+
+  @JsonKey(defaultValue: <String>[])
+  final List<String> userIds;
 
   @JsonKey(defaultValue: false)
   final bool isInit;
+
+  @JsonKey(fromJson: stringToChatType, toJson: chatTypeToString)
+  final ChatType type;
 
   @JsonKey(
       fromJson: Utils.timestampToDatetime, toJson: Utils.datetimeToTimestamp)
@@ -26,20 +33,35 @@ class Chat extends Equatable {
 
   Chat({
     @required this.id,
-    @required this.users,
+    @required this.type,
+    @required this.userIds,
     @required this.title,
     this.lastMessage,
     this.lastMessageUser,
     this.updatedAt,
+    this.numMembers,
     this.isInit = false,
   })  : assert(id != null),
-        assert(users != null),
+        assert(userIds != null),
         assert(title != null);
 
   factory Chat.fromJson(Map<String, dynamic> json) => _$ChatFromJson(json);
   Map<String, dynamic> toJson() => _$ChatToJson(this);
 
   @override
-  List<Object> get props =>
-      [id, users, title, lastMessage, lastMessageUser, updatedAt, isInit];
+  List<Object> get props {
+    return [
+      id,
+      type,
+      userIds,
+      title,
+      lastMessage,
+      lastMessageUser,
+      updatedAt,
+      numMembers,
+      isInit,
+    ];
+  }
+
+  String get relativeUpdatedAt => timeago.format(updatedAt);
 }
