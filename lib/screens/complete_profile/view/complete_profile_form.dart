@@ -26,27 +26,22 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SingleChildScrollView(
-        child: MyCard(
-          child: Padding(
-            padding: kLayoutPadding,
-            child: Column(
-              children: [
-                Text('Add a profile picture'),
-                WidgetPadding(),
-                _buildSelectImage(),
-                WidgetPadding(),
-                _buildTextField(),
-                WidgetPadding(),
-                SizedBox(
-                    height: 36.0,
-                    child: _isLoading
-                        ? CircularProgressIndicator()
-                        : _buildButton()),
-              ],
-            ),
-          ),
+    return MyCard(
+      child: Padding(
+        padding: kLayoutPadding,
+        child: Column(
+          children: [
+            Text('Add a profile picture'),
+            WidgetPadding(),
+            _buildSelectImage(),
+            WidgetPadding(),
+            _buildTextField(),
+            WidgetPadding(),
+            SizedBox(
+                height: 36.0,
+                child:
+                    _isLoading ? CircularProgressIndicator() : _buildButton()),
+          ],
         ),
       ),
     );
