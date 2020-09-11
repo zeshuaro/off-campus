@@ -23,4 +23,19 @@ class UpdateCourseChats extends CourseChatEvent {
 
   @override
   List<Object> get props => [chats];
+
+  @override
+  String toString() {
+    return 'UpdateCourseChats: { chats: ${chats.length} }';
+  }
+}
+
+class JoinCourseChat extends CourseChatEvent {
+  final String chatId;
+  final String userId;
+
+  JoinCourseChat(this.chatId, this.userId);
+
+  @override
+  List<Object> get props => [chatId, userId];
 }
