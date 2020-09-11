@@ -6,6 +6,7 @@ import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/chat/chat.dart';
 import 'package:offcampus/blocs/course_chat/course_chat.dart';
 import 'package:offcampus/blocs/message/message.dart';
+import 'package:offcampus/blocs/user/user.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/models/user.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
@@ -124,6 +125,7 @@ class _ChatPageState extends State<ChatPage> {
     if (_chat.isInit) {
       _chat = _chat.copyWith(isInit: false);
       _chatBloc.add(AddChat(_chat));
+      context.bloc<UserBloc>().add(LoadUsers(_user.id));
     } else {
       _chatBloc.add(UpdateChat(_chat));
     }
