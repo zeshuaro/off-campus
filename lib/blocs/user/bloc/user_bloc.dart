@@ -42,9 +42,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   Stream<UserState> _mapSearchUsersToState(SearchUsers event) async* {
     final currState = state;
     if (currState is UserLoaded) {
-      final users = List<MyUser>.from(currState.users)
-          .where((user) => user.name.toLowerCase().contains(event.keyword))
-          .toList();
+      final users = List<MyUser>.from(currState.users).where((user) {
+        return user.name.toLowerCase().contains(event.keyword) ||
+            user.university.toLowerCase().contains(event.keyword) ||
+            user.faculty.toLowerCase().contains(event.keyword) ||
+            user.degree.toLowerCase().contains(event.keyword);
+      }).toList();
       yield currState.copyWith(searchResults: users);
     }
   }
