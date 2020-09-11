@@ -83,7 +83,10 @@ class _ChatPageState extends State<ChatPage> {
                   borderSide: BorderSide.none,
                   borderRadius: BorderRadius.circular(30.0),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
               ),
               inputFooterBuilder: () => SafeArea(
                 child: isInitCourseChat
