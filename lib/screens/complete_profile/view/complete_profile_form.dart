@@ -19,6 +19,12 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   bool _isLoading = false;
 
   @override
+  void initState() {
+    super.initState();
+    _textController.addListener(() => setState(() {}));
+  }
+
+  @override
   void dispose() {
     _textController.dispose();
     super.dispose();
