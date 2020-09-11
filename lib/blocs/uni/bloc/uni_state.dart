@@ -18,4 +18,7 @@ class UniSuccess extends UniState {
 
   @override
   List<Object> get props => [unis];
+
+  @override
+  String toString() => 'UniSuccess: { unis: ${unis.length} }';
 }

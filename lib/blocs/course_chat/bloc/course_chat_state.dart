@@ -16,4 +16,7 @@ class CourseChatLoaded extends CourseChatState {
 
   @override
   List<Object> get props => [chats];
+
+  @override
+  String toString() => 'CourseChatLoaded: { chats: ${chats.length} }';
 }
