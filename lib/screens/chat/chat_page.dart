@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:offcampus/blocs/chat/chat.dart';
+import 'package:offcampus/blocs/course_chat/course_chat.dart';
 import 'package:offcampus/blocs/message/message.dart';
+import 'package:offcampus/blocs/user/user.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/models/user.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
@@ -55,8 +57,12 @@ class _ChatPageState extends State<ChatPage> {
       body: BlocBuilder<MessageBloc, MessageState>(
         builder: (context, state) {
           if (state is MessageLoaded) {
+            final isInitCourseChat =
+                _chat.type == ChatType.course && _chat.isInit;
+
             return DashChat(
               key: _chatViewKey,
+              inputDisabled: isInitCourseChat,
               inverted: false,
               onSend: _onSend,
               sendOnEnter: true,
@@ -64,7 +70,14 @@ class _ChatPageState extends State<ChatPage> {
               user: ChatUser(uid: _user.id, name: _user.name),
               inputDecoration:
                   InputDecoration.collapsed(hintText: 'Add message here...'),
-              inputFooterBuilder: () => SafeArea(child: SizedBox()),
+              inputFooterBuilder: () => SafeArea(
+                child: isInitCourseChat
+                    ? _JoinChatButton(
+                        chatId: _chat.id,
+                        callback: _joinCourseChat,
+                      )
+                    : SizedBox(),
+              ),
               dateFormat: DateFormat('yyyy-MMM-dd'),
               timeFormat: DateFormat('HH:mm'),
               messages: state.messages.map((message) {
@@ -100,18 +113,52 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
+  void _joinCourseChat() {
+    setState(() => _chat = _chat.copyWith(isInit: false));
+  }
+
   void _onSend(ChatMessage message) {
     _chat = _chat.copyWith(
       lastMessage: message.text,
       lastMessageUser: message.user.name,
-      isInit: false,
     );
     if (_chat.isInit) {
+      _chat = _chat.copyWith(isInit: false);
       _chatBloc.add(AddChat(_chat));
+      context.bloc<UserBloc>().add(LoadUsers(_user.id));
     } else {
       _chatBloc.add(UpdateChat(_chat));
     }
 
     _messageBloc.add(AddMessage(_user.id, _chat.id, message.text));
+  }
+}
+
+class _JoinChatButton extends StatelessWidget {
+  final String chatId;
+  final Function callback;
+
+  const _JoinChatButton(
+      {Key key, @required this.chatId, @required this.callback})
+      : assert(chatId != null),
+        assert(callback != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final userId = context.bloc<AuthBloc>().state.user.id;
+
+    return RaisedButton(
+      onPressed: () {
+        callback();
+        context.bloc<CourseChatBloc>().add(JoinCourseChat(chatId, userId));
+      },
+      color: Theme.of(context).primaryColor,
+      shape: StadiumBorder(),
+      child: Text(
+        'Join to send messages',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
   }
 }

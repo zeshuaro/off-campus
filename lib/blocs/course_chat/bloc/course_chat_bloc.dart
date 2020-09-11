@@ -19,6 +19,8 @@ class CourseChatBloc extends Bloc<CourseChatEvent, CourseChatState> {
       yield* _mapLoadChatsToState(event);
     } else if (event is UpdateCourseChats) {
       yield* _mapUpdateChatsToState(event);
+    } else if (event is JoinCourseChat) {
+      yield* _mapJoinCourseChatToState(event);
     }
   }
 
@@ -32,5 +34,10 @@ class CourseChatBloc extends Bloc<CourseChatEvent, CourseChatState> {
   Stream<CourseChatState> _mapUpdateChatsToState(
       UpdateCourseChats event) async* {
     yield CourseChatLoaded(event.chats);
+  }
+
+  Stream<CourseChatState> _mapJoinCourseChatToState(
+      JoinCourseChat event) async* {
+    await _chatRepo.joinCourseChat(event.chatId, event.userId);
   }
 }

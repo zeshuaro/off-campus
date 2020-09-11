@@ -149,7 +149,6 @@ class _SendMessageButton extends StatelessWidget {
           type: ChatType.private,
           userIds: <String>[currUser.id, user.id],
           title: user.name,
-          isInit: true,
         );
 
         Navigator.of(context).push(ChatPage.route(chat));

@@ -47,7 +47,10 @@ class _ChatListPageState extends State<ChatListPage> {
                 ),
               );
             },
-            separatorBuilder: (context, index) => Divider(),
+            separatorBuilder: (context, index) => Divider(
+              height: 0,
+              color: Colors.black,
+            ),
             itemCount: state.chats.length,
           );
         }
