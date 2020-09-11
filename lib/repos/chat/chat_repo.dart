@@ -6,9 +6,9 @@ import 'models/models.dart';
 export 'models/models.dart';
 
 class ChatRepo {
+  static final _firestore = FirebaseFirestore.instance;
   final AuthRepo _authRepo;
-  final CollectionReference _chatsRef =
-      FirebaseFirestore.instance.collection('chats');
+  final CollectionReference _chatsRef = _firestore.collection('chats');
 
   ChatRepo(this._authRepo);
 
@@ -78,6 +78,24 @@ class ChatRepo {
       }
 
       return chats;
+    });
+  }
+
+  Future<void> joinCourseChat(String chatId, String userId) async {
+    await _firestore.runTransaction((transaction) async {
+      final ref = _chatsRef.doc(chatId);
+      final snapshot = await transaction.get(ref);
+      final data = snapshot.data();
+
+      final int numMembers = (snapshot.data()['numMembers'] ?? 0) + 1;
+      var userIds = <String>[];
+
+      if (data.containsKey('userIds')) {
+        userIds = data['userIds'];
+      }
+
+      userIds.add(userId);
+      transaction.update(ref, {'numMembers': numMembers, 'userIds': userIds});
     });
   }
 }
