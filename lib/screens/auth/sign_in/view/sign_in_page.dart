@@ -15,11 +15,15 @@ class SignInPage extends StatelessWidget {
       backgroundColor: kYellow,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: BlocProvider(
-            create: (_) => SignInCubit(context.repository<AuthRepo>()),
-            child: SignInForm(),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: BlocProvider(
+                create: (_) => SignInCubit(context.repository<AuthRepo>()),
+                child: SignInForm(),
+              ),
+            ),
           ),
         ),
       ),
