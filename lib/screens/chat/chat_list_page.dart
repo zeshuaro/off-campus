@@ -42,6 +42,8 @@ class _ChatListPageState extends State<ChatListPage> {
                   ),
                   subtitle: Text(
                     '$lastMessageUser${chat.lastMessage}',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               );
