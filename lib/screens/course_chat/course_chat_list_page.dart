@@ -5,6 +5,7 @@ import 'package:offcampus/blocs/course_chat/course_chat.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
+import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class CourseChatListPage extends StatefulWidget {
@@ -52,27 +53,31 @@ class _CourseChatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MyCard(
-      child: Padding(
-        padding: kLayoutPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              chat.title,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            WidgetPaddingSm(),
-            Row(
-              children: [
-                Icon(Icons.people, color: Colors.grey, size: 18),
-                SizedBox(width: 4),
-                Text(
-                  '${chat.numMembers} • Last message ${chat.relativeUpdatedAt}',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ],
-            ),
-          ],
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
+        child: Padding(
+          padding: kLayoutPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                chat.title,
+                style: Theme.of(context).textTheme.headline6,
+              ),
+              WidgetPaddingSm(),
+              Row(
+                children: [
+                  Icon(Icons.people, color: Colors.grey, size: 18),
+                  SizedBox(width: 4),
+                  Text(
+                    '${chat.numMembers} • Last message ${chat.relativeUpdatedAt}',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

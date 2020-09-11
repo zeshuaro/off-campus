@@ -21,7 +21,7 @@ class Chat extends Equatable {
   @JsonKey(defaultValue: <String>[])
   final List<String> userIds;
 
-  @JsonKey(defaultValue: false)
+  @JsonKey(defaultValue: true)
   final bool isInit;
 
   @JsonKey(fromJson: stringToChatType, toJson: chatTypeToString)
@@ -40,7 +40,7 @@ class Chat extends Equatable {
     this.lastMessageUser,
     this.updatedAt,
     this.numMembers,
-    this.isInit = false,
+    this.isInit = true,
   })  : assert(id != null),
         assert(userIds != null),
         assert(title != null);
