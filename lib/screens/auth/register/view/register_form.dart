@@ -55,7 +55,7 @@ class _EmailInput extends StatelessWidget {
           },
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          icon: Icon(Icons.email),
+          prefixIcon: Icon(Icons.email),
           labelText: 'Email',
           errorText: state.email.invalid ? 'Invalid email' : null,
         );
@@ -75,7 +75,7 @@ class _PasswordInput extends StatelessWidget {
               context.bloc<RegisterCubit>().passwordChanged(password),
           obscureText: true,
           textInputAction: TextInputAction.next,
-          icon: Icon(Icons.lock),
+          prefixIcon: Icon(Icons.lock),
           labelText: 'Password',
           errorText: state.password.invalid
               ? 'Password must contain least 8 characters with at least one letter and one digit'
@@ -94,7 +94,7 @@ class _NameInput extends StatelessWidget {
       builder: (context, state) {
         return MyTextField(
           onChanged: (name) => context.bloc<RegisterCubit>().nameChanged(name),
-          icon: Icon(Icons.person),
+          prefixIcon: Icon(Icons.person),
           labelText: 'Name',
           errorText: state.name.invalid
               ? 'Name must contain least 3 characters'
@@ -198,7 +198,7 @@ class _DegreeInput extends StatelessWidget {
         return MyTextField(
           onChanged: (degree) =>
               context.bloc<RegisterCubit>().degreeChanged(degree),
-          icon: Column(
+          prefixIcon: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [FaIcon(FontAwesomeIcons.graduationCap, size: 20.0)],

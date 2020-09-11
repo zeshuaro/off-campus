@@ -27,3 +27,12 @@ class UpdateUsers extends UserEvent {
   @override
   String toString() => 'UpdateUsers: { user: ${users.length} }';
 }
+
+class SearchUsers extends UserEvent {
+  final String keyword;
+
+  SearchUsers(this.keyword);
+
+  @override
+  List<Object> get props => [keyword];
+}
