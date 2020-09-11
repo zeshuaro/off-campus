@@ -1,7 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cache_manager_firebase/flutter_cache_manager_firebase.dart';
 import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
@@ -90,12 +88,10 @@ class _TopCardWidget extends StatelessWidget {
       children: [
         WidgetPadding(),
         ClipOval(
-          child: CachedNetworkImage(
-            cacheManager: FirebaseCacheManager(),
-            width: 150.0,
-            height: 150.0,
+          child: MyCachedNetworkImage(
             imageUrl: user.image,
-            fit: BoxFit.cover,
+            width: 150,
+            height: 150,
           ),
         ),
         WidgetPadding(),
