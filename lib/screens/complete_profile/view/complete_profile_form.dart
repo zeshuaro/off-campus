@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:offcampus/blocs/auth/auth.dart';
+import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/widgets/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
