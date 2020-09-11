@@ -41,15 +41,12 @@ class _HomePageState extends State<HomePage> {
             padding: kLayoutPadding,
             child: Column(
               children: [
-                MyTextField(
+                SearchBar(
+                  controller: _textController,
                   onChanged: (String string) {
                     context.bloc<UserBloc>().add(SearchUsers(string));
                   },
-                  controller: _textController,
-                  fillColor: Colors.white,
-                  isHighlightBorder: false,
                   hintText: 'Search for users',
-                  helperText: null,
                 ),
                 WidgetPadding(),
                 Expanded(
