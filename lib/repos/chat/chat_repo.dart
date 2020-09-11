@@ -23,15 +23,17 @@ class ChatRepo {
         final data = doc.data();
         final users = <Map<String, dynamic>>[];
         data['id'] = doc.id;
-        data['title'] = 'Chat';
         data['isInit'] = false;
 
-        for (var userId in data['userIds']) {
-          final user = await _authRepo.fetchMyUser(userId);
-          users.add(user.toJson());
+        if (!data.containsKey('title')) {
+          data['title'] = 'Chat';
+          for (var userId in data['userIds']) {
+            final user = await _authRepo.fetchMyUser(userId);
+            users.add(user.toJson());
 
-          if (user.id != currUserId) {
-            data['title'] = user.name;
+            if (user.id != currUserId) {
+              data['title'] = user.name;
+            }
           }
         }
 
