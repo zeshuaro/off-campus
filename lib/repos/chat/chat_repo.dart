@@ -47,6 +47,7 @@ class ChatRepo {
 
   Future<void> addChat(Chat chat) async {
     await _chatsRef.doc(chat.id).set(<String, dynamic>{
+      'type': chatTypeToString(chat.type),
       'userIds': chat.userIds,
       'lastMessage': chat.lastMessage,
       'lastMessageUser': chat.lastMessageUser,
@@ -55,10 +56,14 @@ class ChatRepo {
   }
 
   Future<void> updateChat(Chat chat) async {
-    await _chatsRef.doc(chat.id).update(<String, dynamic>{
-      'lastMessage': chat.lastMessage,
-      'lastMessageUser': chat.lastMessageUser,
-      'updatedAt': DateTime.now(),
+    await _firestore.runTransaction((transaction) async {
+      final ref = _chatsRef.doc(chat.id);
+      await transaction.get(ref);
+      transaction.update(ref, {
+        'lastMessage': chat.lastMessage,
+        'lastMessageUser': chat.lastMessageUser,
+        'updatedAt': DateTime.now(),
+      });
     });
   }
 
