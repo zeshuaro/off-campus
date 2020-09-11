@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/blocs.dart';
-import 'package:offcampus/repos/auth/auth_repo.dart';
+import 'package:offcampus/common/consts.dart';
+import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
@@ -11,13 +12,11 @@ class ChatListPage extends StatefulWidget {
 }
 
 class _ChatListPageState extends State<ChatListPage> {
-  MyUser _user;
-
   @override
   void initState() {
     super.initState();
-    _user = context.bloc<AuthBloc>().state.user;
-    context.bloc<ChatBloc>()..add(LoadChats(_user.id));
+    final user = context.bloc<AuthBloc>().state.user;
+    context.bloc<ChatBloc>()..add(LoadChats(user.id));
   }
 
   @override
@@ -27,24 +26,7 @@ class _ChatListPageState extends State<ChatListPage> {
         if (state is ChatLoaded) {
           return ListView.separated(
             itemBuilder: (context, index) {
-              final chat = state.chats[index];
-              final lastMessageUser = chat.lastMessageUser == _user.name
-                  ? ''
-                  : '${chat.lastMessageUser}: ';
-
-              return Container(
-                color: Colors.white,
-                child: ListTile(
-                  onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
-                  title: Text(
-                    chat.title,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  subtitle: Text(
-                    '$lastMessageUser${chat.lastMessage}',
-                  ),
-                ),
-              );
+              return _ChatTile(chat: state.chats[index]);
             },
             separatorBuilder: (context, index) => Divider(
               height: 0,
@@ -56,6 +38,70 @@ class _ChatListPageState extends State<ChatListPage> {
 
         return LoadingWidget();
       },
+    );
+  }
+}
+
+class _ChatTile extends StatelessWidget {
+  final Chat chat;
+
+  const _ChatTile({Key key, @required this.chat})
+      : assert(chat != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final user = context.bloc<AuthBloc>().state.user;
+    final lastMessageUser =
+        chat.lastMessageUser == user.name ? '' : '${chat.lastMessageUser}: ';
+
+    return Material(
+      child: Ink(
+        color: Colors.white,
+        child: InkWell(
+          onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
+          child: Padding(
+            padding: kLayoutPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 4,
+                      child: Text(
+                        chat.title,
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            .apply(fontWeightDelta: 2),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Text(
+                        chat.dateTime,
+                        textAlign: TextAlign.end,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .apply(color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  '$lastMessageUser${chat.lastMessage}',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

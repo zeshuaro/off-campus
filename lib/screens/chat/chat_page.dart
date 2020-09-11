@@ -49,6 +49,13 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: kYellow,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
+        leading: IconButton(
+          onPressed: () {
+            _messageBloc.add(InitMessages());
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: BlocBuilder<MessageBloc, MessageState>(
         builder: (context, state) {
@@ -64,8 +71,23 @@ class _ChatPageState extends State<ChatPage> {
               sendOnEnter: true,
               textInputAction: TextInputAction.send,
               user: ChatUser(uid: _user.id, name: _user.name),
-              inputDecoration:
-                  InputDecoration.collapsed(hintText: 'Add message here...'),
+              inputContainerStyle: BoxDecoration(
+                border: Border.all(width: 0),
+                color: Colors.grey[200],
+              ),
+              inputToolbarPadding: const EdgeInsets.symmetric(vertical: 12),
+              inputDecoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
+              ),
               inputFooterBuilder: () => SafeArea(
                 child: isInitCourseChat
                     ? _JoinChatButton(
@@ -74,8 +96,8 @@ class _ChatPageState extends State<ChatPage> {
                       )
                     : SizedBox(),
               ),
-              dateFormat: DateFormat('yyyy-MMM-dd'),
-              timeFormat: DateFormat('HH:mm'),
+              dateFormat: DateFormat('E, d MMM'),
+              timeFormat: DateFormat('hh:mm a'),
               messages: state.messages.map((message) {
                 return ChatMessage(
                   id: message.id,
@@ -93,19 +115,27 @@ class _ChatPageState extends State<ChatPage> {
               messageContainerPadding: EdgeInsets.only(left: 5.0, right: 5.0),
               alwaysShowSend: true,
               inputTextStyle: TextStyle(fontSize: 16.0),
-              inputContainerStyle: BoxDecoration(
-                border: Border.all(width: 0.0),
-                color: Colors.white,
-              ),
               shouldShowLoadEarlier: false,
               showTraillingBeforeSend: false,
               onLoadEarlier: () {},
+              sendButtonBuilder: _buildSendButton,
             );
           }
 
           return LoadingWidget();
         },
       ),
+    );
+  }
+
+  Widget _buildSendButton(Function callback) {
+    return RawMaterialButton(
+      onPressed: callback,
+      constraints: BoxConstraints(minWidth: 35, minHeight: 35),
+      child: Icon(Icons.send, color: Colors.white, size: 20),
+      shape: CircleBorder(),
+      fillColor: Colors.blue,
+      elevation: 0,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:dash_chat/dash_chat.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -64,4 +65,22 @@ class Chat extends Equatable {
   }
 
   String get relativeUpdatedAt => timeago.format(updatedAt);
+
+  String get dateTime {
+    final currDateTime = DateTime.now();
+    final today =
+        DateTime(currDateTime.year, currDateTime.month, currDateTime.day);
+    final tomorrow = today.add(Duration(days: 1));
+    final daysDiff = tomorrow.difference(updatedAt).inDays;
+
+    if (daysDiff < 1) {
+      return DateFormat('hh:mm a').format(updatedAt);
+    } else if (daysDiff < 2) {
+      return 'Yesterday';
+    } else if (daysDiff < 5) {
+      return DateFormat('EEEE').format(updatedAt);
+    }
+
+    return DateFormat('d/M/yy').format(updatedAt);
+  }
 }

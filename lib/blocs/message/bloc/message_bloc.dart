@@ -15,7 +15,9 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
 
   @override
   Stream<MessageState> mapEventToState(MessageEvent event) async* {
-    if (event is LoadMessages) {
+    if (event is InitMessages) {
+      yield MessageLoading();
+    } else if (event is LoadMessages) {
       yield* _mapLoadMessagesToState(event);
     } else if (event is AddMessage) {
       yield* _mapAddMessageToState(event);
