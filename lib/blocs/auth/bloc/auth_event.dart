@@ -14,6 +14,9 @@ class AuthUserChanged extends AuthEvent {
 
   @override
   List<Object> get props => [user];
+
+  @override
+  String toString() => 'AuthUserChanged: { uid: ${user.uid} }';
 }
 
 class AuthSignOutRequested extends AuthEvent {}
