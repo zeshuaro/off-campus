@@ -2,8 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:formz/formz.dart';
+import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 
 part 'register_cubit.g.dart';

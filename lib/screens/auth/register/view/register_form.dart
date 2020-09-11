@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:offcampus/blocs/uni/uni.dart';
+import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/auth/register/register.dart';

@@ -34,4 +34,7 @@ class UpdateMessages extends MessageEvent {
 
   @override
   List<Object> get props => [messages];
+
+  @override
+  String toString() => 'UpdateMessages: { messages: ${messages.length} }';
 }

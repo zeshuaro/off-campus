@@ -18,4 +18,7 @@ class MessageLoaded extends MessageState {
 
   @override
   List<Object> get props => [messages];
+
+  @override
+  String toString() => 'MessageLoaded: { messages: ${messages.length} }';
 }

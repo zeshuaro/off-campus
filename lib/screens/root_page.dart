@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:offcampus/blocs/auth/auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/screens/complete_profile/complete_profile.dart';
 import 'package:offcampus/screens/navigation_page.dart';
 

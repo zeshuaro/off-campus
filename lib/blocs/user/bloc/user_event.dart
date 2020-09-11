@@ -23,4 +23,7 @@ class UpdateUsers extends UserEvent {
 
   @override
   List<Object> get props => [users];
+
+  @override
+  String toString() => 'UpdateUsers: { user: ${users.length} }';
 }

@@ -41,4 +41,7 @@ class UpdateChats extends ChatEvent {
 
   @override
   List<Object> get props => [chats];
+
+  @override
+  String toString() => 'UpdateChats: { chats: ${chats.length} }';
 }
