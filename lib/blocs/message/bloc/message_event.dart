@@ -7,6 +7,8 @@ abstract class MessageEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitMessages extends MessageEvent {}
+
 class LoadMessages extends MessageEvent {
   final String chatId;
 
