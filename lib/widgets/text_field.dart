@@ -56,7 +56,7 @@ class _MyTextFieldState extends State<MyTextField> {
           borderSide: _isFocused ? BorderSide() : BorderSide.none,
           borderRadius: BorderRadius.circular(30.0),
         ),
-        contentPadding: EdgeInsets.zero,
+        contentPadding: const EdgeInsets.only(right: 16),
         prefixIcon: widget.icon,
         labelText: widget.labelText,
         helperText: widget.helperText,
