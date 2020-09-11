@@ -24,13 +24,17 @@ class RegisterPage extends StatelessWidget {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: BlocProvider<RegisterCubit>(
-            create: (_) => RegisterCubit(
-              context.repository<AuthRepo>(),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: BlocProvider<RegisterCubit>(
+                create: (_) => RegisterCubit(
+                  context.repository<AuthRepo>(),
+                ),
+                child: RegisterForm(),
+              ),
             ),
-            child: RegisterForm(),
           ),
         ),
       ),

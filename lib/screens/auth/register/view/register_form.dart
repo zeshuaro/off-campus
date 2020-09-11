@@ -19,27 +19,23 @@ class RegisterForm extends StatelessWidget {
             ..showSnackBar(SnackBar(content: Text(state.errorMessage)));
         }
       },
-      child: Center(
-        child: SingleChildScrollView(
-          child: MyCard(
-            child: Padding(
-              padding: kLayoutPadding,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  WidgetPaddingSm(),
-                  _EmailInput(),
-                  WidgetPaddingSm(),
-                  _PasswordInput(),
-                  WidgetPaddingSm(),
-                  _NameInput(),
-                  _SelectUniFaculty(),
-                  _DegreeInput(),
-                  WidgetPadding(),
-                  _RegisterButton(),
-                ],
-              ),
-            ),
+      child: MyCard(
+        child: Padding(
+          padding: kLayoutPadding,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              WidgetPaddingSm(),
+              _EmailInput(),
+              WidgetPaddingSm(),
+              _PasswordInput(),
+              WidgetPaddingSm(),
+              _NameInput(),
+              _SelectUniFaculty(),
+              _DegreeInput(),
+              WidgetPadding(),
+              _RegisterButton(),
+            ],
           ),
         ),
       ),

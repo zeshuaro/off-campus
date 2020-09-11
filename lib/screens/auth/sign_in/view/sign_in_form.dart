@@ -25,19 +25,17 @@ class SignInForm extends StatelessWidget {
           MyCard(
             child: Padding(
               padding: kLayoutPadding,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    WidgetPaddingSm(),
-                    _EmailInput(),
-                    WidgetPaddingSm(),
-                    _PasswordInput(),
-                    WidgetPaddingSm(),
-                    _SignInButton(),
-                    WidgetPaddingSm(),
-                    _RegisterButton(),
-                  ],
-                ),
+              child: Column(
+                children: [
+                  WidgetPaddingSm(),
+                  _EmailInput(),
+                  WidgetPaddingSm(),
+                  _PasswordInput(),
+                  WidgetPaddingSm(),
+                  _SignInButton(),
+                  WidgetPaddingSm(),
+                  _RegisterButton(),
+                ],
               ),
             ),
           ),

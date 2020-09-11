@@ -19,9 +19,13 @@ class CompleteProfilePage extends StatelessWidget {
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: Padding(
-          padding: const EdgeInsets.all(36.0),
-          child: CompleteProfileForm(),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(36.0),
+              child: CompleteProfileForm(),
+            ),
+          ),
         ),
       ),
     );
