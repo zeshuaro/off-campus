@@ -43,10 +43,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 SearchBar(
                   controller: _textController,
+                  hintText: 'Search for users',
                   onChanged: (String string) {
                     context.bloc<UserBloc>().add(SearchUsers(string));
                   },
-                  hintText: 'Search for users',
+                  clearTextCallback: () => setState(() {}),
                 ),
                 WidgetPadding(),
                 Expanded(

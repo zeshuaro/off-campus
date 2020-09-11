@@ -55,7 +55,7 @@ class _EmailInput extends StatelessWidget {
           onChanged: (email) => context.bloc<SignInCubit>().emailChanged(email),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          icon: Icon(Icons.email),
+          prefixIcon: Icon(Icons.email),
           labelText: 'Email',
           errorText: state.email.invalid ? 'Invalid email' : null,
         );
@@ -74,7 +74,7 @@ class _PasswordInput extends StatelessWidget {
           onChanged: (password) =>
               context.bloc<SignInCubit>().passwordChanged(password),
           obscureText: true,
-          icon: Icon(Icons.lock),
+          prefixIcon: Icon(Icons.lock),
           labelText: 'Password',
           errorText: state.password.invalid
               ? 'Password must be at least 8 characters with at least one letter and one digit'

@@ -5,7 +5,8 @@ class MyTextField extends StatefulWidget {
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
   final bool obscureText;
-  final Widget icon;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
   final String labelText;
   final String hintText;
   final String helperText;
@@ -20,7 +21,8 @@ class MyTextField extends StatefulWidget {
     this.textInputAction,
     this.keyboardType,
     this.obscureText = false,
-    this.icon,
+    this.prefixIcon,
+    this.suffixIcon,
     this.labelText,
     this.hintText,
     this.helperText = '',
@@ -68,7 +70,8 @@ class _MyTextFieldState extends State<MyTextField> {
           borderRadius: BorderRadius.circular(30.0),
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-        prefixIcon: widget.icon,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: widget.suffixIcon,
         labelText: widget.labelText,
         hintText: widget.hintText,
         helperText: widget.helperText,
