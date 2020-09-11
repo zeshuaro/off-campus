@@ -18,6 +18,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _textController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -30,22 +32,48 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state is UserLoaded) {
-          return state.users.isNotEmpty
-              ? ListView.separated(
-                  padding: kLayoutPadding,
-                  itemCount: state.users.length,
-                  itemBuilder: (context, index) {
-                    return _UserCard(user: state.users[index]);
+          var users = state.users;
+          if (_textController.text.isNotEmpty) {
+            users = state.searchResults;
+          }
+
+          return Padding(
+            padding: kLayoutPadding,
+            child: Column(
+              children: [
+                MyTextField(
+                  onChanged: (String string) {
+                    context.bloc<UserBloc>().add(SearchUsers(string));
                   },
-                  separatorBuilder: (context, index) => SizedBox(height: 36),
-                )
-              : Center(
-                  child: Text(
-                    'Looks like you\'ve started a conversation with every single member on OffCampus!',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                );
+                  controller: _textController,
+                  fillColor: Colors.white,
+                  isHighlightBorder: false,
+                  hintText: 'Search for users',
+                  helperText: null,
+                ),
+                WidgetPadding(),
+                Expanded(
+                  child: users.isNotEmpty
+                      ? ListView.separated(
+                          shrinkWrap: true,
+                          itemCount: users.length,
+                          itemBuilder: (context, index) {
+                            return _UserCard(user: users[index]);
+                          },
+                          separatorBuilder: (context, index) =>
+                              SizedBox(height: 36),
+                        )
+                      : Center(
+                          child: Text(
+                            'No users found',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                ),
+              ],
+            ),
+          );
         }
 
         return LoadingWidget();

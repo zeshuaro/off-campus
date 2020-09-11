@@ -7,8 +7,12 @@ class MyTextField extends StatefulWidget {
   final bool obscureText;
   final Widget icon;
   final String labelText;
+  final String hintText;
   final String helperText;
   final String errorText;
+  final Color fillColor;
+  final bool isHighlightBorder;
+  final TextEditingController controller;
 
   const MyTextField({
     Key key,
@@ -18,8 +22,12 @@ class MyTextField extends StatefulWidget {
     this.obscureText = false,
     this.icon,
     this.labelText,
+    this.hintText,
     this.helperText = '',
     this.errorText,
+    this.fillColor = const Color(0xffeeeeee),
+    this.isHighlightBorder = true,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -42,6 +50,7 @@ class _MyTextFieldState extends State<MyTextField> {
   Widget build(BuildContext context) {
     return TextField(
       focusNode: _focusNode,
+      controller: widget.controller,
       onChanged: widget.onChanged,
       onSubmitted: widget.textInputAction == TextInputAction.next
           ? (value) => FocusScope.of(context).nextFocus()
@@ -51,14 +60,17 @@ class _MyTextFieldState extends State<MyTextField> {
       obscureText: widget.obscureText,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.grey[200],
+        fillColor: widget.fillColor,
         border: OutlineInputBorder(
-          borderSide: _isFocused ? BorderSide() : BorderSide.none,
+          borderSide: widget.isHighlightBorder && _isFocused
+              ? BorderSide()
+              : BorderSide.none,
           borderRadius: BorderRadius.circular(30.0),
         ),
-        contentPadding: const EdgeInsets.only(right: 16),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 16),
         prefixIcon: widget.icon,
         labelText: widget.labelText,
+        hintText: widget.hintText,
         helperText: widget.helperText,
         errorText: widget.errorText,
         errorMaxLines: 2,

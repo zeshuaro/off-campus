@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/user/user_repo.dart';
+
+part 'user_bloc.g.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -19,6 +23,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapLoadUsersToState(event);
     } else if (event is UpdateUsers) {
       yield* _mapUpdateUsersToState(event);
+    } else if (event is SearchUsers) {
+      yield* _mapSearchUsersToState(event);
     }
   }
 
@@ -30,6 +36,16 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   Stream<UserState> _mapUpdateUsersToState(UpdateUsers event) async* {
-    yield UserLoaded(event.users);
+    yield UserLoaded(users: event.users);
+  }
+
+  Stream<UserState> _mapSearchUsersToState(SearchUsers event) async* {
+    final currState = state;
+    if (currState is UserLoaded) {
+      final users = List<MyUser>.from(currState.users)
+          .where((user) => user.name.toLowerCase().contains(event.keyword))
+          .toList();
+      yield currState.copyWith(searchResults: users);
+    }
   }
 }
