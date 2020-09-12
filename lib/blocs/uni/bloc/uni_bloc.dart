@@ -10,23 +10,23 @@ part 'uni_state.dart';
 class UniBloc extends Bloc<UniEvent, UniState> {
   final UniRepo _uniRepo;
 
-  UniBloc(this._uniRepo) : super(UniInitial());
+  UniBloc(this._uniRepo) : super(UniState.initial());
 
   @override
   Stream<UniState> mapEventToState(UniEvent event) async* {
     if (event is FetchUnis) {
-      yield* _mapAuthUserChangedToState(event);
+      yield* _mapFetchUnisToState(event);
     }
   }
 
-  Stream<UniState> _mapAuthUserChangedToState(FetchUnis event) async* {
+  Stream<UniState> _mapFetchUnisToState(FetchUnis event) async* {
     final currState = state;
-    if (currState is UniInitial) {
+    if (currState.status == UniStatus.initial) {
       try {
         final unis = await _uniRepo.fetchUnis();
-        yield UniSuccess(unis);
+        yield UniState.succeed(unis);
       } catch (_) {
-        yield UniFailure();
+        yield UniState.failed();
       }
     }
   }
