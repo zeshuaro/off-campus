@@ -24,16 +24,24 @@ class _ChatListPageState extends State<ChatListPage> {
     return BlocBuilder<ChatBloc, ChatState>(
       builder: (context, state) {
         if (state is ChatLoaded) {
-          return ListView.separated(
-            itemBuilder: (context, index) {
-              return _ChatTile(chat: state.chats[index]);
-            },
-            separatorBuilder: (context, index) => Divider(
-              height: 0,
-              color: Colors.black,
-            ),
-            itemCount: state.chats.length,
-          );
+          return state.chats.isNotEmpty
+              ? ListView.separated(
+                  itemBuilder: (context, index) {
+                    return _ChatTile(chat: state.chats[index]);
+                  },
+                  separatorBuilder: (context, index) => Divider(
+                    height: 0,
+                    color: Colors.black,
+                  ),
+                  itemCount: state.chats.length,
+                )
+              : Center(
+                  child: Text(
+                    'No chats found',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                );
         }
 
         return LoadingWidget();
