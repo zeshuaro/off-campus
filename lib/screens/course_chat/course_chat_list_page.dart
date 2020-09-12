@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
-import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/screens/chat/chat_page.dart';
 import 'package:offcampus/widgets/widgets.dart';
@@ -13,13 +12,19 @@ class CourseChatListPage extends StatefulWidget {
 }
 
 class _CourseChatListPageState extends State<CourseChatListPage> {
-  MyUser _user;
+  final _textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _user = context.bloc<AuthBloc>().state.user;
-    context.bloc<CourseChatBloc>()..add(LoadCourseChats(_user.id));
+    final user = context.bloc<AuthBloc>().state.user;
+    context.bloc<CourseChatBloc>()..add(LoadCourseChats(user.id));
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 
   @override
@@ -27,12 +32,45 @@ class _CourseChatListPageState extends State<CourseChatListPage> {
     return BlocBuilder<CourseChatBloc, CourseChatState>(
       builder: (context, state) {
         if (state is CourseChatLoaded) {
-          return ListView.builder(
+          var chats = state.chats;
+          if (_textController.text.isNotEmpty) {
+            chats = state.searchResults;
+          }
+
+          return Padding(
             padding: kLayoutPadding,
-            itemCount: state.chats.length,
-            itemBuilder: (context, index) {
-              return _CourseChatCard(chat: state.chats[index]);
-            },
+            child: Column(
+              children: [
+                SearchBar(
+                  controller: _textController,
+                  hintText: 'Search for course chats',
+                  onChanged: (String string) {
+                    context
+                        .bloc<CourseChatBloc>()
+                        .add(SearchCourseChats(string));
+                  },
+                  clearTextCallback: () => setState(() {}),
+                ),
+                WidgetPadding(),
+                Expanded(
+                  child: chats.isNotEmpty
+                      ? ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: chats.length,
+                          itemBuilder: (context, index) {
+                            return _CourseChatCard(chat: chats[index]);
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                            'No course chats found',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                        ),
+                ),
+              ],
+            ),
           );
         }
 

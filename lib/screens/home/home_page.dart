@@ -9,10 +9,6 @@ import 'package:offcampus/widgets/widgets.dart';
 import 'package:slimy_card/slimy_card.dart';
 
 class HomePage extends StatefulWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => HomePage());
-  }
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -25,6 +21,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
     context.bloc<UserBloc>()..add(LoadUsers(user.id));
+  }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
   }
 
   @override

@@ -37,7 +37,7 @@ class _NavigationPageState extends State<NavigationPage> {
         children: [
           _currIndex != _chatsIndex
               ? Container(
-                  margin: const EdgeInsets.only(top: 100.0),
+                  margin: const EdgeInsets.only(top: 120.0),
                   decoration: BoxDecoration(
                     color: Colors.grey[100],
                     borderRadius: BorderRadius.only(
