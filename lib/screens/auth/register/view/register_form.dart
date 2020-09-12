@@ -111,38 +111,36 @@ class _SelectUniFaculty extends StatefulWidget {
 }
 
 class _SelectUniFacultyState extends State<_SelectUniFaculty> {
-  List<Uni> _unis = <Uni>[];
+  List<Uni> _unis;
+  List<String> _uniNames;
   Uni _uni;
   String _uniName;
   String _faculty;
 
   @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<UniBloc, UniState>(
-      builder: (context, state) {
-        List<String> uniNames;
-        if (state is UniSuccess) {
-          _unis = state.unis;
-          uniNames = _unis.map((uni) => uni.name).toList();
-        }
+  void initState() {
+    super.initState();
+    _unis = context.bloc<UniBloc>().state.unis;
+    _uniNames = _unis.map((uni) => uni.name).toList();
+  }
 
-        return Column(
-          children: [
-            SelectField(
-              label: 'University',
-              selected: _uniName,
-              onTap: () => _onUniTap(uniNames),
-            ),
-            WidgetPadding(),
-            SelectField(
-              label: 'Faculty',
-              selected: _faculty,
-              onTap: _onFacultyTap,
-            ),
-            WidgetPadding(),
-          ],
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SelectField(
+          label: 'University',
+          selected: _uniName,
+          onTap: () => _onUniTap(_uniNames),
+        ),
+        WidgetPadding(),
+        SelectField(
+          label: 'Faculty',
+          selected: _faculty,
+          onTap: _onFacultyTap,
+        ),
+        WidgetPadding(),
+      ],
     );
   }
 
