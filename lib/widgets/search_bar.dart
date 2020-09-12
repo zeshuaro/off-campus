@@ -24,6 +24,7 @@ class SearchBar extends StatelessWidget {
       isHighlightBorder: false,
       hintText: hintText,
       helperText: null,
+      prefixIcon: Icon(Icons.search),
       suffixIcon: controller?.text?.isNotEmpty == true
           ? IconButton(
               onPressed: () {

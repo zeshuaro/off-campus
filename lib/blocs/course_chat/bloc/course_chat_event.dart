@@ -39,3 +39,12 @@ class JoinCourseChat extends CourseChatEvent {
   @override
   List<Object> get props => [chatId, userId];
 }
+
+class SearchCourseChats extends CourseChatEvent {
+  final String keyword;
+
+  SearchCourseChats(this.keyword);
+
+  @override
+  List<Object> get props => [keyword];
+}
