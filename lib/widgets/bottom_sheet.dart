@@ -22,8 +22,9 @@ class MyBottomSheet {
         options: options,
         callback: callback,
       ),
-      containerWidget: (context, animation, child) =>
-          _FloatingModal(child: child),
+      containerWidget: (context, animation, child) {
+        return FloatingModal(child: child);
+      },
       expand: false,
     );
   }
@@ -97,10 +98,10 @@ class _OptionTile extends StatelessWidget {
   }
 }
 
-class _FloatingModal extends StatelessWidget {
+class FloatingModal extends StatelessWidget {
   final Widget child;
 
-  const _FloatingModal({Key key, this.child}) : super(key: key);
+  const FloatingModal({Key key, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

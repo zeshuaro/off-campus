@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:offcampus/common/consts.dart';
+import 'package:offcampus/widgets/widgets.dart';
 
 typedef CallbackFunc = void Function(String string);
 
@@ -30,8 +30,9 @@ class FilterBottomSheet {
         facultyCallback: facultyCallback,
         selectedFaculty: selectedFaculty,
       ),
-      containerWidget: (context, animation, child) =>
-          _FloatingModal(child: child),
+      containerWidget: (context, animation, child) {
+        return FloatingModal(child: child);
+      },
       expand: false,
     );
   }
@@ -132,28 +133,6 @@ class _OptionTile extends StatelessWidget {
         child: Text(
           option,
           style: TextStyle(fontSize: 16, fontWeight: fontWeight),
-        ),
-      ),
-    );
-  }
-}
-
-class _FloatingModal extends StatelessWidget {
-  final Widget child;
-
-  const _FloatingModal({Key key, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final bottomPadding = Device.get().isIphoneX ? 0.0 : 20.0;
-
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, bottomPadding),
-        child: Material(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.circular(12),
-          child: child,
         ),
       ),
     );
