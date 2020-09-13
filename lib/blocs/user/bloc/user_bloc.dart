@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/user/user_repo.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 part 'user_bloc.g.dart';
 
@@ -28,14 +29,19 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapSearchUsersToState(event);
     } else if (event is FilterUsers) {
       yield* _mapFilterUsersToState(event);
+    } else if (event is SortUsers) {
+      yield* _mapSortUsersToState(event);
     }
   }
 
   Stream<UserState> _mapLoadUsersToState(LoadUsers event) async* {
     await _usersSubscription?.cancel();
-    _usersSubscription = _userRepo.users(event.currUserId).listen(
-          (users) => add(UpdateUsers(users)),
-        );
+    _usersSubscription = _userRepo.users(event.currUser.id).listen(
+      (users) {
+        users.sort((a, b) => -_userComparator(a, b, event.currUser));
+        add(UpdateUsers(users));
+      },
+    );
   }
 
   Stream<UserState> _mapUpdateUsersToState(UpdateUsers event) async* {
@@ -69,5 +75,29 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       }
       yield currState.copyWith(filteredResults: users);
     }
+  }
+
+  Stream<UserState> _mapSortUsersToState(SortUsers event) async* {
+    final currState = state;
+    if (currState is UserLoaded) {
+      var users = List<MyUser>.from(currState.users);
+      if (event.sortBy == kMostSimilar) {
+        users.sort((a, b) => -_userComparator(a, b, event.currUser));
+      } else if (event.sortBy == kLeastSimilar) {
+        users.sort((a, b) => _userComparator(a, b, event.currUser));
+      } else if (event.sortBy == kRandom) {
+        users.shuffle();
+      }
+      yield currState.copyWith(users: users);
+    }
+  }
+
+  int _userComparator(MyUser a, MyUser b, MyUser currUser) {
+    return (a.university.similarityTo(currUser.university) +
+            a.faculty.similarityTo(currUser.faculty) +
+            a.degree.similarityTo(currUser.degree))
+        .compareTo(b.university.similarityTo(currUser.university) +
+            b.faculty.similarityTo(currUser.faculty) +
+            b.degree.similarityTo(currUser.degree));
   }
 }

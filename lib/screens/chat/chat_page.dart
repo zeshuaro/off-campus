@@ -151,7 +151,7 @@ class _ChatPageState extends State<ChatPage> {
     if (_chat.isInit) {
       _chat = _chat.copyWith(isInit: false);
       _chatBloc.add(AddChat(_chat));
-      context.bloc<UserBloc>().add(LoadUsers(_user.id));
+      context.bloc<UserBloc>().add(LoadUsers(_user));
     } else {
       _chatBloc.add(UpdateChat(_chat));
     }

@@ -8,12 +8,12 @@ abstract class UserEvent extends Equatable {
 }
 
 class LoadUsers extends UserEvent {
-  final String currUserId;
+  final MyUser currUser;
 
-  LoadUsers(this.currUserId);
+  LoadUsers(this.currUser);
 
   @override
-  List<Object> get props => [currUserId];
+  List<Object> get props => [currUser];
 }
 
 class UpdateUsers extends UserEvent {
@@ -45,4 +45,14 @@ class FilterUsers extends UserEvent {
 
   @override
   List<Object> get props => [university, faculty];
+}
+
+class SortUsers extends UserEvent {
+  final MyUser currUser;
+  final String sortBy;
+
+  SortUsers(this.currUser, this.sortBy);
+
+  @override
+  List<Object> get props => [currUser, sortBy];
 }
