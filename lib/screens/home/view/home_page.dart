@@ -108,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                             }
                           },
                           separatorBuilder: (context, index) {
-                            return SizedBox(height: index == 0 ? 16 : 36);
+                            return SizedBox(height: index == 0 ? 24 : 36);
                           },
                         )
                       : Center(

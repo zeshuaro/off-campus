@@ -24,25 +24,56 @@ class FilterSortOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () => FilterBottomSheet.show(
-        context: context,
-        uniOptions: uniOptions,
-        uniCallback: uniCallback,
-        selectedUni: selectedUni,
-        facultyOptions: facultyOptions,
-        facultyCallback: facultyCallback,
-        selectedFaculty: selectedFaculty,
-      ),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            'Filter',
-            style: TextStyle(color: Colors.black54),
+          InkWell(
+            onTap: () => FilterBottomSheet.show(
+              context: context,
+              uniOptions: uniOptions,
+              uniCallback: uniCallback,
+              selectedUni: selectedUni,
+              facultyOptions: facultyOptions,
+              facultyCallback: facultyCallback,
+              selectedFaculty: selectedFaculty,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Filter',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black54,
+                  ),
+                ],
+              ),
+            ),
           ),
-          Icon(
-            Icons.arrow_drop_down,
-            color: Colors.black54,
+          InkWell(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Sort',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black54,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
