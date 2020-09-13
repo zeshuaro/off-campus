@@ -7,6 +7,14 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Off Campus')));
+    return Scaffold(
+      body: Center(
+        child: Image.asset(
+          'assets/images/icon_trans.png',
+          width: 120,
+          height: 120,
+        ),
+      ),
+    );
   }
 }
