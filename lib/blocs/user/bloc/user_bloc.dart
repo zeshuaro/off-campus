@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/user/user_repo.dart';
 
@@ -25,6 +26,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapUpdateUsersToState(event);
     } else if (event is SearchUsers) {
       yield* _mapSearchUsersToState(event);
+    } else if (event is FilterUsers) {
+      yield* _mapFilterUsersToState(event);
     }
   }
 
@@ -49,7 +52,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
             user.faculty.toLowerCase().contains(keyword) ||
             user.degree.toLowerCase().contains(keyword);
       }).toList();
-      yield currState.copyWith(searchResults: users);
+      yield currState.copyWith(filteredResults: users);
+    }
+  }
+
+  Stream<UserState> _mapFilterUsersToState(FilterUsers event) async* {
+    final currState = state;
+    if (currState is UserLoaded) {
+      var users = List<MyUser>.from(currState.users);
+      if (event.university != null && event.university != kAllKeyword) {
+        users =
+            users.where((user) => user.university == event.university).toList();
+      }
+      if (event.faculty != null && event.faculty != kAllKeyword) {
+        users = users.where((user) => user.faculty == event.faculty).toList();
+      }
+      yield currState.copyWith(filteredResults: users);
     }
   }
 }

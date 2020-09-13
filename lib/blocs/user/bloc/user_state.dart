@@ -12,15 +12,15 @@ class UserLoading extends UserState {}
 @CopyWith()
 class UserLoaded extends UserState {
   final List<MyUser> users;
-  final List<MyUser> searchResults;
+  final List<MyUser> filteredResults;
 
-  UserLoaded({@required this.users, this.searchResults = const <MyUser>[]})
+  UserLoaded({@required this.users, this.filteredResults = const <MyUser>[]})
       : assert(users != null);
 
   @override
-  List<Object> get props => [users, searchResults];
+  List<Object> get props => [users, filteredResults];
 
   @override
   String toString() =>
-      'UserLoaded: { users: ${users.length}, searchResults: ${searchResults.length} }';
+      'UserLoaded: { users: ${users.length}, searchResults: ${filteredResults.length} }';
 }

@@ -4,7 +4,9 @@ import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
+import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/chat/chat_page.dart';
+import 'package:offcampus/screens/home/filter_bottom_sheet.dart';
 import 'package:offcampus/widgets/widgets.dart';
 import 'package:slimy_card/slimy_card.dart';
 
@@ -15,12 +17,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _textController = TextEditingController();
+  UserBloc _userBloc;
+  List<Uni> _unis;
+  final _uniNames = <String>[kAllKeyword];
+  Uni _uni;
+  String _uniName = kAllKeyword;
+  String _faculty = kAllKeyword;
 
   @override
   void initState() {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
-    context.bloc<UserBloc>()..add(LoadUsers(user.id));
+    _userBloc = context.bloc<UserBloc>()..add(LoadUsers(user.id));
+    _unis = context.bloc<UniBloc>().state.unis;
+    _uniNames.addAll(_unis.map((uni) => uni.name));
   }
 
   @override
@@ -35,8 +45,10 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is UserLoaded) {
           var users = state.users;
-          if (_textController.text.isNotEmpty) {
-            users = state.searchResults;
+          if (_textController.text?.isNotEmpty == true ||
+              _uniName != kAllKeyword ||
+              _faculty != kAllKeyword) {
+            users = state.filteredResults;
           }
 
           return Padding(
@@ -47,21 +59,50 @@ class _HomePageState extends State<HomePage> {
                   controller: _textController,
                   hintText: 'Search for users',
                   onChanged: (String string) {
-                    context.bloc<UserBloc>().add(SearchUsers(string));
+                    _userBloc.add(SearchUsers(string));
                   },
-                  clearTextCallback: () => setState(() {}),
+                  clearTextCallback: () {
+                    _userBloc.add(
+                      FilterUsers(university: _uniName, faculty: _faculty),
+                    );
+                  },
                 ),
-                WidgetPadding(),
+                WidgetPaddingSm(),
                 Expanded(
                   child: users.isNotEmpty
                       ? ListView.separated(
                           shrinkWrap: true,
-                          itemCount: users.length,
+                          itemCount: users.length + 1,
                           itemBuilder: (context, index) {
-                            return _UserCard(user: users[index]);
+                            if (index == 0) {
+                              return FlatButton(
+                                onPressed: () => FilterBottomSheet.show(
+                                  context: context,
+                                  uniOptions: _uniNames,
+                                  uniCallback: _setUni,
+                                  selectedUni: _uniName,
+                                  facultyOptions:
+                                      _uni != null ? _uni.allFaculties : null,
+                                  facultyCallback: _setFaculty,
+                                  selectedFaculty: _faculty,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Filter',
+                                      style: TextStyle(color: Colors.black54),
+                                    ),
+                                    Icon(Icons.arrow_drop_down,
+                                        color: Colors.black54),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return _UserCard(user: users[index - 1]);
+                            }
                           },
                           separatorBuilder: (context, index) =>
-                              SizedBox(height: 36),
+                              SizedBox(height: index == 0 ? 16 : 36),
                         )
                       : Center(
                           child: Text(
@@ -79,6 +120,23 @@ class _HomePageState extends State<HomePage> {
         return LoadingWidget();
       },
     );
+  }
+
+  void _setUni(String uniName) {
+    setState(() {
+      _uni = _unis.firstWhere(
+        (element) => element.name == uniName,
+        orElse: () => null,
+      );
+      _uniName = uniName;
+      _faculty = kAllKeyword;
+    });
+    _userBloc.add(FilterUsers(university: uniName));
+  }
+
+  void _setFaculty(String faculty) {
+    setState(() => _faculty = faculty);
+    _userBloc.add(FilterUsers(faculty: faculty));
   }
 }
 
