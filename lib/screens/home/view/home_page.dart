@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
-    _userBloc = context.bloc<UserBloc>()..add(LoadUsers(user.id));
+    _userBloc = context.bloc<UserBloc>()..add(LoadUsers(user));
     _unis = context.bloc<UniBloc>().state.unis;
     _uniNames.addAll(_unis.map((uni) => uni.name));
   }
