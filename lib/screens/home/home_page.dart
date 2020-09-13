@@ -68,36 +68,41 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 WidgetPaddingSm(),
-                FlatButton(
-                  onPressed: () => FilterBottomSheet.show(
-                    context: context,
-                    uniOptions: _uniNames,
-                    uniCallback: _setUni,
-                    selectedUni: _uniName,
-                    facultyOptions: _uni != null ? _uni.allFaculties : null,
-                    facultyCallback: _setFaculty,
-                    selectedFaculty: _faculty,
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Filter',
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                      Icon(Icons.arrow_drop_down, color: Colors.black54),
-                    ],
-                  ),
-                ),
                 Expanded(
                   child: users.isNotEmpty
                       ? ListView.separated(
                           shrinkWrap: true,
-                          itemCount: users.length,
+                          itemCount: users.length + 1,
                           itemBuilder: (context, index) {
-                            return _UserCard(user: users[index]);
+                            if (index == 0) {
+                              return FlatButton(
+                                onPressed: () => FilterBottomSheet.show(
+                                  context: context,
+                                  uniOptions: _uniNames,
+                                  uniCallback: _setUni,
+                                  selectedUni: _uniName,
+                                  facultyOptions:
+                                      _uni != null ? _uni.allFaculties : null,
+                                  facultyCallback: _setFaculty,
+                                  selectedFaculty: _faculty,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Filter',
+                                      style: TextStyle(color: Colors.black54),
+                                    ),
+                                    Icon(Icons.arrow_drop_down,
+                                        color: Colors.black54),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              return _UserCard(user: users[index - 1]);
+                            }
                           },
                           separatorBuilder: (context, index) =>
-                              SizedBox(height: 36),
+                              SizedBox(height: index == 0 ? 16 : 36),
                         )
                       : Center(
                           child: Text(
