@@ -38,7 +38,7 @@ class _CourseChatListPageState extends State<CourseChatListPage> {
           }
 
           return Padding(
-            padding: kLayoutPadding,
+            padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Column(
               children: [
                 SearchBar(
@@ -56,6 +56,7 @@ class _CourseChatListPageState extends State<CourseChatListPage> {
                   child: chats.isNotEmpty
                       ? ListView.builder(
                           shrinkWrap: true,
+                          padding: const EdgeInsets.only(bottom: 16),
                           itemCount: chats.length,
                           itemBuilder: (context, index) {
                             return _CourseChatCard(chat: chats[index]);
