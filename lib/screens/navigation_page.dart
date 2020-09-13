@@ -5,7 +5,7 @@ import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/chat/chat_list_page.dart';
 import 'package:offcampus/screens/course_chat/course_chat_list_page.dart';
-import 'package:offcampus/screens/home/home_page.dart';
+import 'package:offcampus/screens/home/home.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
