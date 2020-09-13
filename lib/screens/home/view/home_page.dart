@@ -6,7 +6,7 @@ import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 import 'package:offcampus/repos/uni/uni_repo.dart';
 import 'package:offcampus/screens/chat/chat_page.dart';
-import 'package:offcampus/screens/home/filter_bottom_sheet.dart';
+import 'package:offcampus/screens/home/widgets/widgets.dart';
 import 'package:offcampus/widgets/widgets.dart';
 import 'package:slimy_card/slimy_card.dart';
 
