@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           }
 
           return Padding(
-            padding: kLayoutPadding,
+            padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Column(
               children: [
                 SearchBar(
@@ -84,6 +84,7 @@ class _HomePageState extends State<HomePage> {
       child: users.isNotEmpty
           ? ListView.separated(
               shrinkWrap: true,
+              padding: const EdgeInsets.only(bottom: 16),
               itemCount: users.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
