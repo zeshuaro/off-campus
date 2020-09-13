@@ -17,17 +17,18 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _textController = TextEditingController();
+  UserBloc _userBloc;
   List<Uni> _unis;
-  final _uniNames = <String>['All'];
+  final _uniNames = <String>[kAllKeyword];
   Uni _uni;
-  String _uniName = 'All';
-  String _faculty = 'All';
+  String _uniName = kAllKeyword;
+  String _faculty = kAllKeyword;
 
   @override
   void initState() {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
-    context.bloc<UserBloc>()..add(LoadUsers(user.id));
+    _userBloc = context.bloc<UserBloc>()..add(LoadUsers(user.id));
     _unis = context.bloc<UniBloc>().state.unis;
     _uniNames.addAll(_unis.map((uni) => uni.name));
   }
@@ -44,8 +45,10 @@ class _HomePageState extends State<HomePage> {
       builder: (context, state) {
         if (state is UserLoaded) {
           var users = state.users;
-          if (_textController.text.isNotEmpty) {
-            users = state.searchResults;
+          if (_textController.text?.isNotEmpty == true ||
+              _uniName != kAllKeyword ||
+              _faculty != kAllKeyword) {
+            users = state.filteredResults;
           }
 
           return Padding(
@@ -56,9 +59,13 @@ class _HomePageState extends State<HomePage> {
                   controller: _textController,
                   hintText: 'Search for users',
                   onChanged: (String string) {
-                    context.bloc<UserBloc>().add(SearchUsers(string));
+                    _userBloc.add(SearchUsers(string));
                   },
-                  clearTextCallback: () => setState(() {}),
+                  clearTextCallback: () {
+                    _userBloc.add(
+                      FilterUsers(university: _uniName, faculty: _faculty),
+                    );
+                  },
                 ),
                 WidgetPaddingSm(),
                 FlatButton(
@@ -117,11 +124,15 @@ class _HomePageState extends State<HomePage> {
         orElse: () => null,
       );
       _uniName = uniName;
-      _faculty = 'All';
+      _faculty = kAllKeyword;
     });
+    _userBloc.add(FilterUsers(university: uniName));
   }
 
-  void _setFaculty(String faculty) => setState(() => _faculty = faculty);
+  void _setFaculty(String faculty) {
+    setState(() => _faculty = faculty);
+    _userBloc.add(FilterUsers(faculty: faculty));
+  }
 }
 
 class _UserCard extends StatelessWidget {

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:offcampus/common/consts.dart';
 
 part 'uni.g.dart';
 
@@ -17,5 +18,5 @@ class Uni extends Equatable {
   @override
   List<Object> get props => [name, logo, faculties];
 
-  List<String> get allFaculties => <String>['All', ...faculties];
+  List<String> get allFaculties => <String>[kAllKeyword, ...faculties];
 }

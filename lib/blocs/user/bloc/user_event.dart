@@ -36,3 +36,13 @@ class SearchUsers extends UserEvent {
   @override
   List<Object> get props => [keyword];
 }
+
+class FilterUsers extends UserEvent {
+  final String university;
+  final String faculty;
+
+  FilterUsers({this.university, this.faculty});
+
+  @override
+  List<Object> get props => [university, faculty];
+}
