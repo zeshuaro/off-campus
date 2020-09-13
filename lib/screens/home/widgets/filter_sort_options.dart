@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/screens/home/widgets/filter_bottom_sheet.dart';
+import 'package:offcampus/widgets/widgets.dart';
 
 class FilterSortOptions extends StatelessWidget {
   final List<String> uniOptions;
@@ -8,6 +10,8 @@ class FilterSortOptions extends StatelessWidget {
   final List<String> facultyOptions;
   final Function facultyCallback;
   final String selectedFaculty;
+  final String sortBy;
+  final Function sortCallback;
 
   const FilterSortOptions({
     Key key,
@@ -17,6 +21,8 @@ class FilterSortOptions extends StatelessWidget {
     this.facultyOptions,
     this.facultyCallback,
     this.selectedFaculty,
+    this.sortBy,
+    this.sortCallback,
   })  : assert(uniOptions != null),
         assert(uniCallback != null),
         assert(selectedUni != null),
@@ -57,14 +63,19 @@ class FilterSortOptions extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () => MyBottomSheet.show(
+              context: context,
+              options: kSortOptions,
+              callback: sortCallback,
+              selected: sortBy,
+            ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Sort',
+                    sortBy,
                     style: TextStyle(color: Colors.black54),
                   ),
                   Icon(

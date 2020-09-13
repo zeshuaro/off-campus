@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   Uni _uni;
   String _uniName = kAllKeyword;
   String _faculty = kAllKeyword;
+  String _sortBy = kMostSimilar;
 
   @override
   void initState() {
@@ -119,6 +120,8 @@ class _HomePageState extends State<HomePage> {
           facultyOptions: _uni != null ? _uni.allFaculties : null,
           facultyCallback: _setFaculty,
           selectedFaculty: _faculty,
+          sortBy: _sortBy,
+          sortCallback: _setSortBy,
         ),
         _uniName != kAllKeyword
             ? Padding(
@@ -148,5 +151,9 @@ class _HomePageState extends State<HomePage> {
   void _setFaculty(String faculty) {
     setState(() => _faculty = faculty);
     _userBloc.add(FilterUsers(faculty: faculty));
+  }
+
+  void _setSortBy(String sortBy) {
+    setState(() => _sortBy = sortBy);
   }
 }
