@@ -16,4 +16,6 @@ class Uni extends Equatable {
 
   @override
   List<Object> get props => [name, logo, faculties];
+
+  List<String> get allFaculties => <String>['All', ...faculties];
 }
