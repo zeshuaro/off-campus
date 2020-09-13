@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   clearTextCallback: () => setState(() {}),
                 ),
-                WidgetPadding(),
+                WidgetPaddingSm(),
                 FlatButton(
                   onPressed: () => FilterBottomSheet.show(
                     context: context,
@@ -72,7 +72,13 @@ class _HomePageState extends State<HomePage> {
                     selectedFaculty: _faculty,
                   ),
                   child: Row(
-                    children: [Text('Filter'), Icon(Icons.arrow_drop_down)],
+                    children: [
+                      Text(
+                        'Filter',
+                        style: TextStyle(color: Colors.black54),
+                      ),
+                      Icon(Icons.arrow_drop_down, color: Colors.black54),
+                    ],
                   ),
                 ),
                 Expanded(
