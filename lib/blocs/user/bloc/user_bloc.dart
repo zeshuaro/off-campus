@@ -29,6 +29,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapSearchUsersToState(event);
     } else if (event is FilterUsers) {
       yield* _mapFilterUsersToState(event);
+    } else if (event is SortUsers) {
+      yield* _mapSortUsersToState(event);
     }
   }
 
@@ -72,6 +74,21 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         users = users.where((user) => user.faculty == event.faculty).toList();
       }
       yield currState.copyWith(filteredResults: users);
+    }
+  }
+
+  Stream<UserState> _mapSortUsersToState(SortUsers event) async* {
+    final currState = state;
+    if (currState is UserLoaded) {
+      var users = List<MyUser>.from(currState.users);
+      if (event.sortBy == kMostSimilar) {
+        users.sort((a, b) => -_userComparator(a, b, event.currUser));
+      } else if (event.sortBy == kLeastSimilar) {
+        users.sort((a, b) => _userComparator(a, b, event.currUser));
+      } else if (event.sortBy == kRandom) {
+        users.shuffle();
+      }
+      yield currState.copyWith(users: users);
     }
   }
 

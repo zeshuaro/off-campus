@@ -46,3 +46,13 @@ class FilterUsers extends UserEvent {
   @override
   List<Object> get props => [university, faculty];
 }
+
+class SortUsers extends UserEvent {
+  final MyUser currUser;
+  final String sortBy;
+
+  SortUsers(this.currUser, this.sortBy);
+
+  @override
+  List<Object> get props => [currUser, sortBy];
+}

@@ -14,9 +14,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _textController = TextEditingController();
+  final _uniNames = <String>[kAllKeyword];
+
+  MyUser _user;
   UserBloc _userBloc;
   List<Uni> _unis;
-  final _uniNames = <String>[kAllKeyword];
   Uni _uni;
   String _uniName = kAllKeyword;
   String _faculty = kAllKeyword;
@@ -25,8 +27,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    final user = context.bloc<AuthBloc>().state.user;
-    _userBloc = context.bloc<UserBloc>()..add(LoadUsers(user));
+    _user = context.bloc<AuthBloc>().state.user;
+    _userBloc = context.bloc<UserBloc>()..add(LoadUsers(_user));
     _unis = context.bloc<UniBloc>().state.unis;
     _uniNames.addAll(_unis.map((uni) => uni.name));
   }
@@ -155,5 +157,6 @@ class _HomePageState extends State<HomePage> {
 
   void _setSortBy(String sortBy) {
     setState(() => _sortBy = sortBy);
+    _userBloc.add(SortUsers(_user, sortBy));
   }
 }
