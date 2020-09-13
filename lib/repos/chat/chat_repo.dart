@@ -67,16 +67,17 @@ class ChatRepo {
     });
   }
 
-  Stream<List<Chat>> courseChats(String currUserId) {
+  Stream<List<Chat>> courseChats(MyUser currUser) {
     return _chatsRef
         .where('type', isEqualTo: 'course')
+        .where('university', isEqualTo: currUser.university)
         .orderBy('title')
         .snapshots()
         .asyncMap((snapshot) async {
       final chats = <Chat>[];
       for (var doc in snapshot.docs) {
         final data = doc.data();
-        if (data['userIds']?.contains(currUserId) == true) {
+        if (data['userIds']?.contains(currUser.id) == true) {
           continue;
         }
 

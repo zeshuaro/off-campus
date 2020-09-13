@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:offcampus/repos/auth/auth_repo.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
 
 part 'course_chat_bloc.g.dart';
@@ -32,7 +33,7 @@ class CourseChatBloc extends Bloc<CourseChatEvent, CourseChatState> {
 
   Stream<CourseChatState> _mapLoadChatsToState(LoadCourseChats event) async* {
     await _courseChatsSubscription?.cancel();
-    _courseChatsSubscription = _chatRepo.courseChats(event.userId).listen(
+    _courseChatsSubscription = _chatRepo.courseChats(event.currUser).listen(
           (chats) => add(UpdateCourseChats(chats)),
         );
   }

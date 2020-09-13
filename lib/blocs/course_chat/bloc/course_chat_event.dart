@@ -8,12 +8,12 @@ abstract class CourseChatEvent extends Equatable {
 }
 
 class LoadCourseChats extends CourseChatEvent {
-  final String userId;
+  final MyUser currUser;
 
-  LoadCourseChats(this.userId);
+  LoadCourseChats(this.currUser);
 
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [currUser];
 }
 
 class UpdateCourseChats extends CourseChatEvent {

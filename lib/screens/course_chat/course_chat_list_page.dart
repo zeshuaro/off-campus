@@ -18,7 +18,7 @@ class _CourseChatListPageState extends State<CourseChatListPage> {
   void initState() {
     super.initState();
     final user = context.bloc<AuthBloc>().state.user;
-    context.bloc<CourseChatBloc>()..add(LoadCourseChats(user.id));
+    context.bloc<CourseChatBloc>()..add(LoadCourseChats(user));
   }
 
   @override
