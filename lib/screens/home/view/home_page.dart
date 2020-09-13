@@ -71,14 +71,37 @@ class _HomePageState extends State<HomePage> {
                           itemCount: users.length + 1,
                           itemBuilder: (context, index) {
                             if (index == 0) {
-                              return FilterSortOptions(
-                                uniOptions: _uniNames,
-                                uniCallback: _setUni,
-                                selectedUni: _uniName,
-                                facultyOptions:
-                                    _uni != null ? _uni.allFaculties : null,
-                                facultyCallback: _setFaculty,
-                                selectedFaculty: _faculty,
+                              var faculty = '';
+                              if (_faculty != kAllKeyword) {
+                                faculty = ' (Faculty of $_faculty)';
+                              }
+
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  FilterSortOptions(
+                                    uniOptions: _uniNames,
+                                    uniCallback: _setUni,
+                                    selectedUni: _uniName,
+                                    facultyOptions:
+                                        _uni != null ? _uni.allFaculties : null,
+                                    facultyCallback: _setFaculty,
+                                    selectedFaculty: _faculty,
+                                  ),
+                                  _uniName != kAllKeyword
+                                      ? Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 8,
+                                            top: 16,
+                                          ),
+                                          child: Text(
+                                            'Showing users from $_uniName$faculty',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
+                                        )
+                                      : SizedBox.shrink(),
+                                ],
                               );
                             } else {
                               return UserCard(user: users[index - 1]);
