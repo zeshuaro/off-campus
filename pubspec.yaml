@@ -57,6 +57,7 @@ dependencies:
   slimy_card: ^1.0.4
   intl: ^0.16.1
   string_similarity: ^1.1.0
+  intro_views_flutter: ^2.8.1
 
 dev_dependencies:
   flutter_test:
