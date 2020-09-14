@@ -68,7 +68,9 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 WidgetPaddingSm(),
-                _buildLayout(users),
+                _buildFilterSortOptions(),
+                WidgetPaddingSm(),
+                _buildUserCards(users),
               ],
             ),
           );
@@ -79,7 +81,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildLayout(List<MyUser> users) {
+  Widget _buildFilterSortOptions() {
+    return FilterSortOptions(
+      uniOptions: _uniNames,
+      uniCallback: _setUni,
+      selectedUni: _uniName,
+      facultyOptions: _uni != null ? _uni.allFaculties : null,
+      facultyCallback: _setFaculty,
+      selectedFaculty: _faculty,
+      sortBy: _sortBy,
+      sortCallback: _setSortBy,
+    );
+  }
+
+  Widget _buildUserCards(List<MyUser> users) {
     return Expanded(
       child: users.isNotEmpty
           ? ListView.separated(
@@ -88,13 +103,26 @@ class _HomePageState extends State<HomePage> {
               itemCount: users.length + 1,
               itemBuilder: (context, index) {
                 if (index == 0) {
-                  return _buildFilterSortOptions();
+                  var faculty = '';
+                  if (_faculty != kAllKeyword) {
+                    faculty = ' (Faculty of $_faculty)';
+                  }
+
+                  return _uniName != kAllKeyword
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 8, top: 16),
+                          child: Text(
+                            'Showing users from $_uniName$faculty',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        )
+                      : SizedBox.shrink();
                 } else {
                   return UserCard(user: users[index - 1]);
                 }
               },
               separatorBuilder: (context, index) {
-                return SizedBox(height: index == 0 ? 24 : 36);
+                return SizedBox(height: index == 0 ? 18 : 36);
               },
             )
           : Center(
@@ -104,38 +132,6 @@ class _HomePageState extends State<HomePage> {
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),
-    );
-  }
-
-  Widget _buildFilterSortOptions() {
-    var faculty = '';
-    if (_faculty != kAllKeyword) {
-      faculty = ' (Faculty of $_faculty)';
-    }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        FilterSortOptions(
-          uniOptions: _uniNames,
-          uniCallback: _setUni,
-          selectedUni: _uniName,
-          facultyOptions: _uni != null ? _uni.allFaculties : null,
-          facultyCallback: _setFaculty,
-          selectedFaculty: _faculty,
-          sortBy: _sortBy,
-          sortCallback: _setSortBy,
-        ),
-        _uniName != kAllKeyword
-            ? Padding(
-                padding: const EdgeInsets.only(left: 8, top: 16),
-                child: Text(
-                  'Showing users from $_uniName$faculty',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              )
-            : SizedBox.shrink(),
-      ],
     );
   }
 
