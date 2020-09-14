@@ -59,11 +59,11 @@ class _HomePageState extends State<HomePage> {
                   controller: _textController,
                   hintText: 'Search for users',
                   onChanged: (String string) {
-                    _userBloc.add(SearchUsers(string));
+                    _userBloc.add(FilterUsers(string, _uniName, _faculty));
                   },
                   clearTextCallback: () {
                     _userBloc.add(
-                      FilterUsers(university: _uniName, faculty: _faculty),
+                      FilterUsers(_textController.text, _uniName, _faculty),
                     );
                   },
                 ),
@@ -144,12 +144,12 @@ class _HomePageState extends State<HomePage> {
       _uniName = uniName;
       _faculty = kAllKeyword;
     });
-    _userBloc.add(FilterUsers(university: uniName));
+    _userBloc.add(FilterUsers(_textController.text, _uniName, _faculty));
   }
 
   void _setFaculty(String faculty) {
     setState(() => _faculty = faculty);
-    _userBloc.add(FilterUsers(university: _uniName, faculty: faculty));
+    _userBloc.add(FilterUsers(_textController.text, _uniName, _faculty));
   }
 
   void _setSortBy(String sortBy) {

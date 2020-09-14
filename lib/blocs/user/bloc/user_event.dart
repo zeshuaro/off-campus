@@ -28,23 +28,15 @@ class UpdateUsers extends UserEvent {
   String toString() => 'UpdateUsers: { user: ${users.length} }';
 }
 
-class SearchUsers extends UserEvent {
-  final String keyword;
-
-  SearchUsers(this.keyword);
-
-  @override
-  List<Object> get props => [keyword];
-}
-
 class FilterUsers extends UserEvent {
+  final String keyword;
   final String university;
   final String faculty;
 
-  FilterUsers({this.university, this.faculty});
+  FilterUsers(this.keyword, this.university, this.faculty);
 
   @override
-  List<Object> get props => [university, faculty];
+  List<Object> get props => [keyword, university, faculty];
 }
 
 class SortUsers extends UserEvent {

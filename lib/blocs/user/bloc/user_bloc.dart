@@ -25,10 +25,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       yield* _mapLoadUsersToState(event);
     } else if (event is UpdateUsers) {
       yield* _mapUpdateUsersToState(event);
-    } else if (event is SearchUsers) {
-      yield* _mapSearchUsersToState(event);
     } else if (event is FilterUsers) {
-      yield* _mapFilterUsersToState(event);
+      yield* _mapSearchUsersToState(event);
     } else if (event is SortUsers) {
       yield* _mapSortUsersToState(event);
     }
@@ -48,30 +46,29 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     yield UserLoaded(users: event.users);
   }
 
-  Stream<UserState> _mapSearchUsersToState(SearchUsers event) async* {
+  Stream<UserState> _mapSearchUsersToState(FilterUsers event) async* {
     final currState = state;
     if (currState is UserLoaded) {
       final keyword = event.keyword.toLowerCase();
-      final users = List<MyUser>.from(currState.users).where((user) {
+      final university = event.university;
+      final faculty = event.faculty;
+
+      // Filter users by keyword
+      var users = List<MyUser>.from(currState.users).where((user) {
         return user.name.toLowerCase().contains(keyword) ||
             user.university.toLowerCase().contains(keyword) ||
             user.faculty.toLowerCase().contains(keyword) ||
             user.degree.toLowerCase().contains(keyword);
       }).toList();
-      yield currState.copyWith(filteredResults: users);
-    }
-  }
 
-  Stream<UserState> _mapFilterUsersToState(FilterUsers event) async* {
-    final currState = state;
-    if (currState is UserLoaded) {
-      var users = List<MyUser>.from(currState.users);
-      if (event.university != null && event.university != kAllKeyword) {
-        users =
-            users.where((user) => user.university == event.university).toList();
+      // Filter users by university
+      if (university != null && university != kAllKeyword) {
+        users = users.where((user) => user.university == university).toList();
       }
-      if (event.faculty != null && event.faculty != kAllKeyword) {
-        users = users.where((user) => user.faculty == event.faculty).toList();
+
+      // Filter users by faculty
+      if (faculty != null && faculty != kAllKeyword) {
+        users = users.where((user) => user.faculty == faculty).toList();
       }
       yield currState.copyWith(filteredResults: users);
     }
