@@ -12,7 +12,7 @@ class OnboardingPage extends StatelessWidget {
     return IntroViewsFlutter(
       [
         PageViewModel(
-          pageColor: const Color(0xFF03A9F4),
+          pageColor: Colors.amberAccent[700],
           mainImage: ClipOval(
             clipper: _MyClipper(),
             child: Image.asset(
@@ -28,7 +28,7 @@ class OnboardingPage extends StatelessWidget {
           bubble: Center(
             child: FaIcon(
               FontAwesomeIcons.userFriends,
-              color: const Color(0xFF03A9F4),
+              color: Colors.amberAccent[700],
               size: 16,
             ),
           ),
@@ -56,7 +56,7 @@ class OnboardingPage extends StatelessWidget {
           ),
         ),
         PageViewModel(
-          pageColor: const Color(0xFF607D8B),
+          pageColor: const Color(0xFF03A9F4),
           mainImage: ClipOval(
             clipper: _MyClipper(),
             child: Image.asset(
@@ -72,7 +72,7 @@ class OnboardingPage extends StatelessWidget {
           bubble: Center(
             child: FaIcon(
               FontAwesomeIcons.solidComment,
-              color: const Color(0xFF607D8B),
+              color: const Color(0xFF03A9F4),
               size: 16,
             ),
           ),

@@ -16,6 +16,7 @@ class CompleteProfilePage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         brightness: Brightness.light,
         elevation: 0.0,
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
