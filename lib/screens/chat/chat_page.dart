@@ -72,7 +72,7 @@ class _ChatPageState extends State<ChatPage> {
               textInputAction: TextInputAction.send,
               user: ChatUser(uid: _user.id, name: _user.name),
               inputContainerStyle: BoxDecoration(
-                border: Border.all(width: 0),
+                border: Border(),
                 color: Colors.grey[200],
               ),
               inputToolbarPadding: const EdgeInsets.symmetric(vertical: 12),
@@ -90,9 +90,12 @@ class _ChatPageState extends State<ChatPage> {
               ),
               inputFooterBuilder: () => SafeArea(
                 child: isInitCourseChat
-                    ? _JoinChatButton(
-                        chatId: _chat.id,
-                        callback: _joinCourseChat,
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: _JoinChatButton(
+                          chatId: _chat.id,
+                          callback: _joinCourseChat,
+                        ),
                       )
                     : SizedBox(),
               ),
