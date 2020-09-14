@@ -6,6 +6,10 @@ from firebase_admin import credentials, firestore
 
 import scrapers
 
+cred = credentials.Certificate("keyfile.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
+
 
 def main(course_subject, limit, **kwargs):
     universities = {
@@ -25,9 +29,6 @@ def main(course_subject, limit, **kwargs):
 
 def add_course_chats(university, courses):
     print("Creating course chats")
-    cred = credentials.Certificate("keyfile.json")
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
     total = len(courses)
 
     for i, (course_code, course_name) in enumerate(courses):
