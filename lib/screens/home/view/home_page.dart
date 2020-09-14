@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
 
   void _setFaculty(String faculty) {
     setState(() => _faculty = faculty);
-    _userBloc.add(FilterUsers(faculty: faculty));
+    _userBloc.add(FilterUsers(university: _uniName, faculty: faculty));
   }
 
   void _setSortBy(String sortBy) {
