@@ -101,7 +101,7 @@ class _CourseChatCard extends StatelessWidget {
             children: [
               Text(
                 chat.title,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.subtitle1,
               ),
               WidgetPaddingSm(),
               Row(

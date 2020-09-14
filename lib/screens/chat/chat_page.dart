@@ -129,12 +129,14 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildSendButton(Function callback) {
+    final isDisabled = _chat.type == ChatType.course && _chat.isInit;
+
     return RawMaterialButton(
-      onPressed: callback,
+      onPressed: isDisabled ? null : callback,
       constraints: BoxConstraints(minWidth: 35, minHeight: 35),
       child: Icon(Icons.send, color: Colors.white, size: 20),
       shape: CircleBorder(),
-      fillColor: Colors.blue,
+      fillColor: isDisabled ? Colors.grey : Colors.blue,
       elevation: 0,
     );
   }

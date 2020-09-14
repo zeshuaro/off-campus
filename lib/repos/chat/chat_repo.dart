@@ -99,7 +99,7 @@ class ChatRepo {
       var userIds = <String>[];
 
       if (data.containsKey('userIds')) {
-        userIds = data['userIds'];
+        userIds = List<String>.from(data['userIds']);
       }
 
       userIds.add(userId);
