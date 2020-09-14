@@ -12,7 +12,7 @@ db = firestore.client()
 
 
 def main(course_subject, limit, **kwargs):
-    universities = {
+    unis = {
         "University of New South Wales": lambda: scrapers.get_unsw_courses(
             course_subject, limit
         ),
@@ -21,10 +21,10 @@ def main(course_subject, limit, **kwargs):
         ),
     }
 
-    for university in universities:
-        print(f"Adding chats for {university}")
-        courses = universities[university]()
-        add_course_chats(university, courses)
+    for uni in unis:
+        print(f"Adding chats for {uni}")
+        courses = unis[uni]()
+        add_course_chats(uni, courses)
 
 
 def add_course_chats(university, courses):
