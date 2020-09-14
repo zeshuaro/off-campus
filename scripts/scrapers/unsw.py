@@ -1,16 +1,18 @@
-import datetime as dt
-import firebase_admin
 import re
 
-from firebase_admin import credentials, firestore
 from requests_html import HTMLSession
 
 
-def main():
+def get_unsw_courses(course_subject, limit):
     base_url = "http://classutil.unsw.edu.au"
-    course_subjects = get_course_subjects(base_url)
-    courses = get_courses(base_url, course_subjects)
-    add_course_chats(courses)
+    if course_subject is None:
+        course_subjects = get_course_subjects(base_url)
+    else:
+        course_subjects = [course_subject]
+
+    courses = get_courses(base_url, course_subjects, limit)
+
+    return courses
 
 
 def get_course_subjects(base_url):
@@ -28,12 +30,15 @@ def get_course_subjects(base_url):
     return course_subjects
 
 
-def get_courses(base_url, course_subjects):
+def get_courses(base_url, course_subjects, limit):
     print("Scraping courses")
     courses = []
     session = HTMLSession()
 
     for course_subject in course_subjects:
+        if limit is not None and len(courses) == limit:
+            break
+
         url = f"{base_url}/{course_subject}_T3.html"
         r = session.get(url)
         trs = r.html.find("table")[2].find("tr")
@@ -43,6 +48,9 @@ def get_courses(base_url, course_subjects):
         added_course_codes = set()
 
         for tr in trs[1:]:
+            if limit is not None and len(courses) == limit:
+                break
+
             tds = tr.find("td")
 
             # Check if it is course header row
@@ -80,32 +88,3 @@ def get_courses(base_url, course_subjects):
                                 courses.append((ugrd_course_code, course_name))
 
     return courses
-
-
-def add_course_chats(courses):
-    print("Creating course chats")
-    cred = credentials.Certificate("keyfile.json")
-    firebase_admin.initialize_app(cred)
-    db = firestore.client()
-    total = len(courses)
-
-    for i, (course_code, course_name) in enumerate(courses):
-        if (i + 1) % 50 == 0:
-            print(f"Created {i + 1}/{total} chats")
-
-        doc_ref = db.collection("chats").document()
-        doc_ref.set(
-            {
-                "title": f"{course_code} {course_name}",
-                "type": "course",
-                "university": "University of New South Wales",
-                "lastMessage": "Chat created",
-                "lastMessageUser": "OffCampus",
-                "updatedAt": dt.datetime.utcnow(),
-                "numMembers": 0,
-            }
-        )
-
-
-if __name__ == "__main__":
-    main()
