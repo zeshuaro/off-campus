@@ -23,6 +23,6 @@ void main() async {
     uniRepo: UniRepo(),
     userRepo: UserRepo(),
     chatRepo: ChatRepo(authRepo),
-    messageRepo: MessageRepo(authRepo),
+    messageRepo: MessageRepo(),
   ));
 }

@@ -103,8 +103,8 @@ class _ChatPageState extends State<ChatPage> {
                   id: message.id,
                   text: message.text,
                   user: ChatUser(
-                    uid: message.user.id,
-                    name: message.user.name,
+                    uid: message.userId,
+                    name: message.username,
                   ),
                 );
               }).toList(),
@@ -158,7 +158,7 @@ class _ChatPageState extends State<ChatPage> {
       _chatBloc.add(UpdateChat(_chat));
     }
 
-    _messageBloc.add(AddMessage(_user.id, _chat.id, message.text));
+    _messageBloc.add(AddMessage(_user.id, _user.name, _chat.id, message.text));
   }
 }
 

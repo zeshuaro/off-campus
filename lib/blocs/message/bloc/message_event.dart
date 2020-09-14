@@ -20,13 +20,14 @@ class LoadMessages extends MessageEvent {
 
 class AddMessage extends MessageEvent {
   final String userId;
+  final String username;
   final String chatId;
   final String text;
 
-  AddMessage(this.userId, this.chatId, this.text);
+  AddMessage(this.userId, this.username, this.chatId, this.text);
 
   @override
-  List<Object> get props => [userId, chatId, text];
+  List<Object> get props => [userId, username, chatId, text];
 }
 
 class UpdateMessages extends MessageEvent {

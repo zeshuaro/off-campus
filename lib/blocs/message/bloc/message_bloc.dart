@@ -34,7 +34,8 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
   }
 
   Stream<MessageState> _mapAddMessageToState(AddMessage event) async* {
-    await _messageRepo.addMessage(event.userId, event.chatId, event.text);
+    await _messageRepo.addMessage(
+        event.userId, event.username, event.chatId, event.text);
   }
 
   Stream<MessageState> _mapUpdateMessageToState(UpdateMessages event) async* {
