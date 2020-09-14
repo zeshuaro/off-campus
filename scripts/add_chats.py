@@ -13,23 +13,25 @@ db = firestore.client()
 
 def main(course_subject, limit, **kwargs):
     unis = {
-        "University of New South Wales": lambda: scrapers.get_unsw_courses(
+        ("University of New South Wales", 3): lambda: scrapers.get_unsw_courses(
             course_subject, limit
         ),
-        "University of Sydney": lambda: scrapers.get_usyd_courses(
+        ("University of Sydney", 2): lambda: scrapers.get_usyd_courses(
             course_subject, limit
         ),
     }
 
-    for uni in unis:
+    for key in unis:
+        uni, semester = key
         print(f"Adding chats for {uni}")
-        courses = unis[uni]()
-        add_course_chats(uni, courses)
+        courses = unis[key]()
+        add_course_chats(uni, courses, semester)
 
 
-def add_course_chats(university, courses):
+def add_course_chats(university, courses, semester):
     print("Creating course chats")
     total = len(courses)
+    datetime = dt.datetime.utcnow()
 
     for i, (course_code, course_name) in enumerate(courses):
         if (i + 1) % 50 == 0:
@@ -43,8 +45,10 @@ def add_course_chats(university, courses):
                 "university": university,
                 "lastMessage": "Chat created",
                 "lastMessageUser": "OffCampus",
-                "updatedAt": dt.datetime.utcnow(),
+                "updatedAt": datetime,
                 "numMembers": 0,
+                "year": datetime.year,
+                "semester": semester,
             }
         )
 
