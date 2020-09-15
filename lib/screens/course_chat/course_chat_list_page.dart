@@ -93,7 +93,10 @@ class _CourseChatCard extends StatelessWidget {
     return MyCard(
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
+        onTap: () async {
+          await Navigator.of(context).push(ChatPage.route(chat));
+          context.bloc<MessageBloc>().add(InitMessages());
+        },
         child: Padding(
           padding: kLayoutPadding,
           child: Column(
