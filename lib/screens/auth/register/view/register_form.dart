@@ -96,6 +96,8 @@ class _NameInput extends StatelessWidget {
       builder: (context, state) {
         return MyTextField(
           onChanged: (name) => context.bloc<RegisterCubit>().nameChanged(name),
+          keyboardType: TextInputType.name,
+          textCapitalization: TextCapitalization.words,
           prefixIcon: Icon(Icons.person),
           labelText: 'Name',
           errorText: state.name.invalid
@@ -195,8 +197,10 @@ class _DegreeInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.degree != current.degree,
       builder: (context, state) {
         return MyTextField(
-          onChanged: (degree) =>
-              context.bloc<RegisterCubit>().degreeChanged(degree),
+          onChanged: (degree) {
+            context.bloc<RegisterCubit>().degreeChanged(degree);
+          },
+          textCapitalization: TextCapitalization.sentences,
           prefixIcon: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

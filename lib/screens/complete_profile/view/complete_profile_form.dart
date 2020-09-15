@@ -80,6 +80,7 @@ class _CompleteProfileFormState extends State<CompleteProfileForm> {
   Widget _buildTextField() {
     return TextField(
       controller: _textController,
+      textCapitalization: TextCapitalization.sentences,
       maxLines: 4,
       decoration: InputDecoration(
         border: OutlineInputBorder(),
