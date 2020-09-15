@@ -69,7 +69,7 @@ The script defaults to scrape all available courses in Term 3 for UNSW and Semes
 
 #### (Optional) Insert User Data
 
-We also have a script to insert some dummy user data and included a set of user profile pictures under `scripts/images/`. You can create more users by including more images under that folder.
+We also have a script to insert some dummy user data and included a set of user profile pictures under `scripts/images/`. You can create more users by adding more pictures under that folder.
 
 __Note that__ this script runs a machine learning model to classify the gender of the profile pictures. It requires some extra packages and to download the model (~500 MB) in order to prcess the pictures.
 
