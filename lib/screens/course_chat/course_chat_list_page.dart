@@ -17,6 +17,7 @@ class _CourseChatListPageState extends State<CourseChatListPage> {
   @override
   void initState() {
     super.initState();
+    _textController.addListener(() => setState(() {}));
     final user = context.bloc<AuthBloc>().state.user;
     context.bloc<CourseChatBloc>()..add(LoadCourseChats(user));
   }
