@@ -119,8 +119,6 @@ class RegisterCubit extends Cubit<RegisterState> {
         faculty: state.faculty.value,
         degree: state.degree.value,
       );
-      emit(state.copyWith(
-          status: FormzStatus.submissionSuccess, errorMessage: ''));
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(
           status: FormzStatus.submissionFailure, errorMessage: e.message));
