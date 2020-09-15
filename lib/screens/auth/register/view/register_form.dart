@@ -96,7 +96,6 @@ class _NameInput extends StatelessWidget {
       builder: (context, state) {
         return MyTextField(
           onChanged: (name) => context.bloc<RegisterCubit>().nameChanged(name),
-          keyboardType: TextInputType.name,
           textCapitalization: TextCapitalization.words,
           prefixIcon: Icon(Icons.person),
           labelText: 'Name',
