@@ -31,7 +31,9 @@ class RegisterForm extends StatelessWidget {
               _PasswordInput(),
               WidgetPaddingSm(),
               _NameInput(),
+              SizedBox(height: 8),
               _SelectUniFaculty(),
+              SizedBox(height: 30),
               _DegreeInput(),
               WidgetPadding(),
               _RegisterButton(),
@@ -133,13 +135,12 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
           selected: _uniName,
           onTap: () => _onUniTap(_uniNames),
         ),
-        WidgetPadding(),
+        SizedBox(height: 30),
         SelectField(
           label: 'Faculty',
           selected: _faculty,
           onTap: _onFacultyTap,
         ),
-        WidgetPadding(),
       ],
     );
   }

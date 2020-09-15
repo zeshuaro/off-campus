@@ -20,8 +20,21 @@ class SignInForm extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Off Campus', style: Theme.of(context).textTheme.headline3),
-          WidgetPadding(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ClipOval(
+                child: Image.asset(
+                  'assets/images/icon_white.png',
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+              SizedBox(width: 8),
+              Text('OffCampus', style: Theme.of(context).textTheme.headline3),
+            ],
+          ),
+          SizedBox(height: 32),
           MyCard(
             child: Padding(
               padding: kLayoutPadding,
