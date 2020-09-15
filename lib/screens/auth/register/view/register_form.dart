@@ -148,6 +148,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
   }
 
   void _onUniTap(List<String> uniNames) {
+    FocusScope.of(context).unfocus();
     if (uniNames != null) {
       MyBottomSheet.show(
         context: context,
@@ -168,6 +169,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
   }
 
   void _onFacultyTap() {
+    FocusScope.of(context).unfocus();
     if (_uni != null) {
       MyBottomSheet.show(
         context: context,
