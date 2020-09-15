@@ -96,6 +96,7 @@ class _NameInput extends StatelessWidget {
       builder: (context, state) {
         return MyTextField(
           onChanged: (name) => context.bloc<RegisterCubit>().nameChanged(name),
+          textCapitalization: TextCapitalization.words,
           prefixIcon: Icon(Icons.person),
           labelText: 'Name',
           errorText: state.name.invalid
@@ -146,6 +147,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
   }
 
   void _onUniTap(List<String> uniNames) {
+    FocusScope.of(context).unfocus();
     if (uniNames != null) {
       MyBottomSheet.show(
         context: context,
@@ -166,6 +168,7 @@ class _SelectUniFacultyState extends State<_SelectUniFaculty> {
   }
 
   void _onFacultyTap() {
+    FocusScope.of(context).unfocus();
     if (_uni != null) {
       MyBottomSheet.show(
         context: context,
@@ -195,8 +198,10 @@ class _DegreeInput extends StatelessWidget {
       buildWhen: (previous, current) => previous.degree != current.degree,
       builder: (context, state) {
         return MyTextField(
-          onChanged: (degree) =>
-              context.bloc<RegisterCubit>().degreeChanged(degree),
+          onChanged: (degree) {
+            context.bloc<RegisterCubit>().degreeChanged(degree);
+          },
+          textCapitalization: TextCapitalization.sentences,
           prefixIcon: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,

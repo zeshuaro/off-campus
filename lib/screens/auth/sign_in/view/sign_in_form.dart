@@ -31,7 +31,7 @@ class SignInForm extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 8),
-              Text('OffCampus', style: Theme.of(context).textTheme.headline3),
+              Text('OffCampus', style: Theme.of(context).textTheme.headline4),
             ],
           ),
           SizedBox(height: 32),
