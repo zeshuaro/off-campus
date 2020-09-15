@@ -2,6 +2,8 @@
 
 OffCampus is an essential app for your university life, letting you to meet new friends, and to join course chats to discuss about your courses.
 
+![OffCampus screenshots](images/screenshots.png)
+
 ## Background
 
 With all the university courses being moved into an online teaching and learning envionment, students have barely been going to campus, making it almost impossible to meet new friends and very hard to discuss about your courses informally.
