@@ -48,9 +48,9 @@ Create a service account by going into Settings > Project settings > Service acc
 
 ### Setup Database
 
-We provide some Python scripts to initialise and insert data into Cloud Firestore. The scripts require Python 3.6+.
+We provide some Python scripts to initialise and insert data into Cloud Firestore. The scripts require Python 3.6+. 
 
-#### Install the Required Packages
+Install the required packages with the command below:
 
     cd scripts/
     pip3 install -r requirements.txt
