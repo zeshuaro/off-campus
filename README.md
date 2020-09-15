@@ -94,3 +94,8 @@ Run the code generator to generate files for the model classes:
 Run the app:
 
     flutter run
+
+## Credits
+
+- App icon made by [Freepik](https://www.flaticon.com/authors/freepik) from [www.flaticon.com](https://www.flaticon.com/)
+- Onboarding images designed by [pch.vector / Freepik](http://www.freepik.com)
