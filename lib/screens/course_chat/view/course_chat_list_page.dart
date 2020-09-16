@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:offcampus/blocs/blocs.dart';
 import 'package:offcampus/common/consts.dart';
 import 'package:offcampus/repos/chat/chat_repo.dart';
-import 'package:offcampus/screens/chat/chat_page.dart';
+import 'package:offcampus/screens/chat/chat.dart';
 import 'package:offcampus/widgets/widgets.dart';
 
 class CourseChatListPage extends StatefulWidget {
