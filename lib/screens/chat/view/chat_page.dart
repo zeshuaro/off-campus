@@ -49,13 +49,6 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: kYellow,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
-        leading: IconButton(
-          onPressed: () {
-            _messageBloc.add(InitMessages());
-            Navigator.of(context).pop();
-          },
-          icon: Icon(Icons.arrow_back_ios),
-        ),
       ),
       body: BlocBuilder<MessageBloc, MessageState>(
         builder: (context, state) {

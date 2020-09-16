@@ -4,6 +4,7 @@ class MyTextField extends StatefulWidget {
   final Function onChanged;
   final TextInputAction textInputAction;
   final TextInputType keyboardType;
+  final TextCapitalization textCapitalization;
   final bool obscureText;
   final Widget prefixIcon;
   final Widget suffixIcon;
@@ -20,6 +21,7 @@ class MyTextField extends StatefulWidget {
     this.onChanged,
     this.textInputAction,
     this.keyboardType,
+    this.textCapitalization = TextCapitalization.none,
     this.obscureText = false,
     this.prefixIcon,
     this.suffixIcon,
@@ -59,6 +61,7 @@ class _MyTextFieldState extends State<MyTextField> {
           : null,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,
+      textCapitalization: widget.textCapitalization,
       obscureText: widget.obscureText,
       decoration: InputDecoration(
         filled: true,

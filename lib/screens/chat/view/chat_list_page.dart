@@ -67,7 +67,10 @@ class _ChatTile extends StatelessWidget {
       child: Ink(
         color: Colors.white,
         child: InkWell(
-          onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
+          onTap: () async {
+            await Navigator.of(context).push(ChatPage.route(chat));
+            context.bloc<MessageBloc>().add(InitMessages());
+          },
           child: Padding(
             padding: kLayoutPadding,
             child: Column(

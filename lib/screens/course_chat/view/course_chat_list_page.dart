@@ -17,6 +17,7 @@ class _CourseChatListPageState extends State<CourseChatListPage> {
   @override
   void initState() {
     super.initState();
+    _textController.addListener(() => setState(() {}));
     final user = context.bloc<AuthBloc>().state.user;
     context.bloc<CourseChatBloc>()..add(LoadCourseChats(user));
   }
@@ -93,7 +94,10 @@ class _CourseChatCard extends StatelessWidget {
     return MyCard(
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () => Navigator.of(context).push(ChatPage.route(chat)),
+        onTap: () async {
+          await Navigator.of(context).push(ChatPage.route(chat));
+          context.bloc<MessageBloc>().add(InitMessages());
+        },
         child: Padding(
           padding: kLayoutPadding,
           child: Column(

@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    _textController.addListener(() => setState(() {}));
     _user = context.bloc<AuthBloc>().state.user;
     _userBloc = context.bloc<UserBloc>()..add(LoadUsers(_user));
     _unis = context.bloc<UniBloc>().state.unis;
