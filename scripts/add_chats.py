@@ -13,10 +13,10 @@ db = firestore.client()
 
 def main(course_subject, limit, **kwargs):
     unis = {
-        ("University of New South Wales", 3): lambda: scrapers.get_unsw_courses(
+        ("University of New South Wales", "T3"): lambda: scrapers.get_unsw_courses(
             course_subject, limit
         ),
-        ("University of Sydney", 2): lambda: scrapers.get_usyd_courses(
+        ("University of Sydney", "S2"): lambda: scrapers.get_usyd_courses(
             course_subject, limit
         ),
     }
@@ -40,7 +40,7 @@ def add_course_chats(university, courses, semester):
         doc_ref = db.collection("chats").document()
         doc_ref.set(
             {
-                "title": f"{course_code} {course_name}",
+                "title": f"{course_code} {course_name} {datetime.year} {semester}",
                 "type": "course",
                 "university": university,
                 "lastMessage": "Chat created",
