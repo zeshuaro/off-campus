@@ -90,7 +90,7 @@ class _SendMessageButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
-      onPressed: () {
+      onPressed: () async {
         final currUser = context.bloc<AuthBloc>().state.user;
         final chatId = currUser.id + user.id;
         final chat = Chat(
@@ -100,7 +100,8 @@ class _SendMessageButton extends StatelessWidget {
           title: user.name,
         );
 
-        Navigator.of(context).push(ChatPage.route(chat));
+        await Navigator.of(context).push(ChatPage.route(chat));
+        context.bloc<MessageBloc>().add(InitMessages());
       },
       color: Theme.of(context).primaryColor,
       shape: StadiumBorder(),
