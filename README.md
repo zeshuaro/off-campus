@@ -20,6 +20,19 @@ OffCampus is a platform for university students to:
 - [flutter_bloc](https://bloclibrary.dev/) for state management
 - [Firebase](https://firebase.google.com/) for authentication, database and storage
 
+### Folder Structure
+
+```
+.
+├── lib/                  # App source code
+│   ├── blocs/            # Blocs for state management
+│   ├── common/           # Constants and app theme
+│   ├── repos/            # Repositories for making API calls
+│   ├── screens/          # Screens for the app
+│   └── widgets/          # Widgets shared across multiple screens
+└── scripts/              # Helper scripts for adding data into the database
+```
+
 ## Getting Started
 
 ### Setup Flutter
@@ -102,6 +115,7 @@ Run the app:
 - [ ] Unread status of new messages
 - [ ] Notifications for new messages
 - [ ] Profile page for updating user details
+- [ ] Add widgets tests
 
 ## Credits
 
