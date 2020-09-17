@@ -63,8 +63,13 @@ def get_courses(base_url, course_subjects, limit):
                 if not has_enrolls:
                     percent = re.search(r"\d+", tds[6].text)
 
-                    # Check if there are students enrolled in the course
-                    if percent is not None and int(percent[0]) > 0:
+                    # Check if there are students enrolled in the course and
+                    # course has not be added
+                    if (
+                        percent is not None
+                        and int(percent[0]) > 0
+                        and course_code not in added_course_codes
+                    ):
                         has_enrolls = True
                         added_course_codes.add(course_code)
                         courses.append((course_code, course_name))
