@@ -1,17 +1,17 @@
 # OffCampus
 
-OffCampus is an essential app for your university life, letting you to meet new friends, and to join course chats to discuss about your courses.
+OffCampus is an essential app for university life, meeting new friends and discussing about courses and interests.
 
 ![OffCampus screenshots](images/screenshots.png)
 
 ## Background
 
-With all the university courses being moved into an online teaching and learning envionment, students have barely been going to campus, making it almost impossible to meet new friends and very hard to discuss about your courses informally.
+With all the university courses being moved into an online teaching and learning environment, students have barely been going onto the campus, making it almost impossible to meet new friends and very hard to discuss about your courses informally.
 
 OffCampus is a platform for university students to:
 
 - Meet new friends from the same degree or across different universities and faculties
-- Find and join course chats to discuss about your enrolled courses (No need to ask for course chats on CSESOC Facebook Group anymore!)
+- Find and join from the list of pre-loaded course chats to discuss about your coursework (No need to ask for group chats for courses on CSESoc Facebook group anymore!)
 - Chat and send messages with your friends and colleagues
 
 ### Built With
@@ -94,6 +94,12 @@ Run the code generator to generate files for the model classes:
 Run the app:
 
     flutter run
+
+## To-Do
+
+- [ ] Unread status of new messages
+- [ ] Notifications for new messages
+- [ ] Profile page for updating user details
 
 ## Credits
 
