@@ -16,8 +16,9 @@ OffCampus is a platform for university students to:
 
 ### Built With
 
-- [Flutter](https://flutter.dev/)
-- [Firebase](https://firebase.google.com/)
+- [Flutter](https://flutter.dev/) for building the mobile app
+- [flutter_bloc](https://bloclibrary.dev/) for state management
+- [Firebase](https://firebase.google.com/) for authentication, database and storage
 
 ## Getting Started
 
