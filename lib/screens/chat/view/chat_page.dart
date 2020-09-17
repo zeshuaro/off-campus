@@ -68,7 +68,7 @@ class _ChatPageState extends State<ChatPage> {
                 border: Border(),
                 color: Colors.grey[200],
               ),
-              inputToolbarPadding: const EdgeInsets.symmetric(vertical: 8),
+              inputToolbarPadding: const EdgeInsets.symmetric(vertical: 4),
               inputDecoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
