@@ -47,6 +47,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(widget.chat.title, style: TextStyle(color: Colors.black)),
         backgroundColor: kYellow,
+        elevation: 0,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
       ),
