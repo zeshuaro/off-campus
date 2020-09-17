@@ -47,6 +47,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(widget.chat.title, style: TextStyle(color: Colors.black)),
         backgroundColor: kYellow,
+        elevation: 0,
         brightness: Brightness.light,
         iconTheme: IconThemeData(color: Colors.black),
       ),
@@ -68,7 +69,7 @@ class _ChatPageState extends State<ChatPage> {
                 border: Border(),
                 color: Colors.grey[200],
               ),
-              inputToolbarPadding: const EdgeInsets.symmetric(vertical: 8),
+              inputToolbarPadding: const EdgeInsets.symmetric(vertical: 4),
               inputDecoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,
