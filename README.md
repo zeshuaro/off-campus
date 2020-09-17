@@ -48,28 +48,28 @@ Create a service account by going into Settings > Project settings > Service acc
 
 ### Setup Database
 
-We provide some Python scripts to initialise and insert data into Cloud Firestore. The scripts require Python 3.6+. 
+We provide some Python scripts to initialise and add data into Cloud Firestore. The scripts require Python 3.6+. 
 
 Install the required packages with the command below:
 
     cd scripts/
     pip3 install -r requirements.txt
 
-#### Insert University Data
+#### Add University Data
 
 Currently we have data for University of New South Wales (UNSW) and University of Sydney (USYD). Run the following command to insert the data:
 
     python3 add_unis.py
 
-#### Insert Course Chat Data
+#### Add Course Chat Data
 
 The script defaults to scrape all available courses in Term 3 for UNSW and Semester 2 for USYD. For testing purposes, we recommend __NOT__ to scrape and insert all the courses. The `-c` option can be used to filter courses by subject and `-l` to limit the number of courses to be inserted for __each__ university. Below is an example of running the script with the options:
 
     python3 add_chats.py -c COMP -l 5
 
-#### (Optional) Insert User Data
+#### (Optional) Add User Data
 
-We also have a script to insert some dummy user data and included a set of user profile pictures under `scripts/images/`. You can create more users by adding more pictures under that folder.
+We also included a script to insert some dummy user data and included a set of user profile pictures under `scripts/images/`. You can create more users by adding more pictures under that folder.
 
 __Note that__ this script runs a machine learning model to classify the gender of the profile pictures. It requires some extra packages and to download the model (~500 MB) in order to prcess the pictures.
 
