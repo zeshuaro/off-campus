@@ -6,7 +6,7 @@ OffCampus is an essential app for university life, meeting new friends and discu
 
 ## Background
 
-With all the university courses being moved into an online teaching and learning environment, students have barely been going onto the campus, making it almost impossible to meet new friends and very hard to discuss about your courses informally.
+With all the university courses shifted into an online teaching and learning environment, students have barely been going onto the campus, making it almost impossible to meet new friends and very hard to discuss about your courses informally.
 
 OffCampus is a platform for university students to:
 
@@ -97,6 +97,7 @@ Run the app:
 
 ## To-Do
 
+- [ ] Email verification of university students
 - [ ] Unread status of new messages
 - [ ] Notifications for new messages
 - [ ] Profile page for updating user details
